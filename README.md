@@ -2,6 +2,8 @@
 
 Склонение падежей русских имён, фамилий и отчеств. Вы задаёте начальное имя в именительном падеже, а получаете в нужном вам.
 
+[![Build Status](https://secure.travis-ci.org/rocsci/petrovich.png)](http://travis-ci.org/rocsci/petrovich)
+
 ## Installation
 
 Add this line to your application's Gemfile:
