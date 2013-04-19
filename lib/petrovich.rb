@@ -61,6 +61,10 @@ class Petrovich
 
   alias :patronymic :middlename
 
+  def gender
+    @gender
+  end
+
   class << self
     # Определение пола по отчеству
     #
@@ -71,7 +75,7 @@ class Petrovich
     #   detect_gender('блаблабла') # => both
     #
     def detect_gender(midname)
-      case midname[-2, 2]
+      case midname[-2, 2].mb_chars.downcase
         when 'ич'
           'male'
         when 'на'
@@ -84,7 +88,7 @@ class Petrovich
 end
 
 ###################################################################################################
-
+=begin
 class User
   include Petrovich::Extension
 
@@ -125,3 +129,4 @@ user = User.new
 puts user.my_lastname_dative
 puts user.my_firstname_dative
 puts user.my_middlename_dative
+=end
