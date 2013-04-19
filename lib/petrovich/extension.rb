@@ -43,7 +43,6 @@ class Petrovich
   # 
   #   class User
   #     include Petrovich::Extension
-  #     attr_accessor :firstname, :middlename, :lastname
   #   
   #     petrovich :firstname  => :my_firstname,
   #               :middlename => :my_middlename,
@@ -106,7 +105,7 @@ class Petrovich
     end
 
     def method_missing(method_name, *args, &block)
-      if match = method_name.to_s.match(%r{(.+)_(#{Petrovich::CASES.join('|')})$})
+      if match = method_name.to_s.match(petrovich_method_regex)
         attribute = match[1]
         name      = send(attribute)
         gcase     = match[2]
@@ -116,5 +115,19 @@ class Petrovich
         super
       end
     end
+
+    def respond_to?(method_name, include_private = false)
+      if match = method_name.to_s.match(petrovich_method_regex)
+        true
+      else
+        super
+      end
+    end
+
+    def petrovich_method_regex
+      %r{(.+)_(#{Petrovich::CASES.join('|')})$}
+    end
+
+    protected :petrovich_method_regex
   end
 end
