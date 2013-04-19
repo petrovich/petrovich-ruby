@@ -1,6 +1,6 @@
-# Petrovich
+![Petrovich Logo](https://raw.github.com/rocsci/petrovich/master/petrovich.jpg)
 
-TODO: Write a gem description
+Склонение падежей русских имён, фамилий и отчеств. Вы задаёте начальное имя в именительном падеже, а получаете в нужном вам.
 
 ## Installation
 
