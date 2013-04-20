@@ -93,7 +93,7 @@ user.my_firstname_dative # => Петру
 и для второго примера:
 
 ```ruby
-person = User.new
+person = Person.new
 person.name # => Иван
 person.name_dative # => Ивану
 ```
