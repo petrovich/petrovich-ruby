@@ -62,6 +62,7 @@ end
 
 ```ruby
 class Person
+  include Petrovich::Extension
 
   petrovich :firstname  => :name,
             :middlename => :patronymic,
