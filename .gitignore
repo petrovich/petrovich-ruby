@@ -3,7 +3,7 @@
 .bundle
 .config
 .yardoc
-.rvm
+.rvmrc
 Gemfile.lock
 InstalledFiles
 _yardoc
@@ -13,6 +13,10 @@ lib/bundler/man
 pkg
 rdoc
 spec/reports
+spec/data/*.txt
+spec/data/male_surnames_spec.rb
+spec/data/female_surnames_spec.rb
+spec/data/generator.rb
 test/tmp
 test/version_tmp
 tmp
