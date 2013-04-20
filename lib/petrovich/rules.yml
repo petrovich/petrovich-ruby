@@ -139,10 +139,6 @@ lastname:
       mods: [--ца, --цу, --ца, --цом, --це]
 
     - gender: both
-      test: [ц, ч, ш, щ]
-      mods: [а, у, а, ем, е]
-
-    - gender: both
       test: [ай]
       mods: [-я, -ю, -я, -ем, -е]
 
@@ -177,6 +173,10 @@ lastname:
     - gender: both
       test: [ец]
       mods: [--ца, --цу, --ца, --цом, --це]
+
+    - gender: both
+      test: [ц, ч, ш, щ]
+      mods: [а, у, а, ем, е]
 
     - gender: both
       test: [в, н]
