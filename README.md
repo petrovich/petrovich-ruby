@@ -86,7 +86,7 @@ end
 ```ruby
 user = User.new
 user.my_firstname # => Пётр
-user.my_firstname_dative => Петру
+user.my_firstname_dative # => Петру
 ```
 
 и для второго примера:
@@ -94,7 +94,7 @@ user.my_firstname_dative => Петру
 ```ruby
 person = User.new
 person.name # => Иван
-person.name_dative => Ивану
+person.name_dative # => Ивану
 ```
 
 Вы просто добавляете `_падеж` в конец имени оригинального метода и получаете нужное значение. Вот список суффиксов, которые вы можете добавить к имени оригинального метода, чтобы получить имя в нужном падаже:
