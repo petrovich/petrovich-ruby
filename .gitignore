@@ -20,5 +20,4 @@ spec/data/generator.rb
 test/tmp
 test/version_tmp
 tmp
-rules.rb
 test.html
