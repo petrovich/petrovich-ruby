@@ -15,7 +15,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency "unicode_utils", ">= 0.6.4"
   s.add_development_dependency "rspec"
-  s.add_development_dependency "sqlite3"
-  s.add_development_dependency "activerecord", ">= 3.2.12"
   s.add_development_dependency "gem-release", "~> 0.4.1"
 end
