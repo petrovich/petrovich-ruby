@@ -75,7 +75,7 @@ class Petrovich
     #   detect_gender('блаблабла') # => both
     #
     def detect_gender(midname)
-      case midname[-2, 2].mb_chars.downcase
+      case UnicodeUtils.downcase(midname[-2, 2])
         when 'ич'
           'male'
         when 'на'

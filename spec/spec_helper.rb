@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'bundler/setup'
-require 'active_support'
+require 'unicode_utils'
 require 'petrovich'
 
 RSpec.configure do |config|

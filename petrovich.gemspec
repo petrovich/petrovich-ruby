@@ -13,8 +13,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
 
-  s.add_dependency "i18n", ">= 0.6.4"
-  s.add_dependency "activesupport", ">= 3.2.12"
+  s.add_dependency "unicode_utils", ">= 0.6.4"
   s.add_development_dependency "rspec"
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "activerecord", ">= 3.2.12"

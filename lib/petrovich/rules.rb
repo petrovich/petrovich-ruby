@@ -1,4 +1,4 @@
-require 'active_support/core_ext'
+# encoding: utf-8
 
 class Petrovich
   # Загрузка правил происходит один раз
@@ -30,7 +30,7 @@ class Petrovich
     def match?(name, rule, match_whole_word)
       return false if rule['gender'] == 'male' && female? || rule['gender'] == 'female' && !female?
 
-      name = name.mb_chars.downcase
+      name = UnicodeUtils.downcase(name)
       rule['test'].each do |chars|
         test = match_whole_word ? name : name.slice([name.size - chars.size, 0].max .. -1)        
         return true if test == chars
