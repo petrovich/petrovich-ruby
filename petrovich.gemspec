@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.summary     = "Склонение падежей русских имён, фамилий и отчеств"
   s.description = "Вы задаёте начальное имя в именительном падеже, а получаете в нужном вам"
 
+  s.required_ruby_version = ">= 1.9.1"
   s.files = Dir["{lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
 
   s.add_dependency "unicode_utils", "1.4.0"
