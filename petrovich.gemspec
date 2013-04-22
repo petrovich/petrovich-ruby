@@ -4,10 +4,10 @@ $:.push File.expand_path("../lib", __FILE__)
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "petrovich"
-  s.version     = "0.0.2"
+  s.version     = "0.0.3"
   s.authors     = ["Andrew Kozloff"]
   s.email       = ["demerest@gmail.com"]
-  s.homepage    = "https://github.com/tanraya/papillon"
+  s.homepage    = "https://github.com/rocsci/petrovich"
   s.summary     = "Склонение падежей русских имён, фамилий и отчеств"
   s.description = "Вы задаёте начальное имя в именительном падеже, а получаете в нужном вам"
 
