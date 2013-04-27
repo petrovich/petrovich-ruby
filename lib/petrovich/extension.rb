@@ -18,26 +18,10 @@ class Petrovich
   # [:+lastname+]
   #   Указывает метод, возвращающий фамилию
   #
-  # [:+order+]
-  #   Задаёт порядок составляющих имени для их установки или вывода при использовании +:fullname+
-  #
-  # [:+fullname+]
-  #   Задаёт или возвращает полное имя. Используется совместно с +:order+. 
-  #
-  #     petrovich :fullname => :my_fullname
-  #               :order    => [:firstname, :middlename, :lastname]
-  #
-  #     def my_fullname
-  #       'Аркадий Семёнович Дичко'
-  #     end
-  #
-  #   Далее при вызове метода вы получите:
-  #
-  #     my_fullname_dative # => Аркадию Семёновичу Дичко
-  #
-  #
-  # [:+delimeter+]
-  #   Задаёт разделитель для +:fullname+. По-умолчанию равен +/\s+/+
+  # [:+gender+]
+  #   Указывает метод, возвращающий пол. Если пол не был указан, используется автоматическое определение
+  #   пола на основе отчества. Если отчество так же не было указано, пытаемся определить правильное слконение
+  #   на основе файла правил.
   #
   # Пример использования
   # 
@@ -46,7 +30,8 @@ class Petrovich
   #   
   #     petrovich :firstname  => :my_firstname,
   #               :middlename => :my_middlename,
-  #               :lastname   => :my_lastname
+  #               :lastname   => :my_lastname,
+  #               :gender     => :my_gender
   #   
   #     def my_firstname
   #       'Пётр'
@@ -59,6 +44,11 @@ class Petrovich
   #     def my_lastname
   #       'Ларин'
   #     end
+  #
+  #     def my_gender
+  #       :male # :male, :female или :both
+  #     end
+  #
   #   end
   #
   # Вы получите следующие методы
@@ -87,9 +77,7 @@ class Petrovich
           :fullname   => nil,
           :firstname  => nil,
           :middlename => nil,
-          :lastname   => nil,
-          :order      => [:lastname, :firstname, :middlename],
-          :delimeter  => /\s+/
+          :gender     => nil
         }.merge(options)
       end
     end
@@ -99,7 +87,7 @@ class Petrovich
       reflection = options.key(attribute.to_sym) or raise "No reflection for attribute '#{attribute}'!"
 
       self.class.send(:define_method, method_name) do
-        rn = Petrovich.new
+        rn = Petrovich.new(options[:gender])
         rn.send(reflection, name, gcase)
       end
     end

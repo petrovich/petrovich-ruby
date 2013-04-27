@@ -8,7 +8,8 @@ describe "Mix-in Petrovich extension into class" do
 
       petrovich :firstname  => :my_firstname,
                 :middlename => :my_middlename,
-                :lastname   => :my_lastname
+                :lastname   => :my_lastname,
+                :gender     => :my_gender
 
       def my_firstname
         'Пётр'
@@ -21,6 +22,10 @@ describe "Mix-in Petrovich extension into class" do
       def my_lastname
         'Петренко'
       end
+
+      def my_gender
+        :male
+      end
     end
   end
 
@@ -29,8 +34,8 @@ describe "Mix-in Petrovich extension into class" do
   describe 'class instance' do
     subject { @klass.new }
 
-    it {
-      should respond_to :my_firstname_dative
-    }
+    it { should respond_to :my_firstname_dative }
+    it { should respond_to :my_middlename_dative }
+    it { should respond_to :my_lastname_dative }
   end  
 end
