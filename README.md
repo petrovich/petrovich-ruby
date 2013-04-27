@@ -29,9 +29,9 @@
 ```ruby
 # Указание пола снижает количество отказов
 p = Petrovich.new(:male)
-p.lastname('Иванов', :dative)    # => Иванову
-p.firstname('Пётр', :dative)     # => Петру
-p.lastname('Сергеевич', :dative) # => Сергеевичу
+p.lastname('Иванов', :dative)      # => Иванову
+p.firstname('Пётр', :dative)       # => Петру
+p.middlename('Сергеевич', :dative) # => Сергеевичу
 ```
 
 Конструктор класса `Petrovich` принимает в качестве единственного аргумента пол. Пол может иметь значения `:male`, `:female` или `:both`. Последнее означает, что имя не склоняется по родам (обычно, это не нужно).
@@ -99,8 +99,11 @@ end
 
 ```ruby
 user = User.new
-user.my_firstname # => Пётр
-user.my_firstname_dative # => Петру
+user.my_firstname         # => Пётр
+
+user.my_firstname_dative  # => Петру
+user.my_middlename_dative # => Петровичу
+user.my_lastname_dative   # => Петренко
 ```
 
 и для второго примера:
@@ -108,7 +111,10 @@ user.my_firstname_dative # => Петру
 ```ruby
 person = Person.new
 person.name # => Иван
-person.name_dative # => Ивану
+
+person.my_firstname_dative  # => Ивану
+person.my_middlename_dative # => Олеговичу
+person.my_lastname_dative   # => Сафронову
 ```
 
 Вы просто добавляете `_падеж` в конец имени оригинального метода и получаете нужное значение. Вот список суффиксов, которые вы можете добавить к имени оригинального метода, чтобы получить имя в нужном падаже:
