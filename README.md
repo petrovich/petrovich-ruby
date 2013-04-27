@@ -46,7 +46,8 @@ class User < ActiveRecord::Base
 
   petrovich :firstname  => :my_firstname,
             :middlename => :my_middlename,
-            :lastname   => :my_lastname
+            :lastname   => :my_lastname,
+            :gender     => :my_gender
 
   def my_firstname
     'Пётр'
@@ -59,6 +60,13 @@ class User < ActiveRecord::Base
   def my_lastname
     'Петренко'
   end
+
+  # Если пол не был указан, используется автоматическое определение
+  # пола на основе отчества. Если отчество так же не было указано,
+  # пытаемся определить правильное слконение на основе файла правил.
+  def my_gender
+    :male # :male, :female или :both
+  end
 end
 ```
 
@@ -68,6 +76,7 @@ end
 class Person
   include Petrovich::Extension
 
+  # А здесь мы не указали пол - он будет определяться на основе отчества
   petrovich :firstname  => :name,
             :middlename => :patronymic,
             :lastname   => :surname
