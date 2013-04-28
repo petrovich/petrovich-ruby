@@ -46,7 +46,7 @@ class Petrovich
   #     end
   #
   #     def my_gender
-  #       :male # :male, :female или :both
+  #       :male # :male, :female или :androgynous
   #     end
   #
   #   end

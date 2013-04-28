@@ -5,7 +5,7 @@ if ENV['TEST_SURNAMES']
     context "мужских фамилий" do
       subject { Petrovich.new(:male) }
 
-      context "в родительном падеже" do
+      context "в дательном падеже" do
         it { subject.lastname('Бильжо', :dative).should == 'Бильжо' }
         it { subject.lastname('Ничипорук', :dative).should == 'Ничипоруку' }
         it { subject.lastname('Щусь', :dative).should == 'Щусю' }
@@ -30,7 +30,7 @@ if ENV['TEST_SURNAMES']
     context "женских фамилий" do
       subject { Petrovich.new(:female) }
 
-      context "в родительном падеже" do
+      context "в дательном падеже" do
         it { subject.lastname('Бильжо', :dative).should == 'Бильжо' }
         it { subject.lastname('Ничипорук', :dative).should == 'Ничипорук' }
         it { subject.lastname('Щусь', :dative).should == 'Щусь' }

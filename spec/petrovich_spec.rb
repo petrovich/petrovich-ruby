@@ -22,8 +22,8 @@ describe Petrovich do
     Petrovich.detect_gender('Петровна').should == 'female'
   end
 
-  it "cant detects any gender (both)" do
-    Petrovich.detect_gender('Блабла').should == 'both'
+  it "cant detects any gender (androgynous)" do
+    Petrovich.detect_gender('Блабла').should == 'androgynous'
   end
 
   context 'name inflection methods' do

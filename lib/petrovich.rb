@@ -70,9 +70,9 @@ class Petrovich
     #
     #   detect_gender('Алексеевич') # => male
     #
-    # Если пол не был определён, метод возвращает значение +both+
+    # Если пол не был определён, метод возвращает значение +androgynous+
     #
-    #   detect_gender('блаблабла') # => both
+    #   detect_gender('блаблабла') # => androgynous
     #
     def detect_gender(midname)
       case UnicodeUtils.downcase(midname[-2, 2])
@@ -81,7 +81,7 @@ class Petrovich
         when 'на'
           'female'
         else
-          'both'
+          'androgynous'
       end
     end
   end
