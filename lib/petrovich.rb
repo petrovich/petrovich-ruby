@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'yaml'
+require 'unicode_utils'
 require 'petrovich/rules'
 require 'petrovich/extension'
 
