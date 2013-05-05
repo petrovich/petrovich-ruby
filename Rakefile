@@ -12,7 +12,13 @@ rescue LoadError
   RDoc::Task = Rake::RDocTask
 end
 
-# Run tests by default
-task :default => :spec
+task :petrovich do
+  require 'petrovich'
+end
+
+Dir.glob('lib/tasks/*.rake').each { |r| import r }
+
+# Run tests and perform evaluation by default
+task :default => [:spec, :evaluate]
 
 Bundler::GemHelper.install_tasks
