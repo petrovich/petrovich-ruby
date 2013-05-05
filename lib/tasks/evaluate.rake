@@ -44,8 +44,14 @@ task :evaluate => :petrovich do
     errors << %w(lemma expected actual params)
 
     CSV.open(filename, col_sep: "\t", headers: true).each do |row|
-      word, lemma = row['word'], row['lemma']
-      grammemes = row['grammemes'] ? row['grammemes'].split(',') : []
+      word = row['word'].force_encoding('UTF-8')
+      lemma = row['lemma'].force_encoding('UTF-8')
+
+      grammemes = if row['grammemes']
+        row['grammemes'].force_encoding('UTF-8').split(',')
+      else
+        []
+      end
 
       gender = grammemes.include?('мр') ? :male : :female
 
