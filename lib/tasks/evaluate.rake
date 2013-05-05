@@ -2,6 +2,33 @@
 
 require 'csv'
 
+CASES = [
+  :nominative,
+  :genitive,
+  :dative,
+  :accusative,
+  :instrumentative,
+  :prepositional
+]
+
+def check!(correct, total, lemma, gender, gcase, expected)
+  inflector = Petrovich.new(gender)
+  inflection = begin
+    UnicodeUtils.upcase(inflector.lastname(lemma, gcase))
+  rescue
+    ''
+  end
+
+  total[[gender, gcase]] += 1
+
+  if inflection == expected
+    correct[[gender, gcase]] += 1
+    true
+  else
+    inflection
+  end
+end
+
 desc 'Evaluate the inflector on surnames'
 task :evaluate => :petrovich do
   filename = File.expand_path('../../../spec/data/surnames.tsv', __FILE__)
@@ -19,38 +46,25 @@ task :evaluate => :petrovich do
       word, lemma = row['word'], row['lemma']
       grammemes = row['grammemes'] ? row['grammemes'].split(',') : []
 
-      next if grammemes.include? 'мн'
-
       gender = grammemes.include?('мр') ? :male : :female
-      gcase = if grammemes.include? 'им' or grammemes.include? '0'
-        :nominative
+
+      if grammemes.include? '0'
+        # some words are aptotic so we have to ensure that
+        CASES.each { |c| check! correct, total, lemma, gender, c, word }
+      elsif grammemes.include? 'им'
+        check! correct, total, lemma, gender, :nominative, word
       elsif grammemes.include? 'рд'
-        :genitive
+        check! correct, total, lemma, gender, :genitive, word
       elsif grammemes.include? 'дт'
-        :dative
+        check! correct, total, lemma, gender, :dative, word
       elsif grammemes.include? 'вн'
-        :accusative
+        check! correct, total, lemma, gender, :accusative, word
       elsif grammemes.include? 'тв'
         # actually, it's called the instrumetal case
-        :instrumentative
+        check! correct, total, lemma, gender, :instrumentative, word
       elsif grammemes.include? 'пр'
-        :prepositional
+        check! correct, total, lemma, gender, :prepositional, word
       end
-
-      inflector = Petrovich.new(gender)
-      inflection = begin
-        UnicodeUtils.upcase(inflector.lastname(lemma, gcase))
-      rescue
-        ''
-      end
-
-      if inflection == word
-        correct[[gender, gcase]] += 1
-      else
-        errors << [lemma, word, inflection, grammemes, [gender, gcase]]
-      end
-
-      total[[gender, gcase]] += 1
     end
   end
 
