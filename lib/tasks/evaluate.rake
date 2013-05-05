@@ -11,7 +11,7 @@ CASES = [
   :prepositional
 ]
 
-def check!(correct, total, lemma, gender, gcase, expected)
+def check!(errors, correct, total, lemma, gender, gcase, expected)
   inflector = Petrovich.new(gender)
   inflection = begin
     UnicodeUtils.upcase(inflector.lastname(lemma, gcase))
@@ -25,6 +25,7 @@ def check!(correct, total, lemma, gender, gcase, expected)
     correct[[gender, gcase]] += 1
     true
   else
+    errors << [lemma, expected, inflection, [gender, gcase]]
     inflection
   end
 end
@@ -40,7 +41,7 @@ task :evaluate => :petrovich do
        'and store errors to "%s".' % [filename, errors_filename]
 
   CSV.open(errors_filename, 'w', col_sep: "\t") do |errors|
-    errors << %w(lemma expected actual grammemes params)
+    errors << %w(lemma expected actual params)
 
     CSV.open(filename, col_sep: "\t", headers: true).each do |row|
       word, lemma = row['word'], row['lemma']
@@ -50,20 +51,22 @@ task :evaluate => :petrovich do
 
       if grammemes.include? '0'
         # some words are aptotic so we have to ensure that
-        CASES.each { |c| check! correct, total, lemma, gender, c, word }
+        CASES.each do |gcase|
+          check! errors, correct, total, lemma, gender, gcase, word
+        end
       elsif grammemes.include? 'им'
-        check! correct, total, lemma, gender, :nominative, word
+        check! errors, correct, total, lemma, gender, :nominative, word
       elsif grammemes.include? 'рд'
-        check! correct, total, lemma, gender, :genitive, word
+        check! errors, correct, total, lemma, gender, :genitive, word
       elsif grammemes.include? 'дт'
-        check! correct, total, lemma, gender, :dative, word
+        check! errors, correct, total, lemma, gender, :dative, word
       elsif grammemes.include? 'вн'
-        check! correct, total, lemma, gender, :accusative, word
+        check! errors, correct, total, lemma, gender, :accusative, word
       elsif grammemes.include? 'тв'
         # actually, it's called the instrumetal case
-        check! correct, total, lemma, gender, :instrumentative, word
+        check! errors, correct, total, lemma, gender, :instrumentative, word
       elsif grammemes.include? 'пр'
-        check! correct, total, lemma, gender, :prepositional, word
+        check! errors, correct, total, lemma, gender, :prepositional, word
       end
     end
   end
