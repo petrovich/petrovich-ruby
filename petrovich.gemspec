@@ -5,8 +5,8 @@ $:.push File.expand_path("../lib", __FILE__)
 Gem::Specification.new do |s|
   s.name        = "petrovich"
   s.version     = "0.0.7"
-  s.authors     = ["Andrew Kozloff"]
-  s.email       = ["demerest@gmail.com"]
+  s.authors     = ["Andrew Kozloff", "Dmitry Ustalov"]
+  s.email       = ["demerest@gmail.com", "dmitry@eveel.ru"]
   s.homepage    = "https://github.com/rocsci/petrovich"
   s.summary     = "Склонение падежей русских имён, фамилий и отчеств"
   s.description = "Вы задаёте начальное имя в именительном падеже, а получаете в нужном вам"
