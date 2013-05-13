@@ -4,6 +4,9 @@ class Petrovich
   # Загрузка правил происходит один раз
   RULES = YAML.load_file(File.dirname(__FILE__) + '/rules.yml')
 
+  class UnknownCaseException < Exception;;end
+  class UnknownRuleException < Exception;;end
+
   # Набор методов для нахождения и применения правил к имени, фамилии и отчеству.
   class Rules
     def initialize(gender = nil)
@@ -64,7 +67,11 @@ class Petrovich
 
     # Найти правило и применить к имени с учетом склонения
     def find_and_apply(name, gcase, rules)
-      apply(name, gcase, find_for(name, rules))
+      rule = find_for(name, rules)
+      apply(name, gcase, rule)
+    rescue UnknownRuleException
+      # Если не найдено правило для имени, возвращаем неизмененное имя.
+      name
     end
 
     # Найти подходящее правило в исключениях или суффиксах
@@ -77,7 +84,7 @@ class Petrovich
 
       # Не получилось, ищем в суффиксах. Если не получилось найти и в них,
       # возвращаем неизмененное имя.
-      find(name, rules['suffixes'], false) || name
+      find(name, rules['suffixes'], false) or raise UnknownRuleException, "Cannot find rule for #{name}"
     end
 
     # Найти подходящее правило в конкретном списке правил
@@ -101,7 +108,7 @@ class Petrovich
         when PREPOSITIONAL
           rule['mods'][4]
         else
-          raise "Unknown grammatic case: #{gcase}"
+          raise UnknownCaseException, "Unknown grammatic case: #{gcase}"
       end
     end
 
