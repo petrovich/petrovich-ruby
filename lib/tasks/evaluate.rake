@@ -13,9 +13,7 @@ CASES = [
 
 def check!(errors, correct, total, lemma, gender, gcase, expected)
   inflector = Petrovich.new(gender)
-  inflection = begin
-    UnicodeUtils.upcase(inflector.lastname(lemma, gcase))
-  end
+  inflection = UnicodeUtils.upcase(inflector.lastname(lemma, gcase))
 
   total[[gender, gcase]] += 1
 
