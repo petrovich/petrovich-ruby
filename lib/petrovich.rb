@@ -31,18 +31,18 @@ require 'petrovich/extension'
 # * +:genitive+ - родительный
 # * +:dative+ - дательный
 # * +:accusative+ - винительный
-# * +:instrumentative+ - творительный
+# * +:instrumental+ - творительный
 # * +:prepositional+ - предложный
 #
 class Petrovich
-  CASES = [:nominative, :genitive, :dative, :accusative, :instrumentative, :prepositional]
+  CASES = [:nominative, :genitive, :dative, :accusative, :instrumental, :prepositional]
 
-  NOMINATIVE      = :nominative      # именительный
-  GENITIVE        = :genitive        # родительный
-  DATIVE          = :dative          # дательный
-  ACCUSATIVE      = :accusative      # винительный
-  INSTRUMENTATIVE = :instrumentative # творительный
-  PREPOSITIONAL   = :prepositional   # предложный
+  NOMINATIVE      = :nominative    # именительный
+  GENITIVE        = :genitive      # родительный
+  DATIVE          = :dative        # дательный
+  ACCUSATIVE      = :accusative    # винительный
+  INSTRUMENTATIVE = :instrumental  # творительный
+  PREPOSITIONAL   = :prepositional # предложный
 
   def initialize(gender = nil)
     @gender = gender.to_s

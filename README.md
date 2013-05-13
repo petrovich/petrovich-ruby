@@ -142,11 +142,11 @@ person.my_lastname_dative   # => Сафронову
 Вот список суффиксов, которые вы можете добавить к имени метода, чтобы
 получить имя в нужном падеже:
 
- * genitive        — родительный;
- * dative          — дательный;
- * accusative      — винительный;
- * instrumentative — творительный;
- * prepositional   — предложный.
+ * genitive      — родительный;
+ * dative        — дательный;
+ * accusative    — винительный;
+ * instrumental  — творительный;
+ * prepositional — предложный.
 
 ## Оценка точности
 
@@ -164,7 +164,7 @@ Pr(nominative|male) = 100.0000%
 Pr(genitive|male) = 99.6763%
 Pr(dative|male) = 99.7012%
 Pr(accusative|male) = 99.7261%
-Pr(instrumentative|male) = 97.9485%
+Pr(instrumental|male) = 97.9485%
 Pr(prepositional|male) = 99.6888%
 ```
 ```
@@ -172,7 +172,7 @@ Pr(nominative|female) = 100.0000%
 Pr(genitive|female) = 99.8652%
 Pr(dative|female) = 99.8952%
 Pr(accusative|female) = 99.9251%
-Pr(instrumentative|female) = 99.4189%
+Pr(instrumental|female) = 99.4189%
 Pr(prepositional|female) = 99.8952%
 ```
 

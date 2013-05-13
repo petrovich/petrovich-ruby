@@ -7,7 +7,7 @@ CASES = [
   :genitive,
   :dative,
   :accusative,
-  :instrumentative,
+  :instrumental,
   :prepositional
 ]
 
@@ -70,7 +70,7 @@ task :evaluate => :petrovich do
         check! errors, correct, total, lemma, gender, :accusative, word
       elsif grammemes.include? 'тв'
         # actually, it's called the instrumetal case
-        check! errors, correct, total, lemma, gender, :instrumentative, word
+        check! errors, correct, total, lemma, gender, :instrumental, word
       elsif grammemes.include? 'пр'
         check! errors, correct, total, lemma, gender, :prepositional, word
       end

@@ -40,19 +40,19 @@ describe Petrovich do
     end
 
     it "respects proper case for firstname" do
-      expect { Petrovich.new.firstname('Иван', :instrumentative) }.to_not raise_error
+      expect { Petrovich.new.firstname('Иван', :instrumental) }.to_not raise_error
     end
 
     it "respects proper case for middlename" do
-      expect { Petrovich.new.middlename('Петрович', :instrumentative) }.to_not raise_error
+      expect { Petrovich.new.middlename('Петрович', :instrumental) }.to_not raise_error
     end
 
     it "respects proper case for lastname" do
-      expect { Petrovich.new.lastname('Ковалёв', :instrumentative) }.to_not raise_error
+      expect { Petrovich.new.lastname('Ковалёв', :instrumental) }.to_not raise_error
     end
 
     it "have alias for middlename" do
-      Petrovich.new.patronymic('Петрович', :instrumentative).should == 'Петровичем'
+      Petrovich.new.patronymic('Петрович', :instrumental).should == 'Петровичем'
     end
   end
 end
