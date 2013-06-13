@@ -229,6 +229,10 @@ firstname:
       test: [га, ка, ха, ча, ща, жа]
       mods: [-и, -е, -у, -ой, -е]
 
+    - gender: female
+      test: [ша]
+      mods: [-и, -е, -у, -ей, -е]
+
     - gender: androgynous
       test: [а]
       mods: [-ы, -е, -у, -ой, -е]
