@@ -1,5 +1,6 @@
 # encoding: utf-8
-require 'spec_helper'
+
+require_relative 'spec_helper'
 
 describe "Mix-in Petrovich extension into class" do
   before(:each) do

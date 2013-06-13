@@ -46,6 +46,10 @@ lastname:
       test: [б, в, г, д, ж, з, й, к, л, м, н, п, р, с, т, ф, х, ц, ч, ш, щ, ъ, ь]
       mods: [., ., ., ., .]
 
+    - gender: androgynous
+      test: [гава, орота]
+      mods: [., ., ., ., .]
+
     - gender: female
       test: [ска, цка]
       mods: [-ой, -ой, -ую, -ой, -ой]

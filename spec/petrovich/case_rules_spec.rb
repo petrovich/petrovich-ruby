@@ -1,11 +1,13 @@
 # encoding: utf-8
-require 'spec_helper'
-if ENV['TEST_SURNAMES']
-  describe "Склонение сложных русских" do
-    context "мужских фамилий" do
-      subject { Petrovich.new(:male) }
 
-      context "в дательном падеже" do
+require_relative '../spec_helper'
+
+describe 'Склонение сложных русских' do
+  context 'мужских' do
+    subject { Petrovich.new(:male) }
+
+    context 'фамилий' do
+      context 'в дательном падеже' do
         it { subject.lastname('Бильжо', :dative).should == 'Бильжо' }
         it { subject.lastname('Ничипорук', :dative).should == 'Ничипоруку' }
         it { subject.lastname('Щусь', :dative).should == 'Щусю' }
@@ -17,7 +19,6 @@ if ENV['TEST_SURNAMES']
         it { subject.lastname('Дубинка', :dative).should == 'Дубинке' }
         it { subject.lastname('Сирота', :dative).should == 'Сироте' }
         it { subject.lastname('Воевода', :dative).should == 'Воеводе' }
-
         it { subject.lastname('Волож', :dative).should == 'Воложу' }
         it { subject.lastname('Кравец', :dative).should == 'Кравцу' }
         it { subject.lastname('Самотечний', :dative).should == 'Самотечнему' }
@@ -26,11 +27,13 @@ if ENV['TEST_SURNAMES']
         it { subject.lastname('Сосковец', :dative).should == 'Сосковцу' }
       end
     end
+  end
 
-    context "женских фамилий" do
-      subject { Petrovich.new(:female) }
+  context 'женских' do
+    subject { Petrovich.new(:female) }
 
-      context "в дательном падеже" do
+    context 'фамилий' do
+      context 'в дательном падеже' do
         it { subject.lastname('Бильжо', :dative).should == 'Бильжо' }
         it { subject.lastname('Ничипорук', :dative).should == 'Ничипорук' }
         it { subject.lastname('Щусь', :dative).should == 'Щусь' }
@@ -47,6 +50,16 @@ if ENV['TEST_SURNAMES']
         it { subject.lastname('Джанджагава', :dative).should == 'Джанджагава' }
         it { subject.lastname('Забейворота', :dative).should == 'Забейворота' }
         it { subject.lastname('Окуджава', :dative).should == 'Окуджаве' }
+      end
+    end
+
+    context 'имён' do
+      context 'Маша' do
+        it { subject.firstname('Маша', :genitive).should == 'Маши' }
+        it { subject.firstname('Маша', :dative).should == 'Маше' }
+        it { subject.firstname('Маша', :accusative).should == 'Машу' }
+        it { subject.firstname('Маша', :instrumental).should == 'Машей' }
+        it { subject.firstname('Маша', :prepositional).should == 'Маше' }
       end
     end
   end
