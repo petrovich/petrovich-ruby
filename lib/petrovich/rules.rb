@@ -24,8 +24,10 @@ class Petrovich
     #   # Винительный падеж
     #   lastname_accusative('Комаров') # => Комарова
     #
-    [:lastname, :firstname, :middlename].each do |m|
-      define_method(m) { |name, gcase| find_and_apply(name, gcase, Petrovich::RULES[__method__.to_s]) }
+    [:lastname, :firstname, :middlename].each do |method_name|
+      define_method(method_name) do |name, gcase|
+        find_and_apply(name, gcase, Petrovich::RULES[method_name.to_s])
+      end
     end
 
   protected
