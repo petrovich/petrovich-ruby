@@ -103,7 +103,7 @@ class Petrovich
           rule['mods'][1]
         when ACCUSATIVE
           rule['mods'][2]
-        when INSTRUMENTATIVE
+        when INSTRUMENTAL
           rule['mods'][3]
         when PREPOSITIONAL
           rule['mods'][4]

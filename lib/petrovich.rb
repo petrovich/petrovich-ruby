@@ -41,7 +41,7 @@ class Petrovich
   GENITIVE        = :genitive      # родительный
   DATIVE          = :dative        # дательный
   ACCUSATIVE      = :accusative    # винительный
-  INSTRUMENTATIVE = :instrumental  # творительный
+  INSTRUMENTAL    = :instrumental  # творительный
   PREPOSITIONAL   = :prepositional # предложный
 
   def initialize(gender = nil)
