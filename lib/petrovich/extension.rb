@@ -82,23 +82,22 @@ class Petrovich
       end
     end
 
-    def petrovich_create_getter(method_name, attribute, gcase, name)
+    def petrovich_create_getter(method_name, attribute, gcase)
       options    = self.class.petrovich_configuration
       reflection = options.key(attribute.to_sym) or raise "No reflection for attribute '#{attribute}'!"
 
       self.class.send(:define_method, method_name) do
         rn = Petrovich.new(options[:gender])
-        rn.send(reflection, name, gcase)
+        rn.send(reflection, send(attribute), gcase)
       end
     end
 
     def method_missing(method_name, *args, &block)
       if match = method_name.to_s.match(petrovich_method_regex)
         attribute = match[1]
-        name      = send(attribute)
         gcase     = match[2]
 
-        petrovich_create_getter(method_name, attribute, gcase, name).call
+        petrovich_create_getter(method_name, attribute, gcase).call
       else
         super
       end
