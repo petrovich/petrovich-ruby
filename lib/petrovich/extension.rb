@@ -3,7 +3,7 @@
 class Petrovich
   # Этот модуль разработан для возможности его подмешивания в класс Ruby.
   # Его можно подмешать в любой класс, например, в модель ActiveRecord.
-  # 
+  #
   # При помощи вызова метода +petrovich+ вы указываете, какие аттрибуты или методы класса
   # будут возвращать фамилию, имя и отчество.
   #
@@ -24,23 +24,23 @@ class Petrovich
   #   на основе файла правил.
   #
   # Пример использования
-  # 
+  #
   #   class User
   #     include Petrovich::Extension
-  #   
+  #
   #     petrovich :firstname  => :my_firstname,
   #               :middlename => :my_middlename,
   #               :lastname   => :my_lastname,
   #               :gender     => :my_gender
-  #   
+  #
   #     def my_firstname
   #       'Пётр'
   #     end
-  # 
+  #
   #     def my_middlename
   #       'Александрович'
   #     end
-  # 
+  #
   #     def my_lastname
   #       'Ларин'
   #     end
@@ -74,7 +74,7 @@ class Petrovich
         end
 
         self.petrovich_configuration = {
-          :fullname   => nil,
+          :lastname   => nil,
           :firstname  => nil,
           :middlename => nil,
           :gender     => nil
@@ -84,11 +84,20 @@ class Petrovich
 
     def petrovich_create_getter(method_name, attribute, gcase)
       options    = self.class.petrovich_configuration
-      reflection = options.key(attribute.to_sym) or raise "No reflection for attribute '#{attribute}'!"
+      reflection = options.key(attribute.to_sym) or
+        raise "No reflection for attribute '#{attribute}'!"
 
       self.class.send(:define_method, method_name) do
-        rn = Petrovich.new(options[:gender])
-        rn.send(reflection, send(attribute), gcase)
+        # detect by gender attr if defined
+        gender = options[:gender] && send(options[:gender])
+        # detect by middlename attr if defined
+        gender ||= begin
+          middlename = options[:middlename] && send(options[:middlename])
+          middlename && Petrovich.detect_gender(middlename)
+        end
+
+        rn = Petrovich.new gender
+        rn.send reflection, send(attribute), gcase
       end
     end
 
