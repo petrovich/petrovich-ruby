@@ -5,6 +5,8 @@
 
 [![Build Status](https://secure.travis-ci.org/rocsci/petrovich.png)](http://travis-ci.org/rocsci/petrovich)
 
+#### Посмотреть в действии: http://petrovich.rocketscience.it
+
 ## Установка
 
 Добавьте в Gemfile:
