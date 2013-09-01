@@ -26,13 +26,18 @@ class Petrovich
     #
     [:lastname, :firstname, :middlename].each do |method_name|
       define_method(method_name) do |name, gcase|
-        find_and_apply(name, gcase, Petrovich::RULES[method_name.to_s])
+        inflect(name, gcase, Petrovich::RULES[method_name.to_s])
       end
     end
 
   protected
-
-    def match?(name, rule, match_whole_word)
+    # Известно несколько типов признаков, которые влияют на процесс поиска.
+    #
+    # Признак +first_word+ указывает, что данное слово является первым словом
+    # в составном слове. Например, в двойной русской фамилии Иванов-Сидоров.
+    #
+    def match?(name, rule, match_whole_word, tags)
+      return false unless tags_allow? tags, rule['tags']
       return false if rule['gender'] == 'male' && female? || rule['gender'] == 'female' && !female?
 
       name = UnicodeUtils.downcase(name)
@@ -52,6 +57,19 @@ class Petrovich
       @gender == 'female'
     end
 
+    def inflect(name, gcase, rules)
+      i = 0
+
+      parts = name.split('-')
+
+      parts.map! do |part|
+        first_word = (i += 1) == 1 && parts.size > 1
+        find_and_apply(part, gcase, rules, first_word: first_word)
+      end
+
+      parts.join('-')
+    end
+
     # Применить правило
     def apply(name, gcase, rule)
       modificator_for(gcase, rule).each_char do |char|
@@ -68,8 +86,8 @@ class Petrovich
     end
 
     # Найти правило и применить к имени с учетом склонения
-    def find_and_apply(name, gcase, rules)
-      rule = find_for(name, rules)
+    def find_and_apply(name, gcase, rules, features = {})
+      rule = find_for(name, rules, features)
       apply(name, gcase, rule)
     rescue UnknownRuleException
       # Если не найдено правило для имени, возвращаем неизмененное имя.
@@ -77,21 +95,23 @@ class Petrovich
     end
 
     # Найти подходящее правило в исключениях или суффиксах
-    def find_for(name, rules)
+    def find_for(name, rules, features = {})
+      tags = extract_tags(features)
+
       # Сначала пытаемся найти исключения
       if rules.has_key?('exceptions')
-        p = find(name, rules['exceptions'], true)
+        p = find(name, rules['exceptions'], true, tags)
         return p if p
       end
 
       # Не получилось, ищем в суффиксах. Если не получилось найти и в них,
       # возвращаем неизмененное имя.
-      find(name, rules['suffixes'], false) or raise UnknownRuleException, "Cannot find rule for #{name}"
+      find(name, rules['suffixes'], false, tags) or raise UnknownRuleException, "Cannot find rule for #{name}"
     end
 
     # Найти подходящее правило в конкретном списке правил
-    def find(name, rules, match_whole_word)
-      rules.find { |rule| match?(name, rule, match_whole_word) }
+    def find(name, rules, match_whole_word, tags)
+      rules.find { |rule| match?(name, rule, match_whole_word, tags) }
     end
 
     # Получить модификатор из указанного правиля для указанного склонения
@@ -114,5 +134,17 @@ class Petrovich
       end
     end
 
+    # Преобразование +{a: true, b: false, c: true}+ в +%w(a c)+.
+    def extract_tags(features = {})
+      features.keys.select { |k| features[k] == true }.map(&:to_s)
+    end
+
+    # Правило не подходит только в том случае, если оно содержит больше
+    # тегов, чем требуется для данного слова.
+    #
+    def tags_allow?(tags, rule_tags)
+      rule_tags ||= []
+      (rule_tags - tags).empty?
+    end
   end
 end
