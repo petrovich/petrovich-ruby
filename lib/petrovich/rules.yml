@@ -62,7 +62,7 @@ lastname:
       test: [вий, сой, цой, хой]
       mods: [-я, -ю, -я, -ем, -е]
 
-    - gender: male
+    - gender: androgynous
       test: [я]
       mods: [., ., ., ., .]
 
