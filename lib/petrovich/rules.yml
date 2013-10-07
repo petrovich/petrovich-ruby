@@ -226,6 +226,10 @@ firstname:
       mods: [--ла, --лу, --ла, --лом, --ле]
 
     - gender: male
+      test: [яша]
+      mods: [-и, -е, -у, -ей, -е]
+
+    - gender: male
       test: [шота]
       mods: [., ., ., ., .]
 
