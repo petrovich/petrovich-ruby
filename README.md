@@ -197,6 +197,17 @@ Pr(prepositional|female) = 99.9401%
  * [Андрей Козлов](https://github.com/tanraya)
  * [Дмитрий Усталов](http://eveel.ru)
 
+## Портирование
+
+Неравнодушные люди портировали Petrovich на другие языки и платформы
+программирования. Список известных нам работ:
+
+ * [JavaScript-порт](https://bitbucket.org/mainnika/petrovich-js) от Никиты Майнника
+ * [JavaScript-порт](http://github.com/deNULL/petrovich-js) от Дениса Ольшина
+ * [PHP-порт](https://github.com/iGuffi/petrovich) от Михаила Баженова
+
+Ребята, спасибо!
+
 ## Дальнейшее развитие
 
 Мы планируем и далее улучшать этот проект. Поэтому нам важен отклик от
