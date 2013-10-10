@@ -47,6 +47,7 @@ lastname:
         - призван
         - мелик
         - вар
+        - фон
       mods: [., ., ., ., .]
       tags: [first_word]
 
