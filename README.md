@@ -200,14 +200,16 @@ Pr(prepositional|female) = 99.9401%
 ## Портирование
 
 Неравнодушные люди портировали Petrovich на другие языки и платформы
-программирования. Список известных нам работ:
+программирования.
 
- * [JavaScript-порт](https://bitbucket.org/mainnika/petrovich-js) от Никиты Майнника
- * [JavaScript-порт](http://github.com/deNULL/petrovich-js) от Дениса Ольшина
+ * JavaScript:
+   * [JavaScript-порт](https://bitbucket.org/mainnika/petrovich-js) от Никиты Майнника
+   * [JavaScript-порт](http://github.com/deNULL/petrovich-js) от Дениса Ольшина
  * PHP:
    * [PHP-порт](https://github.com/MikeBazhenov/petrovich) от Михаила Баженова
    * [Kohana module] (https://github.com/parshikov/kohana-petrovich) от Паршикова Григория на основе [PHP-порта](https://github.com/MikeBazhenov/petrovich)
- * [C#-порт](https://github.com/quozd/npetrovich) от Виталия Фокина
+ * C#:
+   * [C#-порт](https://github.com/quozd/npetrovich) от Виталия Фокина
 
 Ребята, спасибо!
 
