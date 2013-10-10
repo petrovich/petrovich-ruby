@@ -204,7 +204,9 @@ Pr(prepositional|female) = 99.9401%
 
  * [JavaScript-порт](https://bitbucket.org/mainnika/petrovich-js) от Никиты Майнника
  * [JavaScript-порт](http://github.com/deNULL/petrovich-js) от Дениса Ольшина
- * [PHP-порт](https://github.com/iGuffi/petrovich) от Михаила Баженова
+ * PHP:
+   * [PHP-порт](https://github.com/MikeBazhenov/petrovich) от Михаила Баженова
+   * [Kohana module] (https://github.com/parshikov/kohana-petrovich) от Паршикова Григория на основе [PHP-порта](https://github.com/MikeBazhenov/petrovich)
 
 Ребята, спасибо!
 
