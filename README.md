@@ -205,6 +205,7 @@ Pr(prepositional|female) = 99.9401%
  * JavaScript:
    * [JavaScript-порт](https://bitbucket.org/mainnika/petrovich-js) от Никиты Майнника
    * [JavaScript-порт](http://github.com/deNULL/petrovich-js) от Дениса Ольшина
+   * [Kuzmich](https://github.com/thaumant/kuzmich) от Ильи Щелокова
  * PHP:
    * [PHP-порт](https://github.com/MikeBazhenov/petrovich) от Михаила Баженова
    * [PHP-порт](https://github.com/parshikov/petrovich-php) от Паршикова Григория
