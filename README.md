@@ -212,6 +212,7 @@ Pr(prepositional|female) = 99.9401%
    * [Kohana module](https://github.com/parshikov/kohana-petrovich) от Паршикова Григория на основе [PHP-порта](https://github.com/parshikov/petrovich-php)
  * C#:
    * [C#-порт](https://github.com/quozd/npetrovich) от Виталия Фокина
+   * [C#-порт](https://github.com/k1mst0n/Petrovich.NET) от Кима Иванова
 
 Ребята, спасибо!
 
