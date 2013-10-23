@@ -3,7 +3,7 @@
 Склонение падежей русских имён, фамилий и отчеств. Вы задаёте начальное имя
 в именительном падеже, а получаете в нужном вам.
 
-[![Build Status](https://secure.travis-ci.org/rocsci/petrovich.png)](http://travis-ci.org/rocsci/petrovich)
+[![Build Status](https://secure.travis-ci.org/petrovich/petrovich-ruby.png)](http://travis-ci.org/petrovich/petrovich-ruby)
 
 #### Посмотреть в действии: http://petrovich.rocketscience.it
 
@@ -199,22 +199,8 @@ Pr(prepositional|female) = 99.9401%
 
 ## Портирование
 
-Неравнодушные люди портировали Petrovich на другие языки и платформы
-программирования.
-
- * JavaScript:
-   * [JavaScript-порт](https://bitbucket.org/mainnika/petrovich-js) от Никиты Майнника
-   * [JavaScript-порт](http://github.com/deNULL/petrovich-js) от Дениса Ольшина
-   * [Kuzmich](https://github.com/thaumant/kuzmich) от Ильи Щелокова
- * PHP:
-   * [PHP-порт](https://github.com/MikeBazhenov/petrovich) от Михаила Баженова
-   * [PHP-порт](https://github.com/parshikov/petrovich-php) от Паршикова Григория
-   * [Kohana module](https://github.com/parshikov/kohana-petrovich) от Паршикова Григория на основе [PHP-порта](https://github.com/parshikov/petrovich-php)
- * C#:
-   * [C#-порт](https://github.com/quozd/npetrovich) от Виталия Фокина
-   * [C#-порт](https://github.com/k1mst0n/Petrovich.NET) от Кима Иванова
-
-Ребята, спасибо!
+Существуют официальные порты Petrovich на другие языке и платформы. Их список
+доступен по адресу <https://github.com/petrovich>. Ребята, спасибо!
 
 ## Дальнейшее развитие
 
