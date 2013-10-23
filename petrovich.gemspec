@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Andrew Kozloff", "Dmitry Ustalov"]
   s.email       = ["demerest@gmail.com", "dmitry@eveel.ru"]
   s.homepage    = "https://github.com/rocsci/petrovich"
-  s.summary     = "Склонение падежей русских имён, фамилий и отчеств"
-  s.description = "Вы задаёте начальное имя в именительном падеже, а получаете в нужном вам"
+  s.summary     = 'Automatic inflection of Russian anthroponyms'
+  s.description = 'A library to inflect Russian anthroponyms such as first names, last names, and middle names.'
 
   s.required_ruby_version = ">= 1.9.1"
   s.files = Dir["{lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
