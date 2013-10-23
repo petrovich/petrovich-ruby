@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = "0.1.3"
   s.authors     = ["Andrew Kozloff", "Dmitry Ustalov"]
   s.email       = ["demerest@gmail.com", "dmitry@eveel.ru"]
-  s.homepage    = "https://github.com/rocsci/petrovich"
+  s.homepage    = "https://github.com/petrovich/petrovich-ruby"
   s.summary     = 'Automatic inflection of Russian anthroponyms'
   s.description = 'A library to inflect Russian anthroponyms such as first names, last names, and middle names.'
 
