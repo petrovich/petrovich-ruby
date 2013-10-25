@@ -84,7 +84,7 @@ lastname:
       test: [ая]
       mods: [--ой, --ой, --ую, --ой, --ой]
 
-    - gender: androgynous
+    - gender: female
       test: [ская]
       mods: [--ой, --ой, --ую, --ой, --ой]
 
@@ -92,11 +92,11 @@ lastname:
       test: [на]
       mods: [-ой, -ой, -у, -ой, -ой]
 
-    - gender: androgynous
+    - gender: male
       test: [иной]
       mods: [-я, -ю, -я, -ем, -е]
 
-    - gender: androgynous
+    - gender: male
       test: [уй]
       mods: [-я, -ю, -я, -ем, -е]
 
@@ -104,7 +104,7 @@ lastname:
       test: [ца]
       mods: [-ы, -е, -у, -ей, -е]
 
-    - gender: androgynous
+    - gender: male
       test: [рих]
       mods: [а, у, а, ом, е]
 
@@ -116,7 +116,7 @@ lastname:
       test: [иа, аа, оа, уа, ыа, еа, юа, эа]
       mods: [., ., ., ., .]
 
-    - gender: androgynous
+    - gender: male
       test: [их, ых]
       mods: [., ., ., ., .]
 
@@ -124,7 +124,7 @@ lastname:
       test: [о, е, э, и, ы, у, ю]
       mods: [., ., ., ., .]
 
-    - gender: androgynous
+    - gender: female
       test: [ова, ева]
       mods: [-ой, -ой, -у, -ой, -ой]
 
@@ -140,7 +140,7 @@ lastname:
       test: [а]
       mods: [-ы, -е, -у, -ой, -е]
 
-    - gender: androgynous
+    - gender: male
       test: [ь]
       mods: [-я, -ю, -я, -ем, -е]
 
@@ -152,81 +152,81 @@ lastname:
       test: [я]
       mods: [-и, -е, -ю, -ей, -е]
 
-    - gender: androgynous
+    - gender: male
       test: [ей]
       mods: [-я, -ю, -я, -ем, -е]
 
-    - gender: androgynous
+    - gender: male
       test: [ян, ан, йн]
       mods: [а, у, а, ом, е]
 
-    - gender: androgynous
+    - gender: male
       test: [ынец, обец]
       mods: [--ца, --цу, --ца, --цем, --це]
 
-    - gender: androgynous
+    - gender: male
       test: [онец, овец]
       mods: [--ца, --цу, --ца, --цом, --це]
 
-    - gender: androgynous
+    - gender: male
       test: [ай]
       mods: [-я, -ю, -я, -ем, -е]
 
-    - gender: androgynous
+    - gender: male
       test: [гой, кой]
       mods: [-го, -му, -го, --им, -м]
 
-    - gender: androgynous
+    - gender: male
       test: [ой]
       mods: [-го, -му, -го, --ым, -м]
 
-    - gender: androgynous
+    - gender: male
       test: [ах, ив]
       mods: [а, у, а, ом, е]
 
-    - gender: androgynous
+    - gender: male
       test: [ший, щий, жий, ний]
       mods: [--его, --ему, --его, -м, --ем]
 
-    - gender: androgynous
+    - gender: male
       test: [кий, ый]
       mods: [--ого, --ому, --ого, -м, --ом]
 
-    - gender: androgynous
+    - gender: male
       test: [ий]
       mods: [-я, -ю, -я, -ем, -и]
 
-    - gender: androgynous
+    - gender: male
       test: [ок]
       mods: [--ка, --ку, --ка, --ком, --ке]
 
-    - gender: androgynous
+    - gender: male
       test: [ец]
       mods: [--ца, --цу, --ца, --цом, --це]
 
-    - gender: androgynous
+    - gender: male
       test: [ц, ч, ш, щ]
       mods: [а, у, а, ем, е]
 
-    - gender: androgynous
+    - gender: male
       test: [в, ин]
       mods: [а, у, а, ым, е]
 
-    - gender: androgynous
+    - gender: male
       test: [б, г, д, ж, з, к, л, м, ен, п, р, с, т, ф, х]
       mods: [а, у, а, ом, е]
 
 firstname:
   exceptions:
-    - gender: androgynous
+    - gender: male
       test: [лев]
       mods: [--ьва, --ьву, --ьва, --ьвом, --ьве]
 
-    - gender: androgynous
+    - gender: male
       test: [пётр]
       mods: [---етра, ---етру, ---етра, ---етром, ---етре]
 
-    - gender: androgynous
+    - gender: male
       test: [павел]
       mods: [--ла, --лу, --ла, --лом, --ле]
 
@@ -271,37 +271,37 @@ firstname:
       test: [а]
       mods: [-ы, -е, -у, -ой, -е]
 
-    - gender: androgynous
+    - gender: female
       test: [ия]
       mods: [-и, -и, -ю, -ей, -и]
 
-    - gender: androgynous
+    - gender: female
       test: [я]
       mods: [-и, -е, -ю, -ей, -е]
 
-    - gender: androgynous
+    - gender: man
       test: [ей]
       mods: [-я, -ю, -я, -ем, -е]
 
-    - gender: androgynous
+    - gender: male
       test: [ий]
       mods: [-я, -ю, -я, -ем, -и]
 
-    - gender: androgynous
+    - gender: man
       test: [й]
       mods: [-я, -ю, -я, -ем, -е]
 
-    - gender: androgynous
+    - gender: man
       test: [б, в, г, д, ж, з, к, л, м, н, п, р, с, т, ф, х, ц, ч]
       mods: [а, у, а, ом, е]
 
 middlename:
   suffixes:
-    - gender: androgynous
+    - gender: male
       test: [ич]
       mods: [а, у, а, ем, е]
 
-    - gender: androgynous
+    - gender: female
       test: [на]
       mods: [-ы, -е, -у, -ой, -е]
 
