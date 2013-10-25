@@ -209,11 +209,11 @@ lastname:
       mods: [а, у, а, ем, е]
 
     - gender: male
-      test: [в, ин]
+      test: [в, н]
       mods: [а, у, а, ым, е]
 
     - gender: male
-      test: [б, г, д, ж, з, к, л, м, ен, п, р, с, т, ф, х]
+      test: [б, г, д, ж, з, к, л, м, п, р, с, т, ф, х]
       mods: [а, у, а, ом, е]
 
 firstname:
