@@ -168,11 +168,11 @@ person.my_lastname_dative   # => Сафронову
 
 ```
 Pr(nominative|male) = 100.0000%
-Pr(genitive|male) = 99.7137%
-Pr(dative|male) = 99.7386%
+Pr(genitive|male) = 99.7261%
+Pr(dative|male) = 99.7510%
 Pr(accusative|male) = 99.7635%
 Pr(instrumental|male) = 97.9858%
-Pr(prepositional|male) = 99.7261%
+Pr(prepositional|male) = 99.7386%
 ```
 ```
 Pr(nominative|female) = 100.0000%
@@ -183,7 +183,7 @@ Pr(instrumental|female) = 99.4636%
 Pr(prepositional|female) = 99.9401%
 ```
 
-В настоящий момент наблюдается точность в 99.6614% на основе обработки
+В настоящий момент наблюдается точность в 99.6648% на основе обработки
 88314 примеров.
 
 [АОТ]: http://seman.svn.sourceforge.net/viewvc/seman/trunk/Docs/Morph_UNIX.txt?revision=HEAD&view=markup
