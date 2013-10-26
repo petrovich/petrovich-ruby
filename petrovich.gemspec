@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.description = 'A library to inflect Russian anthroponyms such as first names, last names, and middle names.'
 
   s.required_ruby_version = ">= 1.9.1"
-  s.files = Dir["{lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
+  s.files = Dir["{lib}/**/*"] + ["rules/rules.yml"] + ["MIT-LICENSE", "Rakefile", "README.md"]
 
   s.add_dependency "unicode_utils", "~> 1.4"
   s.add_development_dependency "rspec"
