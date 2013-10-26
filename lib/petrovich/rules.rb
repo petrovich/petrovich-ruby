@@ -2,7 +2,7 @@
 
 class Petrovich
   # Загрузка правил происходит один раз
-  RULES = YAML.load_file(File.dirname(__FILE__) + '/rules.yml')
+  RULES = YAML.load_file(File.expand_path('../../../rules/rules.yml', __FILE__))
 
   class UnknownCaseException < Exception;;end
   class UnknownRuleException < Exception;;end
