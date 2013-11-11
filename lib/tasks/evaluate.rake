@@ -80,8 +80,10 @@ task :evaluate => :petrovich do
 
   correct_size = correct.values.inject(&:+)
   total_size = total.values.inject(&:+)
+
   puts 'Well, the precision on %d examples is about %.4f%%.' %
     [total_size, (correct_size / total_size.to_f * 100)]
 
-  puts "\tTotal: %d\n\tCorrect: %d\n\tError: %d" % [total_size, correct_size, total_size - correct_size]
+  puts 'Sum of the %d correct examples and %d mistakes is %d.' %
+    [correct_size, total_size - correct_size, total_size]
 end
