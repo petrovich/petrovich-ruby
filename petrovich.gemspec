@@ -17,5 +17,4 @@ Gem::Specification.new do |s|
 
   s.add_dependency "unicode_utils", "~> 1.4"
   s.add_development_dependency "rspec"
-  s.add_development_dependency "gem-release", "~> 0.4.1"
 end
