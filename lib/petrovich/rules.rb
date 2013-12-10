@@ -167,17 +167,17 @@ class Petrovich
       # видимо нужно менять формат таблицы, или развязывать варианты,
       # находящиеся в поле test
       base = rule['test'][0].unpack('U*')
-      mod = modificator_for(scase, rule).unpack('U*').reverse
+      mod = modificator_for(scase, rule).unpack('U*')
       mod.map do | char |
         case char
         when 46 # '.'
           46
         when 45 # '-'
-          base.shift
+          base.pop
         else
           45
         end
-      end.pack('U*')
+      end.reverse.pack('U*')
     end
 
     # Преобразование +{a: true, b: false, c: true}+ в +%w(a c)+.
