@@ -7,13 +7,13 @@ describe Petrovich::Rules do
 
   it 'should raise an error when it is impossible to find a rule' do
     rule = Petrovich::RULES['lastname']
-    expect { subject.send(:find_for, 'Хэмингуэй', rule) }.
+    expect { subject.send(:find_for, 'Хэмингуэй', :nominative, :genitive, rule) }.
       to raise_error(Petrovich::UnknownRuleException)
   end
 
   it 'should left the unknown word as is' do
     rule = Petrovich::RULES['lastname']
-    subject.send(:find_and_apply, 'Хэмингуэй', :dative, rule).
+    subject.send(:find_and_apply, 'Хэмингуэй', :dative, :nominative, rule).
       should == 'Хэмингуэй'
   end
 end
