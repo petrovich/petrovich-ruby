@@ -10,6 +10,16 @@ class Petrovich
 
   # Набор методов для нахождения и применения правил к имени, фамилии и отчеству.
   class Rules
+    attr_reader :gender
+
+    Matchers = [
+      proc {| x, y, i | y[ 0 ].size <=> x[ 0 ].size },
+      proc {| x, y, i | x[ 1 ][ 'gender' ] != i.gender &&  1 ||
+                        y[ 1 ][ 'gender' ] != i.gender && -1 || 0 },
+      proc {| x, y, i | y[ 1 ][ 'test' ][ 0 ].size <=>
+                        x[ 1 ][ 'test' ][ 0 ].size },
+      proc {| x, y, i | x[ 1 ][ 'test' ][ 0 ] <=> y[ 1 ][ 'test' ][ 0 ] } ]
+
     def initialize(gender = nil)
       @gender = gender
     end
@@ -129,9 +139,10 @@ class Petrovich
         score = match?(name, gcase, scase, rule, match_whole_word, tags)
         score && [ score, rule ] || nil
       end.compact.sort do| x, y |
-        c = y[ 0 ].size <=> x[ 0 ].size
-        c != 0 && c || x[ 1 ][ 'gender' ] == @gender && -1 ||
-                       y[ 1 ][ 'gender' ] == @gender &&  1 || 0
+        Matchers.reduce( 0 ) do| c, m |
+          c = m.call( x, y, self )
+          break c if c != 0
+        end
       end.first
 
       first && first[ 1 ]
