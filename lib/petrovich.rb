@@ -48,16 +48,16 @@ class Petrovich
     @gender = gender.to_s
   end
 
-  def lastname(name, gcase)
-    Rules.new(@gender).lastname(name, gcase)
+  def lastname(name, gcase, scase = :nominative)
+    Rules.new(@gender).lastname(name, gcase, scase)
   end
 
-  def firstname(name, gcase)
-    Rules.new(@gender).firstname(name, gcase)
+  def firstname(name, gcase, scase = :nominative)
+    Rules.new(@gender).firstname(name, gcase, scase)
   end
 
-  def middlename(name, gcase)
-    Rules.new(@gender).middlename(name, gcase)
+  def middlename(name, gcase, scase = :nominative)
+    Rules.new(@gender).middlename(name, gcase, scase)
   end
 
   alias :patronymic :middlename
