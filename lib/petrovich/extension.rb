@@ -106,11 +106,19 @@ class Petrovich
         attribute = match[1]
         gcase     = match[2]
 
-        petrovich_create_getter(method_name, attribute, gcase).call
+        petrovich_create_getter(method_name, attribute, gcase)
+
+        if respond_to_without_petrovich?(method_name)
+          send method_name
+        else
+          super
+        end
       else
         super
       end
     end
+
+    alias :respond_to_without_petrovich? :respond_to?
 
     def respond_to?(method_name, include_private = false)
       if match = method_name.to_s.match(petrovich_method_regex)
