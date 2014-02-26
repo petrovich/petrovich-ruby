@@ -16,5 +16,5 @@ Gem::Specification.new do |s|
   s.files = Dir["{lib}/**/*"] + ["rules/rules.yml"] + ["MIT-LICENSE", "Rakefile", "README.md"]
 
   s.add_dependency "unicode_utils", "~> 1.4"
-  s.add_development_dependency "rspec"
+  s.add_development_dependency "minitest"
 end

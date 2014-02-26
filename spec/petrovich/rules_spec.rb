@@ -1,19 +1,17 @@
 # encoding: utf-8
 
-require_relative '../spec_helper'
+require 'spec_helper'
 
 describe Petrovich::Rules do
   subject { Petrovich::Rules.new(:male) }
 
   it 'should raise an error when it is impossible to find a rule' do
     rule = Petrovich::RULES['lastname']
-    expect { subject.send(:find_for, 'Хэмингуэй', :nominative, :genitive, rule) }.
-      to raise_error(Petrovich::UnknownRuleException)
+    assert_raises(Petrovich::UnknownRuleException){ subject.send(:find_for, 'Хэмингуэй', :nominative, :genitive, rule) }
   end
 
-  it 'should left the unknown word as is' do
+  it 'should leave an unknown word as is' do
     rule = Petrovich::RULES['lastname']
-    subject.send(:find_and_apply, 'Хэмингуэй', :dative, :nominative, rule).
-      should == 'Хэмингуэй'
+    assert_equal 'Хэмингуэй', subject.send(:find_and_apply, 'Хэмингуэй', :dative, :nominative, rule)
   end
 end

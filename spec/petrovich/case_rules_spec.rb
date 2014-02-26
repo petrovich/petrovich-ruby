@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require_relative '../spec_helper'
+require 'spec_helper'
 
 describe 'Склонение сложных русских' do
   context 'мужских' do
@@ -8,23 +8,23 @@ describe 'Склонение сложных русских' do
 
     context 'фамилий' do
       context 'в дательном падеже' do
-        it { subject.lastname('Бильжо', :dative).should == 'Бильжо' }
-        it { subject.lastname('Ничипорук', :dative).should == 'Ничипоруку' }
-        it { subject.lastname('Щусь', :dative).should == 'Щусю' }
-        it { subject.lastname('Фидря', :dative).should == 'Фидре' }
-        it { subject.lastname('Белоконь', :dative).should == 'Белоконю' }
-        it { subject.lastname('Добробаба', :dative).should == 'Добробабе' }
-        it { subject.lastname('Исайченко', :dative).should == 'Исайченко' }
-        it { subject.lastname('Бондаришин', :dative).should == 'Бондаришину' }
-        it { subject.lastname('Дубинка', :dative).should == 'Дубинке' }
-        it { subject.lastname('Сирота', :dative).should == 'Сироте' }
-        it { subject.lastname('Воевода', :dative).should == 'Воеводе' }
-        it { subject.lastname('Волож', :dative).should == 'Воложу' }
-        it { subject.lastname('Кравец', :dative).should == 'Кравцу' }
-        it { subject.lastname('Самотечний', :dative).should == 'Самотечнему' }
-        it { subject.lastname('Цой', :dative).should == 'Цою' }
-        it { subject.lastname('Шопен', :dative).should == 'Шопену' }
-        it { subject.lastname('Сосковец', :dative).should == 'Сосковцу' }
+        it { assert_equal 'Бильжо', subject.lastname('Бильжо', :dative) }
+        it { assert_equal 'Ничипоруку', subject.lastname('Ничипорук', :dative) }
+        it { assert_equal 'Щусю', subject.lastname('Щусь', :dative) }
+        it { assert_equal 'Фидре', subject.lastname('Фидря', :dative) }
+        it { assert_equal 'Белоконю', subject.lastname('Белоконь', :dative) }
+        it { assert_equal 'Добробабе', subject.lastname('Добробаба', :dative) }
+        it { assert_equal 'Исайченко', subject.lastname('Исайченко', :dative) }
+        it { assert_equal 'Бондаришину', subject.lastname('Бондаришин', :dative) }
+        it { assert_equal 'Дубинке', subject.lastname('Дубинка', :dative) }
+        it { assert_equal 'Сироте', subject.lastname('Сирота', :dative) }
+        it { assert_equal 'Воеводе', subject.lastname('Воевода', :dative) }
+        it { assert_equal 'Воложу', subject.lastname('Волож', :dative) }
+        it { assert_equal 'Кравцу', subject.lastname('Кравец', :dative) }
+        it { assert_equal 'Самотечнему', subject.lastname('Самотечний', :dative) }
+        it { assert_equal 'Цою', subject.lastname('Цой', :dative) }
+        it { assert_equal 'Шопену', subject.lastname('Шопен', :dative) }
+        it { assert_equal 'Сосковцу', subject.lastname('Сосковец', :dative) }
       end
     end
   end
@@ -34,32 +34,32 @@ describe 'Склонение сложных русских' do
 
     context 'фамилий' do
       context 'в дательном падеже' do
-        it { subject.lastname('Бильжо', :dative).should == 'Бильжо' }
-        it { subject.lastname('Ничипорук', :dative).should == 'Ничипорук' }
-        it { subject.lastname('Щусь', :dative).should == 'Щусь' }
-        it { subject.lastname('Фидря', :dative).should == 'Фидре' }
-        it { subject.lastname('Белоконь', :dative).should == 'Белоконь' }
-        it { subject.lastname('Добробаба', :dative).should == 'Добробабе' }
-        it { subject.lastname('Исайченко', :dative).should == 'Исайченко' }
-        it { subject.lastname('Бондаришин', :dative).should == 'Бондаришин' }
-        it { subject.lastname('Дубинка', :dative).should == 'Дубинке' }
-        it { subject.lastname('Сирота', :dative).should == 'Сироте' }
-        it { subject.lastname('Воевода', :dative).should == 'Воеводе' }
-        it { subject.lastname('Гулыга', :dative).should == 'Гулыге' }
-        it { subject.lastname('Дейнека', :dative).should == 'Дейнеке' }
-        it { subject.lastname('Джанджагава', :dative).should == 'Джанджагава' }
-        it { subject.lastname('Забейворота', :dative).should == 'Забейворота' }
-        it { subject.lastname('Окуджава', :dative).should == 'Окуджаве' }
+        it { assert_equal 'Бильжо', subject.lastname('Бильжо', :dative) }
+        it { assert_equal 'Ничипорук', subject.lastname('Ничипорук', :dative) }
+        it { assert_equal 'Щусь', subject.lastname('Щусь', :dative) }
+        it { assert_equal 'Фидре', subject.lastname('Фидря', :dative) }
+        it { assert_equal 'Белоконь', subject.lastname('Белоконь', :dative) }
+        it { assert_equal 'Добробабе', subject.lastname('Добробаба', :dative) }
+        it { assert_equal 'Исайченко', subject.lastname('Исайченко', :dative) }
+        it { assert_equal 'Бондаришин', subject.lastname('Бондаришин', :dative) }
+        it { assert_equal 'Дубинке', subject.lastname('Дубинка', :dative) }
+        it { assert_equal 'Сироте', subject.lastname('Сирота', :dative) }
+        it { assert_equal 'Воеводе', subject.lastname('Воевода', :dative) }
+        it { assert_equal 'Гулыге', subject.lastname('Гулыга', :dative) }
+        it { assert_equal 'Дейнеке', subject.lastname('Дейнека', :dative) }
+        it { assert_equal 'Джанджагава', subject.lastname('Джанджагава', :dative) }
+        it { assert_equal 'Забейворота', subject.lastname('Забейворота', :dative) }
+        it { assert_equal 'Окуджаве', subject.lastname('Окуджава', :dative) }
       end
     end
 
     context 'имён' do
       context 'Маша' do
-        it { subject.firstname('Маша', :genitive).should == 'Маши' }
-        it { subject.firstname('Маша', :dative).should == 'Маше' }
-        it { subject.firstname('Маша', :accusative).should == 'Машу' }
-        it { subject.firstname('Маша', :instrumental).should == 'Машей' }
-        it { subject.firstname('Маша', :prepositional).should == 'Маше' }
+        it { assert_equal 'Маши', subject.firstname('Маша', :genitive) }
+        it { assert_equal 'Маше', subject.firstname('Маша', :dative) }
+        it { assert_equal 'Машу', subject.firstname('Маша', :accusative) }
+        it { assert_equal 'Машей', subject.firstname('Маша', :instrumental) }
+        it { assert_equal 'Маше', subject.firstname('Маша', :prepositional) }
       end
     end
   end
