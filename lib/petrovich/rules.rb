@@ -52,7 +52,6 @@ class Petrovich
       return false if rule['gender'] == 'male' && female? ||
                       rule['gender'] == 'female' && !female?
 
-      name = UnicodeUtils.downcase(name)
       rule['test'].each do |chars|
         begin
           chars = apply(chars, rule, scase, gcase) if scase != NOMINATIVE
@@ -134,6 +133,7 @@ class Petrovich
 
     # Найти подходящее правило в конкретном списке правил
     def find(name, gcase, scase, rules, match_whole_word, tags)
+      name = UnicodeUtils.downcase(name)
       first =
       rules.map do| rule |
         score = match?(name, gcase, scase, rule, match_whole_word, tags)
