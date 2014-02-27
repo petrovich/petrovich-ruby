@@ -222,7 +222,7 @@ Pr(prepositional|female) = 99.9401%
 ## Разработчики
 
  * [Андрей Козлов](https://github.com/tanraya)
- * [Дмитрий Усталов](http://eveel.ru)
+ * [Дмитрий Усталов](http://ustalov.name)
 
 ## Портирование
 
