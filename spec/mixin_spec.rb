@@ -1,9 +1,9 @@
 # encoding: utf-8
 
-require_relative 'spec_helper'
+require 'spec_helper'
 
 describe "Mix-in Petrovich extension into class" do
-  before(:each) do
+  before do
     @klass = Class.new do
       include Petrovich::Extension
 
@@ -30,13 +30,15 @@ describe "Mix-in Petrovich extension into class" do
     end
   end
 
-  it { @klass.should respond_to :petrovich }
+  it { assert_respond_to @klass, :petrovich }
 
   describe 'class instance' do
     subject { @klass.new }
 
-    it { should respond_to :my_firstname_dative }
-    it { should respond_to :my_middlename_dative }
-    it { should respond_to :my_lastname_dative }
+    it 'should respond to generated methods' do
+      assert_respond_to subject, :my_firstname_dative
+      assert_respond_to subject, :my_middlename_dative
+      assert_respond_to subject, :my_lastname_dative
+    end
   end  
 end

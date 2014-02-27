@@ -1,59 +1,59 @@
 # encoding: utf-8
 
-require_relative 'spec_helper'
+require 'spec_helper'
 
 describe Petrovich do
   it 'have no gender' do
-    Petrovich.new.gender.should == ''
+    assert_equal '', Petrovich.new.gender
   end
 
   it 'have male gender' do
-    Petrovich.new(:male).gender.should == 'male'
+    assert_equal 'male', Petrovich.new(:male).gender
   end
 
   it 'have female gender' do
-    Petrovich.new(:female).gender.should == 'female'
+    assert_equal 'female', Petrovich.new(:female).gender
   end
 
   it 'detects male gender' do
-    Petrovich.detect_gender('Петрович').should == 'male'
+    assert_equal 'male', Petrovich.detect_gender('Петрович')
   end
   
   it 'detects female gender' do
-    Petrovich.detect_gender('Петровна').should == 'female'
+    assert_equal 'female', Petrovich.detect_gender('Петровна')
   end
 
   it 'cant detects any gender (androgynous)' do
-    Petrovich.detect_gender('Блабла').should == 'androgynous'
+    assert_equal 'androgynous', Petrovich.detect_gender('Блабла')
   end
 
-  context 'name inflection methods' do
+  describe 'name inflection methods' do
     it 'raises exception on unknown case for firstname' do
-      expect { Petrovich.new.firstname('Иван', :unknown) }.to raise_error
+      assert_raises(Petrovich::UnknownCaseException) { Petrovich.new.firstname('Иван', :unknown) }
     end
 
     it 'raises exception on unknown case for middlename' do
-      expect { Petrovich.new.middlename('Петрович', :unknown) }.to raise_error
+      assert_raises(Petrovich::UnknownCaseException) { Petrovich.new.middlename('Петрович', :unknown) }
     end
 
     it 'raises exception on unknown case for lastname' do
-      expect { Petrovich.new.lastname('Ковалёв', :unknown) }.to raise_error
+      assert_raises(Petrovich::UnknownCaseException) { Petrovich.new.lastname('Ковалёв', :unknown) }
     end
 
     it 'respects proper case for firstname' do
-      expect { Petrovich.new.firstname('Иван', :instrumental) }.to_not raise_error
+      Petrovich.new.firstname('Иван', :instrumental)
     end
 
     it 'respects proper case for middlename' do
-      expect { Petrovich.new.middlename('Петрович', :instrumental) }.to_not raise_error
+      Petrovich.new.middlename('Петрович', :instrumental)
     end
 
     it 'respects proper case for lastname' do
-      expect { Petrovich.new.lastname('Ковалёв', :instrumental) }.to_not raise_error
+      Petrovich.new.lastname('Ковалёв', :instrumental)
     end
 
     it 'have alias for middlename' do
-      Petrovich.new.patronymic('Петрович', :instrumental).should == 'Петровичем'
+      assert_equal 'Петровичем', Petrovich.new.patronymic('Петрович', :instrumental)
     end
   end
 end
