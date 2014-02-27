@@ -27,7 +27,7 @@ describe Petrovich do
     assert_equal 'androgynous', Petrovich.detect_gender('Блабла')
   end
 
-  context 'name inflection methods' do
+  describe 'name inflection methods' do
     it 'raises exception on unknown case for firstname' do
       assert_raises(Petrovich::UnknownCaseException) { Petrovich.new.firstname('Иван', :unknown) }
     end

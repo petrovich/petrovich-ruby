@@ -3,11 +3,11 @@
 require 'spec_helper'
 
 describe 'Склонение сложных русских' do
-  context 'мужских' do
+  describe 'мужских' do
     subject { Petrovich.new(:male) }
 
-    context 'фамилий' do
-      context 'в дательном падеже' do
+    describe 'фамилий' do
+      describe 'в дательном падеже' do
         it { assert_equal 'Бильжо', subject.lastname('Бильжо', :dative) }
         it { assert_equal 'Ничипоруку', subject.lastname('Ничипорук', :dative) }
         it { assert_equal 'Щусю', subject.lastname('Щусь', :dative) }
@@ -29,11 +29,11 @@ describe 'Склонение сложных русских' do
     end
   end
 
-  context 'женских' do
+  describe 'женских' do
     subject { Petrovich.new(:female) }
 
-    context 'фамилий' do
-      context 'в дательном падеже' do
+    describe 'фамилий' do
+      describe 'в дательном падеже' do
         it { assert_equal 'Бильжо', subject.lastname('Бильжо', :dative) }
         it { assert_equal 'Ничипорук', subject.lastname('Ничипорук', :dative) }
         it { assert_equal 'Щусь', subject.lastname('Щусь', :dative) }
@@ -53,8 +53,8 @@ describe 'Склонение сложных русских' do
       end
     end
 
-    context 'имён' do
-      context 'Маша' do
+    describe 'имён' do
+      describe 'Маша' do
         it { assert_equal 'Маши', subject.firstname('Маша', :genitive) }
         it { assert_equal 'Маше', subject.firstname('Маша', :dative) }
         it { assert_equal 'Машу', subject.firstname('Маша', :accusative) }

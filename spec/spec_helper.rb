@@ -10,9 +10,3 @@ rescue Errno::ENOENT => e
   warn 'WARNING! Please, run `git submodule update --init --recursive` to populate petrovich-rules submodule' if e.message.index('rules.yml')
   raise
 end
-
-class MiniTest::Spec
-  class << self
-    alias :context :describe
-  end
-end
