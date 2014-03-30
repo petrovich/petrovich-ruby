@@ -81,6 +81,7 @@ class Petrovich
 
       def inherited(subclass)
         subclass.petrovich_configuration.update(self.petrovich_configuration)
+        super
       end
     end
 
