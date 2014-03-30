@@ -41,4 +41,41 @@ describe "Mix-in Petrovich extension into class" do
       assert_respond_to subject, :my_lastname_dative
     end
   end  
+
+  describe 'class configuration' do
+    class Person
+      include Petrovich::Extension
+    end
+    class Pet
+      include Petrovich::Extension
+      petrovich :firstname => :alias
+    end
+    class Parent < Person
+      petrovich :firstname => :nickname
+    end
+    class Child < Parent
+      petrovich :lastname => :name
+    end
+
+    it 'should have configuration' do
+      assert_respond_to Person, :petrovich_configuration
+    end
+
+    it 'should be configured properly' do
+      assert_equal :alias, Pet.petrovich_configuration[:firstname]
+      assert_equal nil, Pet.petrovich_configuration[:lastname]
+    end
+
+    it 'should be properly subclassable and extended by Petrovich::Extension' do
+      assert_respond_to Parent, :petrovich_configuration
+
+      assert_equal :nickname, Parent.petrovich_configuration[:firstname]
+      assert_equal nil, Parent.petrovich_configuration[:lastname]
+    end
+
+    it 'should retain the configuration of parent class and be able overwrite it' do
+      assert_equal :nickname, Child.petrovich_configuration[:firstname]
+      assert_equal :name, Child.petrovich_configuration[:lastname]
+    end
+  end
 end

@@ -66,19 +66,22 @@ class Petrovich
     end
 
     module ClassMethods
-      def petrovich(options)
-        class_eval do
-          class << self
-            attr_accessor :petrovich_configuration
-          end
-        end
-
-        self.petrovich_configuration = {
+      def petrovich_configuration
+        @petrovich_configuration ||= {
           :lastname   => nil,
           :firstname  => nil,
           :middlename => nil,
           :gender     => nil
-        }.merge(options)
+        }
+      end
+
+      def petrovich(options)
+        self.petrovich_configuration.update(options)
+      end
+
+      def inherited(subclass)
+        subclass.petrovich_configuration.update(self.petrovich_configuration)
+        super
       end
     end
 
