@@ -74,14 +74,14 @@ task :evaluate => :petrovich do
   end
 
   total.each do |(gender, gcase), correct_count|
-    precision = correct[[gender, gcase]] / correct_count.to_f * 100
-    puts "\tPr(%s|%s) = %.4f%%" % [gcase, gender, precision]
+    accuracy = correct[[gender, gcase]] / correct_count.to_f * 100
+    puts "\tAc(%s|%s) = %.4f%%" % [gcase, gender, accuracy]
   end
 
   correct_size = correct.values.inject(&:+)
   total_size = total.values.inject(&:+)
 
-  puts 'Well, the precision on %d examples is about %.4f%%.' %
+  puts 'Well, the accuracy on %d examples is about %.4f%%.' %
     [total_size, (correct_size / total_size.to_f * 100)]
 
   puts 'Sum of the %d correct examples and %d mistakes is %d.' %
