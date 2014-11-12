@@ -10,6 +10,8 @@ class Petrovich
 
   # Набор методов для нахождения и применения правил к имени, фамилии и отчеству.
   class Rules
+    include Petrovich::Unicode
+
     attr_reader :gender
 
     Matchers = [
@@ -133,7 +135,7 @@ class Petrovich
 
     # Найти подходящее правило в конкретном списке правил
     def find(name, gcase, scase, rules, match_whole_word, tags)
-      name = UnicodeUtils.downcase(name)
+      name = downcase(name)
       first =
       rules.map do| rule |
         score = match?(name, gcase, scase, rule, match_whole_word, tags)

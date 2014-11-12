@@ -1,6 +1,11 @@
 # encoding: utf-8
 
 require 'csv'
+require 'petrovich/unicode'
+
+class Object
+  include Petrovich::Unicode
+end
 
 CASES = [
   :nominative,
@@ -13,7 +18,7 @@ CASES = [
 
 def check!(errors, correct, total, lemma, gender, gcase, expected)
   inflector = Petrovich.new(gender)
-  inflection = UnicodeUtils.upcase(inflector.lastname(lemma, gcase))
+  inflection = upcase(inflector.lastname(lemma, gcase))
 
   total[[gender, gcase]] += 1
 

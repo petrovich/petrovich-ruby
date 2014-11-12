@@ -1,14 +1,14 @@
 # encoding: utf-8
 require 'yaml'
-require 'unicode_utils'
+require 'petrovich/unicode'
 require 'petrovich/rules'
 require 'petrovich/extension'
 
 # Склонение падежей русских имён фамилий и отчеств. Вы задаёте начальное имя в именительном падеже,
 # а получаете в нужном вам.
-# 
+#
 # Использование
-# 
+#
 #   # Склонение в дательном падеже
 #   rn = Petrovich.new
 #   puts rn.firstname('Иван', :dative)       # => Ивану
@@ -67,6 +67,8 @@ class Petrovich
   end
 
   class << self
+    include Petrovich::Unicode
+
     # Определение пола по отчеству
     #
     #   detect_gender('Алексеевич') # => male
@@ -76,7 +78,7 @@ class Petrovich
     #   detect_gender('блаблабла') # => androgynous
     #
     def detect_gender(midname)
-      case UnicodeUtils.downcase(midname[-2, 2])
+      case downcase(midname[-2, 2])
         when /ич|ыч/
           'male'
         when 'на'

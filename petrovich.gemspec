@@ -4,7 +4,7 @@ $:.push File.expand_path("../lib", __FILE__)
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "petrovich"
-  s.version     = "0.1.5"
+  s.version     = "0.2.0"
   s.authors     = ["Andrew Kozloff", "Dmitry Ustalov"]
   s.email       = ["demerest@gmail.com", "dmitry@eveel.ru"]
   s.homepage    = "https://github.com/petrovich/petrovich-ruby"
@@ -15,6 +15,5 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 1.9.1"
   s.files = Dir["{lib}/**/*"] + ["rules/rules.yml"] + ["MIT-LICENSE", "Rakefile", "README.md"]
 
-  s.add_dependency "unicode_utils", "~> 1.4"
   s.add_development_dependency "minitest"
 end
