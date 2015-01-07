@@ -4,7 +4,7 @@ $:.push File.expand_path("../lib", __FILE__)
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "petrovich"
-  s.version     = "0.2.0"
+  s.version     = "0.2.1"
   s.authors     = ["Andrew Kozloff", "Dmitry Ustalov"]
   s.email       = ["demerest@gmail.com", "dmitry@eveel.ru"]
   s.homepage    = "https://github.com/petrovich/petrovich-ruby"
