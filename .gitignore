@@ -15,11 +15,11 @@ doc/
 lib/bundler/man
 pkg
 rdoc
-spec/reports
-spec/data/*.txt
-spec/data/male_surnames_spec.rb
-spec/data/female_surnames_spec.rb
-spec/data/generator.rb
+test/reports
+test/data/*.txt
+test/data/male_surnames_spec.rb
+test/data/female_surnames_spec.rb
+test/data/generator.rb
 test/tmp
 test/version_tmp
 tmp

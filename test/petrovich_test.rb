@@ -1,7 +1,86 @@
 # encoding: utf-8
+require_relative 'test_helper'
 
-require 'spec_helper'
+describe Petrovich do
+  it 'inflects firstname' do
+    firstname = Petrovich(
+      firstname: 'Саша',
+      gender: 'male'
+    ).dative.firstname
 
+    assert_equal 'Саше', firstname
+  end
+
+  it 'inflects lastname' do
+    lastname = Petrovich(
+      lastname: 'Воробей',
+      gender: 'male'
+    ).dative.lastname
+
+    assert_equal 'Воробью', lastname
+  end
+end
+
+=begin
+puts Petrovich(
+  firstname: 'Саша',
+  lastname: 'Воробей',
+  gender: 'male'
+).gender.inspect#.firstname.to_s # => Саше
+
+
+Petrovich(
+  firstname: 'Саша',
+  lastname: 'Осипенко'
+  gender: 'male'
+).dative.to_s # => Осипенко Саше
+
+Petrovich(
+  firstname: 'Саша',
+  lastname: 'Осипенко'
+  gender: 'male'
+).dative.firstname # => Саше
+
+Petrovich(
+  firstname: 'Саша',
+  lastname: 'Осипенко'
+  gender: 'male'
+).dative? # => false
+
+Petrovich(
+  firstname: 'Иван',
+  middlename: 'Иванович',
+  lastname: 'Иванов'
+).male? # => true
+
+Petrovich(
+  firstname: 'Иван',
+  middlename: 'Иванович',
+  lastname: 'Иванов'
+).gender # => 'male'
+
+Petrovich(
+  firstname: 'Иван',
+  middlename: 'Иванович',
+  lastname: 'Иванов'
+).dative.matched_rule # => Object
+
+Petrovich(
+  firstname: 'Иван',
+  middlename: 'Иванович',
+  lastname: 'Иванов'
+).firstname # => Иван
+
+Petrovich('Иван Иванович Иванов').dative.middlename # => Ивановичу
+
+Petrovich.scan do |petrovich|
+  name = [petrovich.lastname, petrovich.firstname, petrovich.middlename].join(' ')
+
+  "<a href='#'>#{name}</a>"
+end
+=end
+
+=begin
 describe Petrovich do
   it 'have no gender' do
     assert_equal '', Petrovich.new.gender
@@ -57,3 +136,4 @@ describe Petrovich do
     end
   end
 end
+=end
