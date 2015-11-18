@@ -16,11 +16,11 @@ module Petrovich
       "\u0451" # Ё
     ].join
 
-    def downcase(entry)
+    def self.downcase(entry)
       entry.to_s.tr(RU_UPPER, RU_LOWER)
     end
 
-    def upcase(entry)
+    def self.upcase(entry)
       entry.to_s.tr(RU_LOWER, RU_UPPER)
     end
   end

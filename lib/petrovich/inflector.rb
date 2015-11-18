@@ -6,19 +6,29 @@ module Petrovich
       @name_case = name_case
     end
 
-    def inflect_lastname(rule)
-      modifier = rule.get_modifier(@name_case)
-      @name.lastname.slice(0, @name.lastname.size - modifier.offset) + modifier.suffix
+    def inflect_lastname(rules)
+      inflect(@name.lastname, rules)
     end
 
-    def inflect_firstname(rule)
-      modifier = rule.get_modifier(@name_case)
-      @name.firstname.slice(0, @name.firstname.size - modifier.offset) + modifier.suffix
+    def inflect_firstname(rules)
+      inflect(@name.firstname, rules)
     end
 
-    def inflect_middlename(rule)
-      modifier = rule.get_modifier(@name_case)
-      @name.middlename.slice(0, @name.middlename.size - modifier.offset) + modifier.suffix
+    def inflect_middlename(rules)
+      inflect(@name.middlename, rules)
+    end
+
+    protected
+
+    def inflect(name, rules)
+      parts = name.split('-')
+      parts.map! do |part|
+        rule = rules.shift
+        modifier = rule.get_modifier(@name_case)
+        part.slice(0, part.size - modifier.offset) + modifier.suffix
+      end
+
+      parts.join('-')
     end
   end
 end

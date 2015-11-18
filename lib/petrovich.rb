@@ -28,7 +28,6 @@ module Petrovich
     CASE_NOMINATIVE, CASE_GENITIVE, CASE_DATIVE,
     CASE_ACCUSATIVE, CASE_INSTRUMENTAL, CASE_PREPOSITIONAL
   ]
-  #RULES = YAML.load_file(File.expand_path('../../../rules/rules.yml', __FILE__))
 
   UnknownCaseError = Class.new(StandardError)
   UnknownRuleError = Class.new(StandardError)
@@ -47,27 +46,19 @@ module Petrovich
   end
 
   def self.inflect(name, gender, name_case)
-    if name.lastname == 'Воробей'
-      name.lastname = 'Воробью'
-    end
-
-    if name.firstname == 'Саша'
-      name.firstname = 'Саше'
-    end
-
     inflector = Inflector.new(name, gender, name_case)
 
-    name.lastname = inflector.inflect_lastname(
-      @@rule_set.find(name.lastname, :lastname)
-    ) unless name.lastname.nil?
+    if !name.lastname.nil? && (rules = @@rule_set.find_all(name.lastname, gender, :lastname))
+      name.lastname = inflector.inflect_lastname(rules)
+    end
 
-    name.firstname = inflector.inflect_firstname(
-      @@rule_set.find(name.firstname, :firstname)
-    ) unless name.firstname.nil?
+    if !name.firstname.nil? && (rules = @@rule_set.find_all(name.firstname, gender, :firstname))
+      name.firstname = inflector.inflect_firstname(rules)
+    end
 
-    name.middlename = inflector.inflect_middlename(
-      @@rule_set.find(name.middlename, :middlename)
-    ) unless name.middlename.nil?
+    if !name.middlename.nil? && (rules = @@rule_set.find_all(name.middlename, gender, :middlename))
+      name.middlename = inflector.inflect_middlename(rules)
+    end
 
     name
   end

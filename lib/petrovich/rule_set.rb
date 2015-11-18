@@ -13,13 +13,10 @@ module Petrovich
       @rules << rule
     end
 
-    # Найти правило для указанного имени
-    def find(name, as)
-      @rules.each do |rule|
-        return rule if rule.match?(name, as)
-      end
-
-      nil
+    # Для двойных имен, фамилий или отчеств нужно найти несколько правил,
+    # чтобы использовать их для каждой части имени соответственно
+    def find_all(name, gender, as)
+      name.split('-').map { |part| find(part, gender, as) }
     end
 
     def clear!
@@ -48,9 +45,14 @@ module Petrovich
 
     protected
 
-    def load_entry(as, type, entry)
+    # Найти правило для указанного имени
+    def find(name, gender, as)
+      @rules.find { |rule| rule.match?(name, gender, as) }
+    end
+
+    def load_entry(as, section, entry)
       modifiers = entry['mods'].map do |mod|
-        suffix = mod.scan(/[^.-]/).first
+        suffix = mod.scan(/[^.-]+/).first
         offset = mod.count('-')
         Petrovich::Rule::Modifier.new(suffix, mod.count('-'))
       end
@@ -62,7 +64,7 @@ module Petrovich
       add Petrovich::Rule.new(
         gender: entry['gender'],
         as: as,
-        type: type,
+        section: section,
         modifiers: modifiers,
         tests: tests,
         tags: entry['tags']

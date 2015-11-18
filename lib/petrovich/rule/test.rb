@@ -1,14 +1,16 @@
 module Petrovich
   # Тест правила
   class Rule::Test
-    attr_accessor :suffix
+    attr_reader :suffix
 
     def initialize(suffix)
-      @suffix = suffix
+      @suffix = Unicode.downcase(suffix)
     end
 
-    def match?(value)
-      raise "Not implemented"
+    def match?(name)
+      name = Unicode.downcase(name)
+      #puts [suffix, name.slice([name.size - suffix.size, 0].max .. -1)].inspect
+      suffix == name.slice([name.size - suffix.size, 0].max .. -1)
     end
 
     def inspect

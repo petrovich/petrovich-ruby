@@ -11,14 +11,69 @@ describe Petrovich do
     assert_equal 'Саше', firstname
   end
 
+  #it 'inflects lastname' do
+  #  lastname = Petrovich(
+  #    lastname: 'Воробей',
+  #    gender: 'male'
+  #  ).dative.lastname
+
+  #  assert_equal 'Воробью', lastname
+  #end
+
   it 'inflects lastname' do
     lastname = Petrovich(
-      lastname: 'Воробей',
+      lastname: 'Козлов',
       gender: 'male'
     ).dative.lastname
 
-    assert_equal 'Воробью', lastname
+    assert_equal 'Козлову', lastname
   end
+
+  it 'inflects lastname' do
+    lastname = Petrovich(
+      lastname: 'Салтыков-Щедрин',
+      gender: 'male'
+    ).dative.lastname
+
+    assert_equal 'Салтыкову-Щедрину', lastname
+  end
+
+  it 'inflects lastname' do
+    lastname = Petrovich(
+      lastname: 'Дюма',
+      gender: 'male'
+    ).dative.lastname
+
+    assert_equal 'Дюма', lastname
+  end
+
+  it 'inflects firstname' do
+    firstname = Petrovich(
+      firstname: 'Анна-Мария',
+      gender: 'female'
+    ).dative.firstname
+
+    assert_equal 'Анне-Марии', firstname
+  end
+
+  it 'inflects middlename' do
+    middlename = Petrovich(
+      middlename: 'Борух-Бендитовна',
+      gender: 'female'
+    ).dative.middlename
+
+    assert_equal 'Борух-Бендитовне', middlename
+  end
+
+  it 'inflects middlename' do
+    middlename = Petrovich(
+      middlename: 'Георгиевна-Авраамовна',
+      gender: 'female'
+    ).dative.middlename
+
+    assert_equal 'Георгиевне-Авраамовне', middlename
+  end
+
 end
 
 =begin

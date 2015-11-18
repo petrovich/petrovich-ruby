@@ -5,28 +5,35 @@ module Petrovich
     GENDER_FEMALE = 1
     GENDER_ANDROGYNOUS = 2
 
-    TYPE_SUFFIX = 0
-    TYPE_EXCEPTION = 1
-
     AS_LASTNAME = 0
     AS_FIRSTNAME = 1
     AS_MIDDLENAME = 2
 
-    attr_reader :gender, :modifiers, :tests, :tags, :as, :type
+    attr_reader :gender, :modifiers, :tests, :tags, :as, :an_exception
 
     def initialize(opts)
-      @gender = opts[:gender]
+      @gender = process_gender(opts[:gender])
+      @as = process_as(opts[:as])
+      @an_exception = process_an_exception(opts[:section])
       @modifiers = opts[:modifiers]
       @tests = opts[:tests]
       @tags = []
-
-      set_gender(opts[:gender])
-      set_as(opts[:as])
-      set_type(opts[:type])
     end
 
-    def match?(name, as)
-      true
+    def match?(name, match_gender, match_as)
+      return false unless process_as(match_as) == as
+
+      match_gender = process_gender(match_gender)
+
+      return false if gender == GENDER_MALE && match_gender == GENDER_FEMALE
+      return false if gender == GENDER_FEMALE && match_gender != GENDER_FEMALE
+
+      tests.detect { |test| test.match?(name) }
+    end
+
+    # Является ли данное правило исключением?
+    def an_exception?
+      an_exception == true
     end
 
     def get_modifier(name_case)
@@ -50,41 +57,34 @@ module Petrovich
 
     private
 
-    def set_gender(value)
-      @gender = case value.to_s.downcase
-      when 'male'.freeze, 'm'.freeze, GENDER_MALE
+    def process_gender(value)
+      case value.to_s.downcase
+      when 'male', 'm', GENDER_MALE
         GENDER_MALE
-      when 'female'.freeze, 'f'.freeze, GENDER_FEMALE
+      when 'female', 'f', GENDER_FEMALE
         GENDER_FEMALE
-      when 'androgynous'.freeze, 'a'.freeze, GENDER_ANDROGYNOUS
+      when 'androgynous', 'a', GENDER_ANDROGYNOUS
         GENDER_ANDROGYNOUS
       else
         raise ArgumentError, "Unknown gender #{value}"
       end
     end
 
-    def set_as(value)
-      @as = case value
-      when :lastname,
+    def process_as(value)
+      case value
+      when :lastname
         AS_LASTNAME
-      when :firstname,
+      when :firstname
         AS_FIRSTNAME
-      when :middlename,
+      when :middlename
         AS_MIDDLENAME
       else
         raise ArgumentError, "Unknown 'as' option #{value}"
       end
     end
 
-    def set_type(value)
-      @type = case value
-      when :exceptions,
-        TYPE_EXCEPTION
-      when :suffixes
-        TYPE_SUFFIX
-      else
-        raise ArgumentError, "Unknown 'type' option #{value}"
-      end
+    def process_an_exception(value)
+      value == :exceptions
     end
   end
 end
