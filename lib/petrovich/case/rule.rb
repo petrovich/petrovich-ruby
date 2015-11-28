@@ -35,17 +35,17 @@ module Petrovich
 
       def get_modifier(name_case)
         case name_case.to_sym
-        when CASE_NOMINATIVE
+        when :nominative
           nil
-        when CASE_GENITIVE
+        when :genitive
           modifiers[0]
-        when CASE_DATIVE
+        when :dative
           modifiers[1]
-        when CASE_ACCUSATIVE
+        when :accusative
           modifiers[2]
-        when CASE_INSTRUMENTAL
+        when :instrumental
           modifiers[3]
-        when CASE_PREPOSITIONAL
+        when :prepositional
           modifiers[4]
         else
           raise UnknownCaseError, "Unknown grammatic case: #{name_case}".freeze

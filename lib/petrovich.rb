@@ -13,44 +13,47 @@ require 'petrovich/case/rule/test'
 require 'petrovich/gender/rule'
 
 module Petrovich
+  CASES = [
+    :nominative,   # именительный
+    :genitive,     # родительный
+    :dative,       # дательный
+    :accusative,   # винительный
+    :instrumental, # творительный
+    :prepositional # предложный
+  ]
+
   class << self
     # A set of rules
     attr_accessor :rule_set
-  end
 
-  CASE_NOMINATIVE    = :nominative    # именительный
-  CASE_GENITIVE      = :genitive      # родительный
-  CASE_DATIVE        = :dative        # дательный
-  CASE_ACCUSATIVE    = :accusative    # винительный
-  CASE_INSTRUMENTAL  = :instrumental  # творительный
-  CASE_PREPOSITIONAL = :prepositional # предложный
-
-  CASES = [
-    CASE_NOMINATIVE, CASE_GENITIVE, CASE_DATIVE,
-    CASE_ACCUSATIVE, CASE_INSTRUMENTAL, CASE_PREPOSITIONAL
-  ]
-
-  def self.assert_name!(name)
-    unless name.respond_to?(:lastname) || name.respond_to?(:firstname) || name.respond_to?(:middlename)
-      raise ArgumentError, "You should pass at least one of :lastname, :firstname or :middlename keys".freeze
-    end
-  end
-
-  def self.normalize_name(name)
-    name = OpenStruct.new(name) if name.is_a?(Hash)
-
-    [:lastname, :firstname, :middlename].each do |name_part|
-      if name.respond_to?(name_part) && name.send(name_part).nil?
-        name.delete_field(name_part)
+    def assert_name!(name)
+      unless name.respond_to?(:lastname) || name.respond_to?(:firstname) || name.respond_to?(:middlename)
+        raise ArgumentError, "You should pass at least one of :lastname, :firstname or :middlename keys".freeze
       end
     end
 
-    name
-  end
+    def assert_case!(name_case)
+      unless CASES.include?(name_case)
+        raise ArgumentError, "Unknown case #{name_case}"
+      end
+    end
 
-  def self.load_rules!
-    self.rule_set ||= RuleSet.new
-    self.rule_set.load!
+    def normalize_name(name)
+      name = OpenStruct.new(name) if name.is_a?(Hash)
+
+      [:lastname, :firstname, :middlename].each do |name_part|
+        if name.respond_to?(name_part) && name.send(name_part).nil?
+          name.delete_field(name_part)
+        end
+      end
+
+      name
+    end
+
+    def load_rules!
+      self.rule_set ||= RuleSet.new
+      self.rule_set.load!
+    end
   end
 
   load_rules!

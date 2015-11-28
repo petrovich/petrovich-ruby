@@ -37,6 +37,7 @@ module Petrovich
     end
 
     def to(name_case)
+      Petrovich.assert_case!(name_case)
       Inflected.new(inflect(@name.dup, @gender, name_case))
     end
 
