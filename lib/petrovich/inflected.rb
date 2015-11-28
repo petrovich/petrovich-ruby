@@ -1,20 +1,14 @@
 module Petrovich
   # Keeps inflected @name
   class Inflected
+    extend Forwardable
+
+    def_delegator :@name, :lastname, :lastname
+    def_delegator :@name, :firstname, :firstname
+    def_delegator :@name, :middlename, :middlename
+
     def initialize(name)
       @name = name
-    end
-
-    def lastname
-      @name.lastname
-    end
-
-    def firstname
-      @name.firstname
-    end
-
-    def middlename
-      @name.middlename
     end
 
     def to_s

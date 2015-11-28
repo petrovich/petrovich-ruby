@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'ostruct'
+require 'forwardable'
 require 'yaml'
 require 'petrovich/inflector'
 require 'petrovich/inflected'

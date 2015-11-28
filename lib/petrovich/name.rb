@@ -1,5 +1,3 @@
-require 'forwardable'
-
 module Petrovich
   class Name
     extend Forwardable
