@@ -2,6 +2,15 @@
 require_relative 'test_helper'
 
 describe Petrovich do
+  it 'have inflect method' do
+    firstname = Petrovich(
+      firstname: 'Саша',
+      gender: 'male'
+    ).to(:dative).firstname
+
+    assert_equal 'Саше', firstname
+  end
+
   it 'inflects firstname 1' do
     firstname = Petrovich(
       firstname: 'Саша',

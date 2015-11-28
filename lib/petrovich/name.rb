@@ -36,13 +36,17 @@ module Petrovich
       Gender.detect(@name) == :androgynous
     end
 
+    def to(name_case)
+      Inflected.new(inflect(@name.dup, @gender, name_case))
+    end
+
     def to_s
       [lastname, firstname, middlename].join(' ')
     end
 
     Petrovich::CASES.each do |name_case|
       define_method name_case do
-        Inflected.new(inflect(@name.dup, @gender, name_case))
+        to(name_case)
       end
     end
 
@@ -50,16 +54,17 @@ module Petrovich
 
     def inflect(name, gender, name_case)
       inflector = Inflector.new(name, gender, name_case)
+      find = -> (x) { @rule_set.find_all_case_rules(name.send(x), gender, x) }
 
-      if !name.lastname.nil? && (rules = @rule_set.find_all_case_rules(name.lastname, gender, :lastname))
+      if !name.lastname.nil? && (rules = find.call(:lastname))
         name.lastname = inflector.inflect_lastname(rules)
       end
 
-      if !name.firstname.nil? && (rules = @rule_set.find_all_case_rules(name.firstname, gender, :firstname))
+      if !name.firstname.nil? && (rules = find.call(:firstname))
         name.firstname = inflector.inflect_firstname(rules)
       end
 
-      if !name.middlename.nil? && (rules = @rule_set.find_all_case_rules(name.middlename, gender, :middlename))
+      if !name.middlename.nil? && (rules = find.call(:middlename))
         name.middlename = inflector.inflect_middlename(rules)
       end
 
