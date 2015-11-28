@@ -2,7 +2,7 @@
 require_relative 'test_helper'
 
 describe Petrovich do
-  it 'inflects firstname' do
+  it 'inflects firstname 1' do
     firstname = Petrovich(
       firstname: 'Саша',
       gender: 'male'
@@ -11,16 +11,16 @@ describe Petrovich do
     assert_equal 'Саше', firstname
   end
 
-  #it 'inflects lastname' do
-  #  lastname = Petrovich(
-  #    lastname: 'Воробей',
-  #    gender: 'male'
-  #  ).dative.lastname
+  it 'inflects lastname 1' do
+    lastname = Petrovich(
+      lastname: 'Кочубей',
+      gender: 'male'
+    ).dative.lastname
 
-  #  assert_equal 'Воробью', lastname
-  #end
+    assert_equal 'Кочубею', lastname
+  end
 
-  it 'inflects lastname' do
+  it 'inflects lastname 2' do
     lastname = Petrovich(
       lastname: 'Козлов',
       gender: 'male'
@@ -29,7 +29,7 @@ describe Petrovich do
     assert_equal 'Козлову', lastname
   end
 
-  it 'inflects lastname' do
+  it 'inflects lastname 3' do
     lastname = Petrovich(
       lastname: 'Салтыков-Щедрин',
       gender: 'male'
@@ -38,7 +38,7 @@ describe Petrovich do
     assert_equal 'Салтыкову-Щедрину', lastname
   end
 
-  it 'inflects lastname' do
+  it 'inflects lastname 4' do
     lastname = Petrovich(
       lastname: 'Дюма',
       gender: 'male'
@@ -47,7 +47,25 @@ describe Petrovich do
     assert_equal 'Дюма', lastname
   end
 
-  it 'inflects firstname' do
+  it 'inflects lastname 5' do
+    lastname = Petrovich(
+      lastname: 'Воробей',
+      gender: 'male'
+    ).dative.lastname
+
+    assert_equal 'Воробью', lastname
+  end
+
+  it 'inflects lastname 6' do
+    lastname = Petrovich(
+      lastname: 'Воробей',
+      gender: 'female'
+    ).dative.lastname
+
+    assert_equal 'Воробей', lastname
+  end
+
+  it 'inflects firstname 2' do
     firstname = Petrovich(
       firstname: 'Анна-Мария',
       gender: 'female'
@@ -56,7 +74,7 @@ describe Petrovich do
     assert_equal 'Анне-Марии', firstname
   end
 
-  it 'inflects middlename' do
+  it 'inflects middlename 1' do
     middlename = Petrovich(
       middlename: 'Борух-Бендитовна',
       gender: 'female'
@@ -65,7 +83,7 @@ describe Petrovich do
     assert_equal 'Борух-Бендитовне', middlename
   end
 
-  it 'inflects middlename' do
+  it 'inflects middlename 2' do
     middlename = Petrovich(
       middlename: 'Георгиевна-Авраамовна',
       gender: 'female'
@@ -74,121 +92,77 @@ describe Petrovich do
     assert_equal 'Георгиевне-Авраамовне', middlename
   end
 
-end
+  it 'inflects lastname 2' do
+    lastname = Petrovich(
+      firstname: 'Иван',
+      lastname: 'Плевако',
+      gender: 'male'
+    ).dative.lastname
 
-=begin
-puts Petrovich(
-  firstname: 'Саша',
-  lastname: 'Воробей',
-  gender: 'male'
-).gender.inspect#.firstname.to_s # => Саше
-
-
-Petrovich(
-  firstname: 'Саша',
-  lastname: 'Осипенко'
-  gender: 'male'
-).dative.to_s # => Осипенко Саше
-
-Petrovich(
-  firstname: 'Саша',
-  lastname: 'Осипенко'
-  gender: 'male'
-).dative.firstname # => Саше
-
-Petrovich(
-  firstname: 'Саша',
-  lastname: 'Осипенко'
-  gender: 'male'
-).dative? # => false
-
-Petrovich(
-  firstname: 'Иван',
-  middlename: 'Иванович',
-  lastname: 'Иванов'
-).male? # => true
-
-Petrovich(
-  firstname: 'Иван',
-  middlename: 'Иванович',
-  lastname: 'Иванов'
-).gender # => 'male'
-
-Petrovich(
-  firstname: 'Иван',
-  middlename: 'Иванович',
-  lastname: 'Иванов'
-).dative.matched_rule # => Object
-
-Petrovich(
-  firstname: 'Иван',
-  middlename: 'Иванович',
-  lastname: 'Иванов'
-).firstname # => Иван
-
-Petrovich('Иван Иванович Иванов').dative.middlename # => Ивановичу
-
-Petrovich.scan do |petrovich|
-  name = [petrovich.lastname, petrovich.firstname, petrovich.middlename].join(' ')
-
-  "<a href='#'>#{name}</a>"
-end
-=end
-
-=begin
-describe Petrovich do
-  it 'have no gender' do
-    assert_equal '', Petrovich.new.gender
+    assert_equal 'Плевако', lastname
   end
 
-  it 'have male gender' do
-    assert_equal 'male', Petrovich.new(:male).gender
-  end
+  # Gender
+  it 'is androgynous gender' do
+    p = Petrovich(
+      firstname: 'Саша',
+      lastname: 'Андрейчук'
+    )
 
-  it 'have female gender' do
-    assert_equal 'female', Petrovich.new(:female).gender
+    assert_equal true, p.androgynous?
   end
 
   it 'detects male gender' do
-    assert_equal 'male', Petrovich.detect_gender('Петрович')
+    p = Petrovich(
+      firstname: 'Александр',
+      lastname: 'Андрейчук'
+    )
+
+    assert_equal true, p.male?
   end
-  
+
   it 'detects female gender' do
-    assert_equal 'female', Petrovich.detect_gender('Петровна')
+    p = Petrovich(
+      firstname: 'Александра',
+      lastname: 'Андрейчук'
+    )
+
+    assert_equal true, p.female?
   end
 
-  it 'cant detects any gender (androgynous)' do
-    assert_equal 'androgynous', Petrovich.detect_gender('Блабла')
+  ###
+
+  it 'is androgynous gender returned by gender()' do
+    p = Petrovich(
+      firstname: 'Саша',
+      lastname: 'Андрейчук'
+    )
+
+    assert_equal true, p.gender == :androgynous
   end
 
-  describe 'name inflection methods' do
-    it 'raises exception on unknown case for firstname' do
-      assert_raises(Petrovich::UnknownCaseException) { Petrovich.new.firstname('Иван', :unknown) }
-    end
+  it 'detects male gender returned by gender()' do
+    p = Petrovich(
+      firstname: 'Александр',
+      lastname: 'Андрейчук'
+    )
 
-    it 'raises exception on unknown case for middlename' do
-      assert_raises(Petrovich::UnknownCaseException) { Petrovich.new.middlename('Петрович', :unknown) }
-    end
-
-    it 'raises exception on unknown case for lastname' do
-      assert_raises(Petrovich::UnknownCaseException) { Petrovich.new.lastname('Ковалёв', :unknown) }
-    end
-
-    it 'respects proper case for firstname' do
-      Petrovich.new.firstname('Иван', :instrumental)
-    end
-
-    it 'respects proper case for middlename' do
-      Petrovich.new.middlename('Петрович', :instrumental)
-    end
-
-    it 'respects proper case for lastname' do
-      Petrovich.new.lastname('Ковалёв', :instrumental)
-    end
-
-    it 'have alias for middlename' do
-      assert_equal 'Петровичем', Petrovich.new.patronymic('Петрович', :instrumental)
-    end
+    assert_equal true, p.gender == :male
   end
+
+  it 'detects female gender returned by gender()' do
+    p = Petrovich(
+      firstname: 'Александра',
+      lastname: 'Андрейчук'
+    )
+
+    assert_equal true, p.gender == :female
+  end
+
+  # Future stuff
+  # Petrovich.scan do |p|
+  #   name = [p.lastname, p.firstname, p.middlename].join(' ')
+  #
+  #   "<a href='#'>#{name}</a>"
+  # end
 end
-=end
