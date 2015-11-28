@@ -2,32 +2,28 @@ module Petrovich
   module Case
     # Правило из списка правил
     class Rule
-      GENDER_MALE = 0
-      GENDER_FEMALE = 1
-      GENDER_ANDROGYNOUS = 2
-
-      AS_LASTNAME = 0
-      AS_FIRSTNAME = 1
-      AS_MIDDLENAME = 2
-
       attr_reader :gender, :modifiers, :tests, :tags, :as, :an_exception
 
       def initialize(opts)
-        @gender = process_gender(opts[:gender])
-        @as = process_as(opts[:as])
-        @an_exception = process_an_exception(opts[:section])
-        @modifiers = opts[:modifiers]
-        @tests = opts[:tests]
-        @tags = []
+        @gender       = opts[:gender].to_sym.downcase
+        @as           = opts[:as]
+        @an_exception = opts[:section] == :exceptions
+        @modifiers    = opts[:modifiers]
+        @tests        = opts[:tests]
+        @tags         = []
+
+        assert_name_part!(@as)
       end
 
       def match?(name, match_gender, match_as)
-        return false unless process_as(match_as) == as
+        assert_name_part!(match_as)
 
-        match_gender = process_gender(match_gender)
+        return false unless match_as == as
 
-        return false if gender == GENDER_MALE && match_gender == GENDER_FEMALE
-        return false if gender == GENDER_FEMALE && match_gender != GENDER_FEMALE
+        match_gender = match_gender.to_sym.downcase
+
+        return false if gender == :male && match_gender == :female
+        return false if gender == :female && match_gender != :female
 
         tests.detect { |test| test.match?(name) }
       end
@@ -42,50 +38,26 @@ module Petrovich
         when CASE_NOMINATIVE
           nil
         when CASE_GENITIVE
-          @modifiers[0]
+          modifiers[0]
         when CASE_DATIVE
-          @modifiers[1]
+          modifiers[1]
         when CASE_ACCUSATIVE
-          @modifiers[2]
+          modifiers[2]
         when CASE_INSTRUMENTAL
-          @modifiers[3]
+          modifiers[3]
         when CASE_PREPOSITIONAL
-          @modifiers[4]
+          modifiers[4]
         else
-          raise UnknownCaseError, "Unknown grammatic case: #{name_case}"
+          raise UnknownCaseError, "Unknown grammatic case: #{name_case}".freeze
         end
       end
 
       private
 
-      def process_gender(value)
-        case value.to_s.downcase
-        when 'male', 'm', GENDER_MALE
-          GENDER_MALE
-        when 'female', 'f', GENDER_FEMALE
-          GENDER_FEMALE
-        when 'androgynous', 'a', GENDER_ANDROGYNOUS
-          GENDER_ANDROGYNOUS
-        else
-          GENDER_MALE
+      def assert_name_part!(name_part)
+        unless [:lastname, :firstname, :middlename].include?(name_part)
+          raise ArgumentError, "Unknown 'as' option #{name_part}".freeze
         end
-      end
-
-      def process_as(value)
-        case value
-        when :lastname
-          AS_LASTNAME
-        when :firstname
-          AS_FIRSTNAME
-        when :middlename
-          AS_MIDDLENAME
-        else
-          raise ArgumentError, "Unknown 'as' option #{value}"
-        end
-      end
-
-      def process_an_exception(value)
-        value == :exceptions
       end
     end
   end

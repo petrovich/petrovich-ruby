@@ -20,7 +20,7 @@ module Petrovich
       inflect(@name.middlename, rules)
     end
 
-    protected
+    private
 
     def inflect(name, rules)
       return name if rules.size == 0

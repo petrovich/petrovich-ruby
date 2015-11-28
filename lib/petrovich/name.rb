@@ -44,10 +44,6 @@ module Petrovich
       define_method name_case do
         Inflected.new(inflect(@name.dup, @gender, name_case))
       end
-
-      define_method "#{name_case}?" do
-        is?(@name, name_case)
-      end
     end
 
     private
@@ -68,10 +64,6 @@ module Petrovich
       end
 
       name
-    end
-
-    def is?(name, name_case)
-      raise "Not implemented #{name_case}? method"
     end
   end
 end

@@ -32,7 +32,7 @@ module Petrovich
 
   def self.assert_name!(name)
     unless name.respond_to?(:lastname) || name.respond_to?(:firstname) || name.respond_to?(:middlename)
-      raise ArgumentError, "You should pass at least one of :lastname, :firstname or :middlename keys"
+      raise ArgumentError, "You should pass at least one of :lastname, :firstname or :middlename keys".freeze
     end
   end
 

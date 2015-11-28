@@ -48,7 +48,7 @@ module Petrovich
       load_gender_rules!(rules)
     end
 
-    protected
+    private
 
     # Load rules for names
     def load_case_rules!(rules)

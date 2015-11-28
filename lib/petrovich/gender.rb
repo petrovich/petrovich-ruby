@@ -27,8 +27,13 @@ module Petrovich
       return genders[:middlename] if genders[:middlename] && genders[:middlename] != :androgynous
 
       if genders.values.uniq.size > 1
-        return genders[:firstname] if genders[:firstname] != :androgynous && genders[:lastname] == :androgynous
-        return genders[:lastname] if genders[:lastname] != :androgynous && genders[:firstname] == :androgynous
+        if genders[:firstname] != :androgynous && genders[:lastname] == :androgynous
+          return genders[:firstname]
+        end
+
+        if genders[:lastname] != :androgynous && genders[:firstname] == :androgynous
+          return genders[:lastname]
+        end
       end
 
       # В противном случает возвращаем то, что определили
