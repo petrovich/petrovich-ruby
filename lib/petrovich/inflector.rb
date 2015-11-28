@@ -1,7 +1,9 @@
 module Petrovich
   class Inflector
     def initialize(name, gender, name_case)
-      @name = name
+      Petrovich.assert_name!(name)
+
+      @name = Petrovich.normalize_name(name)
       @gender = gender
       @name_case = name_case
     end
@@ -21,11 +23,17 @@ module Petrovich
     protected
 
     def inflect(name, rules)
+      return name if rules.size == 0
+
       parts = name.split('-')
       parts.map! do |part|
         rule = rules.shift
-        modifier = rule.get_modifier(@name_case)
-        part.slice(0, part.size - modifier.offset) + modifier.suffix
+
+        if rule && (modifier = rule.get_modifier(@name_case))
+          part.slice(0, part.size - modifier.offset) + modifier.suffix
+        else
+          part
+        end
       end
 
       parts.join('-')

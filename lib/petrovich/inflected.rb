@@ -17,10 +17,6 @@ module Petrovich
       @name.middlename
     end
 
-    def matched_rule
-
-    end
-
     def to_s
       [lastname, firstname, middlename].compact.join(" ")
     end
