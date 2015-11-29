@@ -73,6 +73,36 @@ Petrovich(
 | instrumental   | творительный | Кем?                   |
 | prepositional  | предложный   | О ком?                 |
 
+### Определение пола
+
+Примеры:
+
+```ruby
+Petrovich(
+  lastname: 'Склифасовский'
+).gender # => :male
+
+Petrovich(
+  firstname: 'Александра',
+  lastname: 'Склифасовская'
+).female? # => true
+
+Petrovich(
+  lastname: 'Склифасовский'
+).male? # => true
+
+Petrovich(
+  firstname: 'Саша',
+  lastname: 'Андрейчук'
+).androgynous? # => true
+
+Petrovich(
+  firstname: 'Саша',
+  lastname: 'Андрейчук'
+  gender: :male,
+).male? # => true
+```
+
 ## Модульные тесты
 
 Для запуска тестов достаточно выполнить команду `rake`.
