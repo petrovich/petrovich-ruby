@@ -1,3 +1,45 @@
 #!/usr/bin/env ruby
 
+require 'rubygems'
 require 'petrovich'
+require 'commander/import'
+
+program :version, '1.0.0'
+program :description, 'Automatic inflection of Russian anthroponyms'
+default_command :inflect
+
+command :inflect do |c|
+  c.syntax = 'petrovich inflect [options]'
+  c.description = 'Display inflected name'
+  c.example 'Inflect name', 'petrovich -l Иванов -f Иван -m Иванович -g male -t accusative'
+  c.example 'Display name with gender', 'petrovich -l Иванов -f Иван -m Иванович -t accusative -d'
+  c.example 'Display only gender', 'petrovich -l Иванов -f Иван -m Иванович -t accusative -o'
+  c.option '-l STRING', String, 'Set lastname'
+  c.option '-f STRING', String, 'Set firstname'
+  c.option '-m STRING', String, 'Set middlename'
+  c.option '-g STRING', String, 'Set gender'
+  c.option '-t STRING', String, 'Inflection method (genitive, dative, accusative, instrumental, prepositional.)'
+  c.option '-d', 'Display name with gender in output'
+  c.option '-o', 'Display ONLY gender in output'
+
+  c.action do |args, options|
+    options.default t: :dative
+    options.default d: false
+    options.default o: false
+
+    p = Petrovich(
+      lastname: options.l,
+      firstname: options.f,
+      middlename: options.m,
+      gender: options.g
+    )
+
+    if options.o
+      say p.gender
+    else
+      output = [ p.to(options.t.to_sym).to_s ]
+      output << p.gender if options.d
+      say output.join(", ")
+    end
+  end
+end

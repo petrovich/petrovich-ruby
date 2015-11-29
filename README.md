@@ -25,7 +25,7 @@ gem 'petrovich', '~> 1.0'
 
 ## Зависимости
 
-Для работы гема требуется Ruby не младше версии 1.9.1. Petrovich не
+Для работы гема требуется Ruby не младше версии 1.9.3. Petrovich не
 привязан к Ruby on Rails и может свободно использоваться практически
 в любых приложениях и библиотеках на языке Ruby.
 
@@ -102,6 +102,18 @@ Petrovich(
   gender: :male,
 ).male? # => true
 ```
+
+## CLI
+
+Примеры вызовов:
+
+```bash
+petrovich -l Иванов -f Иван -m Иванович -g male -t accusative
+petrovich -l Иванов -f Иван -m Иванович -t accusative -d
+petrovich -l Иванов -f Иван -m Иванович -t accusative -o
+```
+
+Подробное руководство: `petrovich inflect --help`
 
 ## Модульные тесты
 
