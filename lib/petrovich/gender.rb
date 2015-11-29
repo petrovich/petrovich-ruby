@@ -10,7 +10,7 @@ module Petrovich
       Petrovich.assert_name!(name)
 
       [:lastname, :firstname, :middlename].each do |name_part|
-        if name.respond_to?(name_part)
+        if name.respond_to?(name_part) && name.send(name_part)
           rules = rule_set.find_all_gender_rules(name.send(name_part), name_part)
 
           rules.each do |rule|

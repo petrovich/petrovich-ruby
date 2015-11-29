@@ -9,7 +9,7 @@ module Petrovich
     def initialize(opts)
       @rule_set = Petrovich.rule_set
       @gender = opts[:gender]
-      @name = OpenStruct.new(
+      @name = Petrovich.normalize_name(
         lastname: opts[:lastname],
         firstname: opts[:firstname],
         middlename: opts[:middlename]

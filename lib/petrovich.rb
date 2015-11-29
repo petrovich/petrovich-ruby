@@ -1,7 +1,7 @@
 # encoding: utf-8
-require 'ostruct'
 require 'forwardable'
 require 'yaml'
+require 'petrovich/value'
 require 'petrovich/inflector'
 require 'petrovich/inflected'
 require 'petrovich/gender'
@@ -27,8 +27,12 @@ module Petrovich
     attr_accessor :rule_set
 
     def assert_name!(name)
-      unless name.respond_to?(:lastname) || name.respond_to?(:firstname) || name.respond_to?(:middlename)
-        raise ArgumentError, "You should pass at least one of :lastname, :firstname or :middlename keys".freeze
+      unless name.is_a?(Value)
+        raise ArgumentError, "Passed argument should be Petrovich::Value instace".freeze
+      end
+
+      if [name.lastname, name.firstname, name.middlename].compact.size == 0
+        raise ArgumentError, "You should set at least one of :lastname, :firstname or :middlename".freeze
       end
     end
 
@@ -39,14 +43,7 @@ module Petrovich
     end
 
     def normalize_name(name)
-      name = OpenStruct.new(name) if name.is_a?(Hash)
-
-      [:lastname, :firstname, :middlename].each do |name_part|
-        if name.respond_to?(name_part) && name.send(name_part).nil?
-          name.delete_field(name_part)
-        end
-      end
-
+      name = Value.new(name) if name.is_a?(Hash)
       name
     end
 
