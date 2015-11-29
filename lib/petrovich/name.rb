@@ -55,7 +55,7 @@ module Petrovich
 
     def inflect(name, gender, name_case)
       inflector = Inflector.new(name, gender, name_case)
-      find = -> (x) { @rule_set.find_all_case_rules(name.send(x), gender, x) }
+      find = proc { |x| @rule_set.find_all_case_rules(name.send(x), gender, x) }
 
       if !name.lastname.nil? && (rules = find.call(:lastname))
         name.lastname = inflector.inflect_lastname(rules)
