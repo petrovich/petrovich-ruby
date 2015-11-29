@@ -17,7 +17,7 @@ module Petrovich
     end
 
     def gender
-      if @gender && [:male, :female, :androgynous].include?(@gender.to_sym)
+      if !@gender.nil? && [:male, :female, :androgynous].include?(@gender.to_sym)
         @gender.to_sym
       else
         Gender.detect(@name)
@@ -38,7 +38,7 @@ module Petrovich
 
     def to(name_case)
       Petrovich.assert_case!(name_case)
-      Inflected.new(inflect(@name.dup, @gender, name_case))
+      Inflected.new(inflect(@name.dup, gender, name_case))
     end
 
     def to_s
