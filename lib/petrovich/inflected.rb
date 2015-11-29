@@ -12,7 +12,7 @@ module Petrovich
     end
 
     def to_s
-      [lastname, firstname, middlename].compact.join(" ")
+      [lastname, firstname, middlename].compact.join(' ')
     end
   end
 end

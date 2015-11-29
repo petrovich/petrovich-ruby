@@ -22,7 +22,7 @@ command :inflect do |c|
   c.option '-d', 'Display name with gender in output'
   c.option '-o', 'Display ONLY gender in output'
 
-  c.action do |args, options|
+  c.action do |_, options|
     options.default t: :dative
     options.default d: false
     options.default o: false
@@ -37,9 +37,9 @@ command :inflect do |c|
     if options.o
       say p.gender
     else
-      output = [ p.to(options.t.to_sym).to_s ]
+      output = [p.to(options.t.to_sym).to_s]
       output << p.gender if options.d
-      say output.join(", ")
+      say output.join(', ')
     end
   end
 end

@@ -1,5 +1,7 @@
+require 'yaml'
+
 module Petrovich
-  # Набор загруженных правил из YAML файла
+  # A set of loaded rules from YAML file
   class RuleSet
     def initialize
       clear!
@@ -7,7 +9,7 @@ module Petrovich
 
     def add_case_rule(rule)
       unless rule.is_a?(Case::Rule)
-        raise ArgumentError, "Expecting rule of type Petrovich::Case::Rule".freeze
+        fail ArgumentError, 'Expecting rule of type Petrovich::Case::Rule'.freeze
       end
 
       @case_rules << rule
@@ -15,14 +17,12 @@ module Petrovich
 
     def add_gender_rule(rule)
       unless rule.is_a?(Gender::Rule)
-        raise ArgumentError, "Expecting rule of type Petrovich::Gender::Rule".freeze
+        fail ArgumentError, 'Expecting rule of type Petrovich::Gender::Rule'.freeze
       end
 
       @gender_rules << rule
     end
 
-    # Для двойных имен, фамилий или отчеств нужно найти несколько правил,
-    # чтобы использовать их для каждой части имени соответственно
     def find_all_case_rules(name, gender, as)
       name.split('-').map { |part| find_case_rule(part, gender, as) }
     end
@@ -36,7 +36,6 @@ module Petrovich
       @gender_rules = []
     end
 
-    # Загрузка правил из YAML файла
     def load!
       return false if @case_rules.size > 0
 
@@ -79,7 +78,6 @@ module Petrovich
       end
     end
 
-    # Найти правило для указанного имени
     def find_case_rule(name, gender, as)
       @case_rules.find { |rule| rule.match?(name, gender, as) }
     end
@@ -92,7 +90,7 @@ module Petrovich
       modifiers = entry['mods'].map do |mod|
         suffix = mod.scan(/[^.-]+/).first
         offset = mod.count('-')
-        Petrovich::Case::Rule::Modifier.new(suffix, mod.count('-'))
+        Petrovich::Case::Rule::Modifier.new(suffix, offset)
       end
 
       tests = entry['test'].map do |suffix|

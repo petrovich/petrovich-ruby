@@ -1,5 +1,5 @@
 module Petrovich
-  # Методы определения пола по ФИО
+  # Methods of determining gender by the name
   module Gender
     def self.detect(name)
       # Accept hash and convert it to ostruct object
@@ -10,20 +10,16 @@ module Petrovich
       Petrovich.assert_name!(name)
 
       [:lastname, :firstname, :middlename].each do |name_part|
-        if name.respond_to?(name_part) && name.send(name_part)
-          rules = rule_set.find_all_gender_rules(name.send(name_part), name_part)
+        next unless name.respond_to?(name_part) && name.send(name_part)
 
-          rules.each do |rule|
-            genders[name_part] = if rule.nil?
-              :androgynous
-            else
-              rule.gender
-            end
-          end
+        rules = rule_set.find_all_gender_rules(name.send(name_part), name_part)
+
+        rules.each do |rule|
+          genders[name_part] = rule.nil? ? :androgynous : rule.gender
         end
       end
 
-      # Если указано отчество и определен пол - сразу возвращаем пол
+      # Return gender if middlename is specified and gender is determined.
       return genders[:middlename] if genders[:middlename] && genders[:middlename] != :androgynous
 
       if genders.values.uniq.size > 1
@@ -36,7 +32,7 @@ module Petrovich
         end
       end
 
-      # В противном случает возвращаем то, что определили
+      # Otherwise, it returns what recognized
       return genders.values.uniq.first if genders.values.uniq.size == 1
     end
   end

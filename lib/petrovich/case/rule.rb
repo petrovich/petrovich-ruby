@@ -1,6 +1,6 @@
 module Petrovich
   module Case
-    # Правило из списка правил
+    # A case rule from the set of rules
     class Rule
       attr_reader :gender, :modifiers, :tests, :tags, :as, :an_exception
 
@@ -28,7 +28,7 @@ module Petrovich
         tests.detect { |test| test.match?(name) }
       end
 
-      # Является ли данное правило исключением?
+      # Is this exceptional rule?
       def an_exception?
         an_exception == true
       end
@@ -48,16 +48,15 @@ module Petrovich
         when :prepositional
           modifiers[4]
         else
-          raise UnknownCaseError, "Unknown grammatic case: #{name_case}".freeze
+          fail UnknownCaseError, "Unknown grammatic case: #{name_case}".freeze
         end
       end
 
       private
 
       def assert_name_part!(name_part)
-        unless [:lastname, :firstname, :middlename].include?(name_part)
-          raise ArgumentError, "Unknown 'as' option #{name_part}".freeze
-        end
+        return if [:lastname, :firstname, :middlename].include?(name_part)
+        fail ArgumentError, "Unknown 'as' option #{name_part}".freeze
       end
     end
   end

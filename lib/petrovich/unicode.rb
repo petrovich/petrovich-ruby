@@ -1,4 +1,5 @@
 module Petrovich
+  # Custom downcase and upcase methods for russian language.
   module Unicode
     RU_UPPER = [
       "\u0410", "\u0411", "\u0412", "\u0413", "\u0414", "\u0415", "\u0416", "\u0417",
