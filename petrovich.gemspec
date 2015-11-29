@@ -17,7 +17,6 @@ Gem::Specification.new do |s|
   s.files = Dir["{lib}/**/*"] + ["rules/rules.yml"] + ["MIT-LICENSE", "Rakefile", "README.md"]
 
   s.add_dependency "commander", "4.3.5"
-  s.add_development_dependency "bundler", "~> 1.7"
   s.add_development_dependency "rake", "~> 10.0"
   s.add_development_dependency "minitest"
   s.add_development_dependency "minitest-reporters"
