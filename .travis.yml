@@ -9,3 +9,6 @@ rvm:
 matrix:
   allow_failures:
     - rvm: rbx
+branches:
+  only:
+    - dev-1.0
