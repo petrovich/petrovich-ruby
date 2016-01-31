@@ -1,39 +1,22 @@
 # encoding: utf-8
 
 require 'csv'
-require 'petrovich/unicode'
-
-class Object
-  include Petrovich::Unicode
-end
-
-CASES = [
-  :nominative,
-  :genitive,
-  :dative,
-  :accusative,
-  :instrumental,
-  :prepositional
-]
 
 def check!(errors, correct, total, lemma, gender, gcase, expected)
-  inflector = Petrovich.new(gender)
-  inflection = upcase(inflector.lastname(lemma, gcase))
-
+  actual = Petrovich::Unicode.upcase(Petrovich(lastname: lemma).public_send(gcase).lastname)
   total[[gender, gcase]] += 1
-
-  if inflection == expected
+  if actual == expected
     correct[[gender, gcase]] += 1
     true
   else
-    errors << [lemma, expected, inflection, [gender, gcase]]
-    inflection
+    errors << [lemma, expected, actual, [gender, gcase]]
+    actual
   end
 end
 
-desc 'Evaluate the inflector on surnames'
+desc 'Evaluate the inflector on lastnames'
 task :evaluate => :petrovich do
-  filename = File.expand_path('../../../spec/data/surnames.tsv', __FILE__)
+  filename = File.expand_path('../../../test/data/surnames.tsv', __FILE__)
   errors_filename = ENV['errors'] || 'errors.tsv'
 
   correct, total = Hash.new(0), Hash.new(0)
@@ -58,22 +41,21 @@ task :evaluate => :petrovich do
 
       if grammemes.include? '0'
         # some words are aptotic so we have to ensure that
-        CASES.each do |gcase|
-          check! errors, correct, total, lemma, gender, gcase, word
+        Petrovich::CASES.each do |gcase|
+          check!(errors, correct, total, lemma, gender, gcase, word)
         end
       elsif grammemes.include? 'им'
-        check! errors, correct, total, lemma, gender, :nominative, word
+        check!(errors, correct, total, lemma, gender, :nominative, word)
       elsif grammemes.include? 'рд'
-        check! errors, correct, total, lemma, gender, :genitive, word
+        check!(errors, correct, total, lemma, gender, :genitive, word)
       elsif grammemes.include? 'дт'
-        check! errors, correct, total, lemma, gender, :dative, word
+        check!(errors, correct, total, lemma, gender, :dative, word)
       elsif grammemes.include? 'вн'
-        check! errors, correct, total, lemma, gender, :accusative, word
+        check!(errors, correct, total, lemma, gender, :accusative, word)
       elsif grammemes.include? 'тв'
-        # actually, it's called the instrumetal case
-        check! errors, correct, total, lemma, gender, :instrumental, word
+        check!(errors, correct, total, lemma, gender, :instrumental, word)
       elsif grammemes.include? 'пр'
-        check! errors, correct, total, lemma, gender, :prepositional, word
+        check!(errors, correct, total, lemma, gender, :prepositional, word)
       end
     end
   end

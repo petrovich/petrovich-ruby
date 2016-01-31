@@ -9,3 +9,10 @@ Rake::TestTask.new do |t|
 end
 
 task default: :test
+
+# We need this to avoid loading the library in tasks directly.
+task :petrovich do
+  require 'petrovich'
+end
+
+Dir.glob('lib/tasks/*.rake').each { |r| import r }
