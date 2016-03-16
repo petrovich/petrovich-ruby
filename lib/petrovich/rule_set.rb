@@ -40,7 +40,7 @@ module Petrovich
       return false if @case_rules.size > 0
 
       rules = YAML.load_file(
-        File.expand_path('../../../rules.yml', __FILE__)
+        File.expand_path('../../../rules/rules.yml', __FILE__)
       )
 
       load_case_rules!(rules)
