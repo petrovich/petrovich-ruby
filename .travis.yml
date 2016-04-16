@@ -10,6 +10,6 @@ matrix:
     - rvm: rbx
 branches:
   only:
-    - dev-1.0
+    - master
 before_install:
   - gem install bundler
