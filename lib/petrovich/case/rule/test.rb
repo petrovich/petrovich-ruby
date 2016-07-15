@@ -6,12 +6,11 @@ module Petrovich
         attr_reader :suffix
 
         def initialize(suffix)
-          @suffix = Unicode.downcase(suffix)
+          @suffix = /#{suffix}$/i
         end
 
         def match?(name)
-          name = Unicode.downcase(name)
-          suffix == name.slice([name.size - suffix.size, 0].max..-1)
+          !!name.match(suffix)
         end
 
         def inspect

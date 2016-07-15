@@ -8,14 +8,13 @@ module Petrovich
       def initialize(opts)
         @gender = opts[:gender]
         @as = opts[:as]
-        @suffix = opts[:suffix]
+        @suffix = /#{opts[:suffix]}$/i
       end
 
       def match?(name, match_as)
         return false unless match_as == as
 
-        name = Unicode.downcase(name)
-        @suffix == name.slice([name.size - @suffix.size, 0].max..-1)
+        !!name.match(suffix)
       end
     end
   end
