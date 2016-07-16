@@ -15,4 +15,9 @@ task :petrovich do
   require 'petrovich'
 end
 
+Rake::TestTask.new(:bench) do |test|
+  test.libs << 'test'
+  test.test_files = Dir['test/**/bench_*.rb']
+end
+
 Dir.glob('lib/tasks/*.rake').each { |r| import r }
