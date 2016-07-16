@@ -12,6 +12,8 @@ module Petrovich
         @tests        = opts[:tests]
         @tags         = []
 
+        @tests_regexp = Regexp.union(Array(@tests).map(&:suffix))
+
         assert_name_part!(@as)
       end
 
@@ -25,7 +27,7 @@ module Petrovich
         return false if gender == :male && match_gender == :female
         return false if gender == :female && match_gender != :female
 
-        tests.detect { |test| test.match?(name) }
+        !!name.match(@tests_regexp)
       end
 
       # Is this exceptional rule?
