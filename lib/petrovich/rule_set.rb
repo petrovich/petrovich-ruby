@@ -79,7 +79,8 @@ module Petrovich
     end
 
     def find_case_rule(name, gender, as)
-      @case_rules.find { |rule| rule.match?(name, gender, as) }
+      found_rule = @case_rules.find { |rule| rule.match?(name, gender, as) }
+      found_rule || @case_rules.find { |rule| rule.match?(name, :androgynous, as) }
     end
 
     def find_gender_rule(name, as)

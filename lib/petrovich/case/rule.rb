@@ -24,7 +24,7 @@ module Petrovich
 
         match_gender = match_gender.to_sym.downcase
 
-        return false if gender == :male && match_gender == :female
+        return false if gender != :female && match_gender == :female
         return false if gender == :female && match_gender != :female
 
         !!name.match(@tests_regexp)
