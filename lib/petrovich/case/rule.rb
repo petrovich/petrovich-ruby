@@ -17,15 +17,19 @@ module Petrovich
         assert_name_part!(@as)
       end
 
-      def match?(name, match_gender, match_as)
+      def match?(name, match_gender, match_as, known_gender = false)
         assert_name_part!(match_as)
 
         return false unless match_as == as
 
         match_gender = match_gender.to_sym.downcase
 
-        return false if gender != :female && match_gender == :female
-        return false if gender == :female && match_gender != :female
+        if known_gender
+          return false if match_gender != gender
+        else
+          return false if gender != :female && match_gender == :female
+          return false if gender == :female && match_gender != :female
+        end
 
         !!name.match(@tests_regexp)
       end
