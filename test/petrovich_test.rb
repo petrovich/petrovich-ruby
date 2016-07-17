@@ -168,6 +168,14 @@ describe Petrovich do
     assert_equal true, p.gender == :female
   end
 
+  it 'inflects lastname [ая]' do
+    lastname = Petrovich(
+      lastname: 'Слуцкая',
+    ).dative.lastname
+
+    assert_equal 'Слуцкой', lastname
+  end
+
   # Future stuff
   # Petrovich.scan do |p|
   #   name = [p.lastname, p.firstname, p.middlename].join(' ')
