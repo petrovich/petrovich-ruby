@@ -13,3 +13,5 @@ branches:
     - master
 before_install:
   - gem install bundler
+after_script:
+  - rake evaluate
