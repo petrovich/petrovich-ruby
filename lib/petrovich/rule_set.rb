@@ -23,8 +23,9 @@ module Petrovich
       @gender_rules << rule
     end
 
-    def find_all_case_rules(name, gender, as)
-      name.split('-').map { |part| find_case_rule(part, gender, as) }
+    def find_all_case_rules(name, gender, as, known_gender = false)
+      parts = name.split('-')
+      parts.map.with_index { |part, index| find_case_rule(part, gender, as, (index == parts.count-1) && known_gender) }
     end
 
     def find_all_gender_rules(name, as)
@@ -78,8 +79,8 @@ module Petrovich
       end
     end
 
-    def find_case_rule(name, gender, as)
-      found_rule = @case_rules.find { |rule| rule.match?(name, gender, as) }
+    def find_case_rule(name, gender, as, known_gender = false)
+      found_rule = @case_rules.find { |rule| rule.match?(name, gender, as, known_gender) }
       found_rule || @case_rules.find { |rule| rule.match?(name, :androgynous, as) }
     end
 

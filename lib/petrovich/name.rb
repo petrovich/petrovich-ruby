@@ -17,11 +17,15 @@ module Petrovich
     end
 
     def gender
-      if !@gender.nil? && [:male, :female, :androgynous].include?(@gender.to_sym)
+      if known_gender?
         @gender.to_sym
       else
         Gender.detect(@name)
       end
+    end
+
+    def known_gender?
+      !@gender.nil? && [:male, :female, :androgynous].include?(@gender.to_sym)
     end
 
     def male?
@@ -55,7 +59,8 @@ module Petrovich
 
     def inflect(name, gender, name_case)
       inflector = Inflector.new(name, gender, name_case)
-      find = proc { |x| @rule_set.find_all_case_rules(name.send(x), gender, x) }
+      known_gender = known_gender?
+      find = proc { |x| @rule_set.find_all_case_rules(name.send(x), gender, x, known_gender) }
 
       if !name.lastname.nil? && (rules = find.call(:lastname))
         name.lastname = inflector.inflect_lastname(rules)

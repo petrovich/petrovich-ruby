@@ -3,7 +3,8 @@
 require 'csv'
 
 def check!(errors, correct, total, lemma, gender, gcase, expected)
-  actual = Petrovich::Unicode.upcase(Petrovich(lastname: lemma).public_send(gcase).lastname)
+  petrovich = ENV['USE_GENDER'] ? Petrovich(lastname: lemma, gender: gender) : Petrovich(lastname: lemma)
+  actual = Petrovich::Unicode.upcase(petrovich.public_send(gcase).lastname)
   total[[gender, gcase]] += 1
   if actual == expected
     correct[[gender, gcase]] += 1
