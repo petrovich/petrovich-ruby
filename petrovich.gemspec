@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require_relative 'lib/petrovich/version'
+require File.expand_path('../lib/petrovich/version', __FILE__)
 $:.push File.expand_path('../lib', __FILE__)
 
 Gem::Specification.new do |s|
