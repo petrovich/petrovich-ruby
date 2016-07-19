@@ -5,7 +5,7 @@
 
 Petrovich также позволяет определять пол по имени, фамилии, отчеству.
 
-[![Build Status](https://travis-ci.org/petrovich/petrovich-ruby.svg?branch=dev-1.0)](https://travis-ci.org/petrovich/petrovich-ruby)
+[![Build Status](https://travis-ci.org/petrovich/petrovich-ruby.svg)](https://travis-ci.org/petrovich/petrovich-ruby)
 
 ## Установка
 
