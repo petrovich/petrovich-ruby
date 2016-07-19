@@ -114,7 +114,7 @@ Petrovich(
 
 ```bash
 petrovich -l Иванов -f Иван -m Иванович -g male -c accusative
-petrovich -l Иванов -f Иван -m Иванович -c accusative -d
+petrovich -l Иванов -f Иван -m Иванович -c accusative -n
 petrovich -l Иванов -f Иван -m Иванович -c accusative -o
 ```
 
