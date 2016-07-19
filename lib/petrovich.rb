@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'forwardable'
+require 'petrovich/version'
 require 'petrovich/value'
 require 'petrovich/inflector'
 require 'petrovich/inflected'
@@ -21,6 +22,13 @@ module Petrovich
     :accusative,
     :instrumental,
     :prepositional
+  ]
+
+  # Possible genders
+  GENDERS = [
+    :androgynous,
+    :male,
+    :female
   ]
 
   class << self

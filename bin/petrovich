@@ -1,45 +1,75 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
+require 'ostruct'
+require 'optparse'
+
+if File.exists? File.expand_path('../../.git', __FILE__)
+  $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+end
+
 require 'petrovich'
-require 'commander/import'
 
-program :version, '1.0.0'
-program :description, 'Automatic inflection of Russian anthroponyms'
-default_command :inflect
+options = OpenStruct.new
 
-command :inflect do |c|
-  c.syntax = 'petrovich inflect [options]'
-  c.description = 'Display inflected name'
-  c.example 'Inflect name', 'petrovich -l Иванов -f Иван -m Иванович -g male -t accusative'
-  c.example 'Display name with gender', 'petrovich -l Иванов -f Иван -m Иванович -t accusative -d'
-  c.example 'Display only gender', 'petrovich -l Иванов -f Иван -m Иванович -t accusative -o'
-  c.option '-l STRING', String, 'Set lastname'
-  c.option '-f STRING', String, 'Set firstname'
-  c.option '-m STRING', String, 'Set middlename'
-  c.option '-g STRING', String, 'Set gender'
-  c.option '-t STRING', String, 'Inflection method (genitive, dative, accusative, instrumental, prepositional.)'
-  c.option '-d', 'Display name with gender in output'
-  c.option '-o', 'Display ONLY gender in output'
+optparse = OptionParser.new do |opts|
+  opts.banner = 'Usage: %s [options] command' % $PROGRAM_NAME
 
-  c.action do |_, options|
-    options.default t: :dative
-    options.default d: false
-    options.default o: false
-
-    p = Petrovich(
-      lastname: options.l,
-      firstname: options.f,
-      middlename: options.m,
-      gender: options.g
-    )
-
-    if options.o
-      say p.gender
-    else
-      output = [p.to(options.t.to_sym).to_s]
-      output << p.gender if options.d
-      say output.join(', ')
-    end
+  opts.on '-l', '--lastname [LASTNAME]', 'Last name' do |lastname|
+    options.lastname = lastname
   end
+
+  opts.on '-f', '--firstname [FIRSTNAME]', 'First name' do |firstname|
+    options.firstname = firstname
+  end
+
+  opts.on '-m', '--middlename [MIDDLENAME]', 'Middle name' do |middlename|
+    options.middlename = middlename
+  end
+
+  opts.on '-g', '--gender [GENDER]', Petrovich::GENDERS, 'Gender, if known' do |gender|
+    options.gender = gender
+  end
+
+  opts.on '-c', '--case CASE', Petrovich::CASES, 'Required case' do |rcase|
+    options.case = rcase
+  end
+
+  opts.on_tail '-n', '--name-gender', 'Print the name and the gender' do
+    options.name_and_gender = true
+  end
+
+  opts.on_tail '-o', '--only-gender', 'Print the gender only' do
+    options.gender_only = true
+  end
+
+  opts.on_tail '-h', '--help', 'Just display this help' do
+    puts opts
+    exit
+  end
+
+  opts.on_tail '-v', '--version', 'Just print the version infomation' do
+    puts 'Petrovich %s' % Petrovich::VERSION
+    exit
+  end
+end
+
+optparse.parse!
+
+petrovich = Petrovich(
+  lastname: options.lastname,
+  firstname: options.firstname,
+  middlename: options.middlename,
+  gender: options.gender
+)
+
+if options.gender_only
+  puts petrovich.gender
+  exit
+end
+
+name = petrovich.to(options.case).to_s
+if options.name_and_gender
+  puts "%s\t%s" % [name, petrovich.gender]
+else
+  puts name
 end

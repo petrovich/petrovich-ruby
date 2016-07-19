@@ -68,7 +68,7 @@ module Petrovich
     def load_gender_rules!(rules)
       [:lastname, :firstname, :middlename].each do |name_part|
         # First, add androgynous rules. Order is matters.
-        [:androgynous, :male, :female].each do |section|
+        Petrovich::GENDERS.each do |section|
           entries = rules['gender'][name_part.to_s][section.to_s]
           next if entries.nil?
 

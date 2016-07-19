@@ -25,7 +25,7 @@ module Petrovich
     end
 
     def known_gender?
-      !@gender.nil? && [:male, :female, :androgynous].include?(@gender.to_sym)
+      !@gender.nil? && Petrovich::GENDERS.include?(@gender.to_sym)
     end
 
     def male?

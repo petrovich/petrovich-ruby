@@ -1,10 +1,11 @@
-# -*- encoding: utf-8 -*-
+# encoding: utf-8
+
+require_relative 'lib/petrovich/version'
 $:.push File.expand_path('../lib', __FILE__)
 
-# Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = 'petrovich'
-  s.version     = '1.0.1'
+  s.version     = Petrovich::VERSION
   s.authors     = ['Andrew Kozlov', 'Dmitry Ustalov']
   s.email       = ['demerest@gmail.com', 'dmitry.ustalov@gmail.com']
   s.homepage    = 'https://github.com/petrovich/petrovich-ruby'
@@ -16,7 +17,6 @@ Gem::Specification.new do |s|
   s.executables = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
   s.files = Dir['{lib}/**/*'] + ['rules/rules.yml'] + ['MIT-LICENSE', 'Rakefile', 'README.md']
 
-  s.add_dependency 'commander', '4.3.5'
   s.add_development_dependency 'rake', '~> 10.0'
   s.add_development_dependency 'minitest'
   s.add_development_dependency 'minitest-reporters'
