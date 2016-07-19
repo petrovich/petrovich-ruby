@@ -5,7 +5,12 @@
 
 Petrovich также позволяет определять пол по имени, фамилии, отчеству.
 
-[![Build Status](https://travis-ci.org/petrovich/petrovich-ruby.svg)](https://travis-ci.org/petrovich/petrovich-ruby)
+[![RubyGems][rubygems_badge]][rubygems_link] [![Build Status][travis_ci_badge]][travis_ci_link]
+
+[rubygems_badge]: https://badge.fury.io/rb/petrovich.svg
+[rubygems_link]: https://rubygems.org/gems/petrovich
+[travis_ci_badge]: https://travis-ci.org/petrovich/petrovich-ruby.svg
+[travis_ci_link]: https://travis-ci.org/petrovich/petrovich-ruby
 
 ## Установка
 
