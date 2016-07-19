@@ -103,17 +103,17 @@ Petrovich(
 ).male? # => true
 ```
 
-## CLI
+## Интерфейс командной строки
 
 Примеры вызовов:
 
 ```bash
-petrovich -l Иванов -f Иван -m Иванович -g male -t accusative
-petrovich -l Иванов -f Иван -m Иванович -t accusative -d
-petrovich -l Иванов -f Иван -m Иванович -t accusative -o
+petrovich -l Иванов -f Иван -m Иванович -g male -c accusative
+petrovich -l Иванов -f Иван -m Иванович -c accusative -d
+petrovich -l Иванов -f Иван -m Иванович -c accusative -o
 ```
 
-Подробное руководство: `petrovich inflect --help`
+Подробное руководство: `petrovich --help`.
 
 ## Модульные тесты
 
