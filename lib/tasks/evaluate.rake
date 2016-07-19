@@ -17,7 +17,7 @@ end
 
 desc 'Evaluate the inflector on lastnames'
 task :evaluate => :petrovich do
-  filename = File.expand_path('../../../test/data/surnames.tsv', __FILE__)
+  filename = File.expand_path('../../../eval/surnames.tsv', __FILE__)
   errors_filename = ENV['errors'] || 'errors.tsv'
 
   correct, total = Hash.new(0), Hash.new(0)
