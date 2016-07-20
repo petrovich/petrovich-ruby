@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 1.9.3'
   s.executables = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  s.files = Dir['{lib}/**/*'] + ['rules/rules.yml'] + ['MIT-LICENSE', 'Rakefile', 'README.md']
+  s.files = Dir['{lib}/**/*'] + Dir['rules/*.yml'] + ['MIT-LICENSE', 'Rakefile', 'README.md']
 
   s.add_development_dependency 'rake', '~> 10.0'
   s.add_development_dependency 'minitest'
