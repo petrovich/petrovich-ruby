@@ -1,7 +1,6 @@
 [submodule "rules"]
 	path = rules
 	url = https://github.com/petrovich/petrovich-rules.git
-	branch = v1
 [submodule "eval"]
 	path = eval
 	url = https://github.com/petrovich/petrovich-eval.git
