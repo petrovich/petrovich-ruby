@@ -13,16 +13,10 @@ module Petrovich
         @tags         = []
 
         @tests_regexp = Regexp.union(Array(@tests).map(&:suffix))
-
-        assert_name_part!(@as)
       end
 
       def match?(name, match_gender, match_as, known_gender = false)
-        assert_name_part!(match_as)
-
         return false unless match_as == as
-
-        match_gender = match_gender.to_sym.downcase
 
         if known_gender
           return false if match_gender != gender
@@ -56,13 +50,6 @@ module Petrovich
         else
           fail UnknownCaseError, "Unknown grammatic case: #{name_case}".freeze
         end
-      end
-
-      private
-
-      def assert_name_part!(name_part)
-        return if [:lastname, :firstname, :middlename].include?(name_part)
-        fail ArgumentError, "Unknown 'as' option #{name_part}".freeze
       end
     end
   end
