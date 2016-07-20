@@ -3,7 +3,7 @@
 require 'csv'
 
 def check!(errors, correct, total, lemma, gender, gcase, expected)
-  petrovich = ENV['USE_GENDER'] ? Petrovich(lastname: lemma, gender: gender) : Petrovich(lastname: lemma)
+  petrovich = Petrovich(lastname: lemma, gender: gender)
   actual = Petrovich::Unicode.upcase(petrovich.public_send(gcase).lastname)
   total[[gender, gcase]] += 1
   if actual == expected
@@ -28,7 +28,7 @@ task :evaluate => :petrovich do
   CSV.open(errors_filename, 'w', col_sep: "\t") do |errors|
     errors << %w(lemma expected actual params)
 
-    CSV.open(filename, col_sep: "\t", headers: true).each do |row|
+    CSV.open(filename, "r:BINARY", col_sep: "\t", headers: true).each do |row|
       word = row['word'].force_encoding('UTF-8')
       lemma = row['lemma'].force_encoding('UTF-8')
 
@@ -64,6 +64,52 @@ task :evaluate => :petrovich do
   total.each do |(gender, gcase), correct_count|
     accuracy = correct[[gender, gcase]] / correct_count.to_f * 100
     puts "\tAc(%s|%s) = %.4f%%" % [gcase, gender, accuracy]
+  end
+
+  correct_size = correct.values.inject(&:+)
+  total_size = total.values.inject(&:+)
+
+  puts 'Well, the accuracy on %d examples is about %.4f%%.' %
+    [total_size, (correct_size / total_size.to_f * 100)]
+
+  puts 'Sum of the %d correct examples and %d mistakes is %d.' %
+    [correct_size, total_size - correct_size, total_size]
+end
+
+desc 'Evaluate gender detector'
+task :detect => :petrovich do
+  GENDER_MAP = { 'мр' => :male, 'жр' => :female, 'мр-жр' => :androgynous }
+
+  filename = File.expand_path('../../../eval/surnames.gender.tsv', __FILE__)
+  errors_filename = ENV['errors'] || 'errors.gender.tsv'
+
+  correct, total = Hash.new(0), Hash.new(0)
+
+  puts 'I will evaluate gender detector on "%s" ' \
+       'and store errors to "%s".' % [filename, errors_filename]
+
+  CSV.open(errors_filename, 'w', col_sep: "\t") do |errors|
+    errors << %w(lemma expected actual)
+
+    CSV.open(filename, "r:BINARY", col_sep: "\t", headers: true).each do |row|
+      lemma = row['lemma'].force_encoding('UTF-8')
+      gender_name = row['gender'].force_encoding('UTF-8')
+      expected_gender = GENDER_MAP[gender_name]
+
+      detected_gender = Petrovich(lastname: lemma).gender
+
+      total[expected_gender] += 1
+      if detected_gender == expected_gender
+        correct[expected_gender] += 1
+      else
+        errors << [lemma, expected_gender, detected_gender]
+      end
+    end
+  end
+
+  total.each do |gender, correct_count|
+    accuracy = correct[gender] / correct_count.to_f * 100
+    puts "\tAc(%s) = %.4f%%" % [gender, accuracy]
   end
 
   correct_size = correct.values.inject(&:+)
