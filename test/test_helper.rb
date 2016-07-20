@@ -1,13 +1,14 @@
 # encoding: utf-8
 
+require 'rubygems'
+
+gem 'minitest'
+require 'minitest/autorun'
+
 begin
-  require 'minitest/autorun'
-  require 'minitest/reporters'
-
-  Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
-
   require 'petrovich'
 rescue Errno::ENOENT => e
-  warn 'WARNING! Please, run `git submodule update --init --recursive` to populate petrovich-rules submodule' if e.message.index('rules.yml')
-  raise
+  if e.message.index('rules.yml') || e.message.index('gender.yml')
+    warn 'Please, run `git submodule update --init --recursive` to populate the submodules.'
+  end
 end
