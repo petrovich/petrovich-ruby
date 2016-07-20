@@ -24,4 +24,4 @@ test/tmp
 test/version_tmp
 tmp
 test.html
-errors.tsv
+*.tsv
