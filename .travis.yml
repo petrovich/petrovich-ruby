@@ -17,3 +17,4 @@ before_install:
 script:
   - rake
   - rake evaluate
+  - rake detect
