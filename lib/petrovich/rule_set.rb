@@ -43,9 +43,12 @@ module Petrovich
       rules = YAML.load_file(
         File.expand_path('../../../rules/rules.yml', __FILE__)
       )
+      gender = YAML.load_file(
+        File.expand_path('../../../rules/gender.yml', __FILE__)
+      )
 
       load_case_rules!(rules)
-      load_gender_rules!(rules)
+      load_gender_rules!(gender)
     end
 
     private
