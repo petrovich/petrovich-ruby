@@ -15,14 +15,6 @@ module Petrovich
       @case_rules << rule
     end
 
-    def add_gender_rule(rule)
-      unless rule.is_a?(Gender::Rule)
-        fail ArgumentError, 'Expecting rule of type Petrovich::Gender::Rule'.freeze
-      end
-
-      @gender_rules << rule
-    end
-
     def find_all_case_rules(name, gender, as, known_gender = false)
       parts = name.split('-')
       parts.map.with_index { |part, index| find_case_rule(part, gender, as, (index == parts.count-1) && known_gender) }
@@ -34,7 +26,7 @@ module Petrovich
 
     def clear!
       @case_rules = []
-      @gender_rules = []
+      @gender_rules = {}
     end
 
     def load!
@@ -70,7 +62,6 @@ module Petrovich
     # Load rules for genders
     def load_gender_rules!(rules)
       [:lastname, :firstname, :middlename].each do |name_part|
-        # First, add androgynous rules. Order is matters.
         Petrovich::GENDERS.each do |section|
           entries = rules['gender'][name_part.to_s][section.to_s]
           next if entries.nil?
@@ -80,6 +71,9 @@ module Petrovich
           end
         end
       end
+      @gender_rules.each do |_, gender_rules|
+        gender_rules.sort_by!{ |rule| -rule.accuracy }
+      end
     end
 
     def find_case_rule(name, gender, as, known_gender = false)
@@ -88,7 +82,7 @@ module Petrovich
     end
 
     def find_gender_rule(name, as)
-      @gender_rules.find { |rule| rule.match?(name, as) }
+      @gender_rules[as].find{ |rule| rule.match?(name) }
     end
 
     def load_case_entry(as, section, entry)
@@ -113,11 +107,8 @@ module Petrovich
     end
 
     def load_gender_entry(as, section, entry)
-      add_gender_rule Gender::Rule.new(
-        as: as,
-        gender: section,
-        suffix: entry
-      )
+      @gender_rules[as] ||= []
+      @gender_rules[as] << Gender::Rule.new(as: as, gender: section, suffix: entry)
     end
   end
 end
