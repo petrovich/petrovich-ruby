@@ -185,6 +185,22 @@ describe Petrovich do
     assert_equal 'Штеттеру', lastname
   end
 
+  it 'inflects male lastname' do
+    lastname = Petrovich(
+      lastname: 'Коломиец',
+    ).genitive.lastname
+
+    assert_equal 'Коломийца', lastname
+  end
+
+  it 'inflects male lastname' do
+    lastname = Petrovich(
+      lastname: 'Быхун',
+    ).instrumental.lastname
+
+    assert_equal 'Быхуном', lastname
+  end
+
   # Future stuff
   # Petrovich.scan do |p|
   #   name = [p.lastname, p.firstname, p.middlename].join(' ')
