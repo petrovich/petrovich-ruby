@@ -130,12 +130,15 @@ namespace :evaluate do
         errors << [lemma, expected_gender, detected_gender]
         if detected_gender != :androgynous
           hard_error_count += 1
+          warn " - #{Petrovich::Unicode.downcase(lemma)}"
         end
       end
     end
 
+    puts 'Hard error count: %d.' % [hard_error_count]
+
     PART_INDEX = {:female => 0, :male => 1, :androgynous => 3}
-    errors.sort_by!{ |array| PART_INDEX[array[1]].to_s + array.first.reverse }
+    errors.sort_by!{ |array| array.first.reverse + PART_INDEX[array[1]].to_s }
 
     CSV.open(errors_filename, 'w', col_sep: "\t") do |errors_file|
       errors_file << %w(lemma expected actual)
@@ -157,7 +160,5 @@ namespace :evaluate do
 
     puts 'Sum of the %d correct examples and %d mistakes is %d.' %
       [correct_size, total_size - correct_size, total_size]
-
-    puts 'Hard error count: %d.' % [hard_error_count]
   end
 end

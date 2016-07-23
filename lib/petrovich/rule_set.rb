@@ -27,6 +27,7 @@ module Petrovich
     def clear!
       @case_rules = []
       @gender_rules = {}
+      @gender_exceptions = {}
     end
 
     def load!
@@ -63,11 +64,16 @@ module Petrovich
     def load_gender_rules!(rules)
       [:lastname, :firstname, :middlename].each do |name_part|
         Petrovich::GENDERS.each do |section|
-          entries = rules['gender'][name_part.to_s][section.to_s]
-          next if entries.nil?
-
-          entries.each do |entry|
+          entries = rules['gender'][name_part.to_s]['suffixes'][section.to_s]
+          Array(entries).each do |entry|
             load_gender_entry(name_part, section, entry)
+          end
+
+          exceptions = rules['gender'][name_part.to_s]['exceptions']
+          @gender_exceptions[name_part] ||= {}
+          next if exceptions.nil?
+          Array(exceptions[section.to_s]).each do |exception|
+            @gender_exceptions[name_part][exception] = Gender::Rule.new(as: name_part, gender: section, suffix: exception)
           end
         end
       end
@@ -82,7 +88,7 @@ module Petrovich
     end
 
     def find_gender_rule(name, as)
-      @gender_rules[as].find{ |rule| rule.match?(name) }
+      @gender_exceptions[as][Unicode.downcase(name)] || @gender_rules[as].find{ |rule| rule.match?(name) }
     end
 
     def load_case_entry(as, section, entry)
