@@ -45,39 +45,46 @@ namespace :evaluate do
     puts 'I will evaluate the inflector on "%s" ' \
          'and store errors to "%s".' % [filename, errors_filename]
 
-    CSV.open(errors_filename, 'w', col_sep: "\t") do |errors|
-      errors << %w(lemma expected actual params)
+    errors = []
 
-      CSV.open(filename, "r:BINARY", col_sep: "\t", headers: true).each do |row|
-        word = row['word'].force_encoding('UTF-8')
-        lemma = row['lemma'].force_encoding('UTF-8')
+    CSV.open(filename, "r:BINARY", col_sep: "\t", headers: true).each do |row|
+      word = row['word'].force_encoding('UTF-8')
+      lemma = row['lemma'].force_encoding('UTF-8')
 
-        grammemes = if row['grammemes']
-          row['grammemes'].force_encoding('UTF-8').split(',')
-        else
-          []
+      grammemes = if row['grammemes']
+        row['grammemes'].force_encoding('UTF-8').split(',')
+      else
+        []
+      end
+
+      gender = grammemes.include?('мр') ? :male : :female
+
+      if grammemes.include? '0'
+        # some words are aptotic so we have to ensure that
+        Petrovich::CASES.each do |gcase|
+          check!(errors, correct, total, { namepart_symbol => lemma }, gender, gcase, word)
         end
+      elsif grammemes.include? 'им'
+        check!(errors, correct, total, { namepart_symbol => lemma }, gender, :nominative, word)
+      elsif grammemes.include? 'рд'
+        check!(errors, correct, total, { namepart_symbol => lemma }, gender, :genitive, word)
+      elsif grammemes.include? 'дт'
+        check!(errors, correct, total, { namepart_symbol => lemma }, gender, :dative, word)
+      elsif grammemes.include? 'вн'
+        check!(errors, correct, total, { namepart_symbol => lemma }, gender, :accusative, word)
+      elsif grammemes.include? 'тв'
+        check!(errors, correct, total, { namepart_symbol => lemma }, gender, :instrumental, word)
+      elsif grammemes.include? 'пр'
+        check!(errors, correct, total, { namepart_symbol => lemma }, gender, :prepositional, word)
+      end
+    end
 
-        gender = grammemes.include?('мр') ? :male : :female
+    errors.sort_by!{ |array| array.first.reverse + array.last.first.to_s }
 
-        if grammemes.include? '0'
-          # some words are aptotic so we have to ensure that
-          Petrovich::CASES.each do |gcase|
-            check!(errors, correct, total, { namepart_symbol => lemma }, gender, gcase, word)
-          end
-        elsif grammemes.include? 'им'
-          check!(errors, correct, total, { namepart_symbol => lemma }, gender, :nominative, word)
-        elsif grammemes.include? 'рд'
-          check!(errors, correct, total, { namepart_symbol => lemma }, gender, :genitive, word)
-        elsif grammemes.include? 'дт'
-          check!(errors, correct, total, { namepart_symbol => lemma }, gender, :dative, word)
-        elsif grammemes.include? 'вн'
-          check!(errors, correct, total, { namepart_symbol => lemma }, gender, :accusative, word)
-        elsif grammemes.include? 'тв'
-          check!(errors, correct, total, { namepart_symbol => lemma }, gender, :instrumental, word)
-        elsif grammemes.include? 'пр'
-          check!(errors, correct, total, { namepart_symbol => lemma }, gender, :prepositional, word)
-        end
+    CSV.open(errors_filename, 'w', col_sep: "\t") do |errors_file|
+      errors_file << %w(lemma expected actual params)
+      errors.each do |array|
+        errors_file << array
       end
     end
 
