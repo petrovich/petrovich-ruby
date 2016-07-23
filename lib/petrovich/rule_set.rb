@@ -99,6 +99,7 @@ module Petrovich
       end
 
       tests = entry['test'].map do |suffix|
+        suffix = "^#{suffix}" if section == :exceptions
         Petrovich::Case::Rule::Test.new(suffix)
       end
 
