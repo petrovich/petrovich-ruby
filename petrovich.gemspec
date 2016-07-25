@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version     = Petrovich::VERSION
   s.authors     = ['Andrew Kozlov', 'Dmitry Ustalov']
   s.email       = ['demerest@gmail.com', 'dmitry.ustalov@gmail.com']
-  s.homepage    = 'https://github.com/petrovich/petrovich-ruby'
+  s.homepage    = 'http://petrovich.nlpub.ru/'
   s.summary     = 'Petrovich, an inflector for Russian anthroponyms.'
   s.description = 'A morphological library for Russian anthroponyms, such as first names, last names, and middle names.'
   s.license     = 'MIT'
