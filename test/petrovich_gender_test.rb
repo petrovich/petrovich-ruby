@@ -55,14 +55,14 @@ describe Petrovich::Gender do
   end
 
   it 'fails with argument error test 1' do
-    proc { Petrovich::Gender.detect(xxx: 'yyy') }.must_raise ArgumentError
+    _ { Petrovich::Gender.detect(xxx: 'yyy') }.must_raise ArgumentError
   end
 
   it 'fails with argument error test 2' do
-    proc { Petrovich::Gender.detect('wrong args') }.must_raise ArgumentError
+    _ { Petrovich::Gender.detect('wrong args') }.must_raise ArgumentError
   end
 
   it 'fails with argument error test 3' do
-    proc { Petrovich::Gender.detect(firstname: nil, lastname: nil) }.must_raise ArgumentError
+    _ { Petrovich::Gender.detect(firstname: nil, lastname: nil) }.must_raise ArgumentError
   end
 end
