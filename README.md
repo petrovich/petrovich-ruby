@@ -129,7 +129,7 @@ petrovich -l Иванов -f Иван -m Иванович -c accusative -o
 ## Разработчики
 
  * [Андрей Козлов](https://github.com/tanraya)
- * [Дмитрий Усталов](http://ustalov.name)
+ * [Дмитрий Усталов](https://github.com/dustalov)
 
 ## Благодарности
 
