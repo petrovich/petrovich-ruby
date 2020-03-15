@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version     = Petrovich::VERSION
   s.authors     = ['Andrew Kozlov', 'Dmitry Ustalov']
   s.email       = ['demerest@gmail.com', 'dmitry.ustalov@gmail.com']
-  s.homepage    = 'http://petrovich.nlpub.ru/'
+  s.homepage    = 'https://petrovich.nlpub.ru/'
   s.summary     = 'Petrovich, an inflector for Russian anthroponyms.'
   s.description = 'A morphological library for Russian anthroponyms, such as first names, last names, and middle names.'
   s.license     = 'MIT'
@@ -17,6 +17,6 @@ Gem::Specification.new do |s|
   s.executables = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
   s.files = Dir['{lib}/**/*'] + Dir['rules/*.yml'] + ['MIT-LICENSE', 'Rakefile', 'README.md']
 
-  s.add_development_dependency 'rake', '~> 10.0'
+  s.add_development_dependency 'rake'
   s.add_development_dependency 'minitest'
 end
