@@ -24,7 +24,7 @@ jobs:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
       - name: Build
-        run: gem build *.gemspec
+        run: gem build petrovich.gemspec
       - name: Run tests
         run: rake
       - name: Run evaluation
