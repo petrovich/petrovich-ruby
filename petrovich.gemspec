@@ -17,6 +17,6 @@ Gem::Specification.new do |s|
   s.executables = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
   s.files = Dir['{lib}/**/*'] + Dir['rules/*.yml'] + ['MIT-LICENSE', 'Rakefile', 'README.md']
 
-  s.add_development_dependency 'rake', '~> 11'
+  s.add_development_dependency 'rake', '>= 12.3.3'
   s.add_development_dependency 'minitest', '~> 5.9'
 end
