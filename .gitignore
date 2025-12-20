@@ -25,3 +25,4 @@ test/version_tmp
 tmp
 test.html
 *.tsv
+vendor/bundle
