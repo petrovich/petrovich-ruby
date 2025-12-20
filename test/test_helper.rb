@@ -18,12 +18,6 @@ class Minitest::Spec
   # Store a reference to avoid constant lookup issues
   PETROVICH_NAME_CLASS = ::Petrovich::Name
   
-  # Delegate to the top-level Petrovich method
-  def self.define_petrovich_method
-    define_method(:Petrovich) do |opts|
-      PETROVICH_NAME_CLASS.new(opts)
-    end
-  end
-  
-  define_petrovich_method
+  # Delegate to Petrovich::Name.new
+  define_method(:Petrovich) { |opts| PETROVICH_NAME_CLASS.new(opts) }
 end
