@@ -18,5 +18,5 @@ Gem::Specification.new do |s|
   s.files = Dir['{lib}/**/*'] + Dir['rules/*.yml'] + ['MIT-LICENSE', 'Rakefile', 'README.md']
 
   s.add_development_dependency 'rake', '>= 12.3.3'
-  s.add_development_dependency 'minitest', '~> 5.9'
+  s.add_development_dependency 'minitest', '~> 6.0'
 end
