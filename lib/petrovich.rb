@@ -31,6 +31,9 @@ module Petrovich
     :female
   ]
 
+  # Raised when an unknown grammatical case is requested.
+  class UnknownCaseError < ArgumentError; end
+
   class << self
     # A place that keeps inflection and gender rules loaded from yaml file.
     #
