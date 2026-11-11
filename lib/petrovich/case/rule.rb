@@ -10,7 +10,7 @@ module Petrovich
         @an_exception = opts[:section] == :exceptions
         @modifiers    = opts[:modifiers]
         @tests        = opts[:tests]
-        @tags         = []
+        @tags         = opts[:tags] || []
 
         @tests_regexp = Regexp.union(Array(@tests).map(&:suffix))
       end
