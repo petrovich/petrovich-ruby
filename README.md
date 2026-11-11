@@ -65,7 +65,7 @@ Petrovich(
   lastname: 'Андрейчук',
   firstname: 'Саша',
   gender: :male
-).to(:instrumental).to_s # => Андрейчуку Саше
+).to(:dative).to_s # => Андрейчуку Саше
 ```
 
 Полный список поддерживаемых методов склонения приведён

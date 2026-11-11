@@ -3,7 +3,7 @@
 require 'ostruct'
 require 'optparse'
 
-if File.exists? File.expand_path('../../.git', __FILE__)
+if File.exist? File.expand_path('../../.git', __FILE__)
   $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 end
 
