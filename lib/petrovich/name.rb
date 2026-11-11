@@ -29,15 +29,15 @@ module Petrovich
     end
 
     def male?
-      Gender.detect(@name) == :male
+      gender == :male
     end
 
     def female?
-      Gender.detect(@name) == :female
+      gender == :female
     end
 
     def androgynous?
-      Gender.detect(@name) == :androgynous
+      gender == :androgynous
     end
 
     def to(name_case)

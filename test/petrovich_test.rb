@@ -139,6 +139,39 @@ describe Petrovich do
     assert_equal true, p.female?
   end
 
+  it 'respects explicit gender in gender predicates' do
+    p = Petrovich(
+      firstname: 'Саша',
+      lastname: 'Андрейчук',
+      gender: :male
+    )
+
+    assert_equal true, p.male?
+    assert_equal false, p.female?
+    assert_equal false, p.androgynous?
+  end
+
+  it 'respects explicit gender given as string in gender predicates' do
+    p = Petrovich(
+      firstname: 'Саша',
+      lastname: 'Андрейчук',
+      gender: 'female'
+    )
+
+    assert_equal true, p.female?
+    assert_equal false, p.male?
+  end
+
+  it 'prefers explicit gender over detected one in gender predicates' do
+    p = Petrovich(
+      firstname: 'Александр',
+      gender: :female
+    )
+
+    assert_equal true, p.female?
+    assert_equal false, p.male?
+  end
+
   ###
 
   it 'is androgynous gender returned by gender()' do
