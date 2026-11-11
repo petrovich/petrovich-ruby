@@ -46,7 +46,7 @@ module Petrovich
     end
 
     def to_s
-      [lastname, firstname, middlename].join(' ')
+      [lastname, firstname, middlename].compact.join(' ')
     end
 
     Petrovich::CASES.each do |name_case|

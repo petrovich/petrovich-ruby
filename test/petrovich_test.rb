@@ -111,6 +111,33 @@ describe Petrovich do
     assert_equal 'Плевако', lastname
   end
 
+  # to_s
+  it 'joins name parts without redundant spaces' do
+    assert_equal 'Иванов', Petrovich(lastname: 'Иванов').to_s
+    assert_equal 'Иван', Petrovich(firstname: 'Иван').to_s
+    assert_equal 'Иванович', Petrovich(middlename: 'Иванович').to_s
+    assert_equal 'Иванов Иван Иванович', Petrovich(
+      lastname: 'Иванов',
+      firstname: 'Иван',
+      middlename: 'Иванович'
+    ).to_s
+  end
+
+  it 'returns an empty string for an empty name' do
+    assert_equal '', Petrovich(
+      lastname: nil,
+      firstname: nil,
+      middlename: nil
+    ).to_s
+  end
+
+  it 'joins inflected name parts without redundant spaces' do
+    assert_equal 'Иванову', Petrovich(
+      lastname: 'Иванов',
+      gender: :male
+    ).dative.to_s
+  end
+
   # Gender
   it 'is androgynous gender' do
     p = Petrovich(
