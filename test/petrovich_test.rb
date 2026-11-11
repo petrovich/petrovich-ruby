@@ -261,6 +261,152 @@ describe Petrovich do
     assert_equal 'Быхуном', lastname
   end
 
+  # Canonical declension tables
+
+  it 'inflects a male full name in every case' do
+    expected = {
+      nominative: 'Иванов Иван Иванович',
+      genitive: 'Иванова Ивана Ивановича',
+      dative: 'Иванову Ивану Ивановичу',
+      accusative: 'Иванова Ивана Ивановича',
+      instrumental: 'Ивановым Иваном Ивановичем',
+      prepositional: 'Иванове Иване Ивановиче'
+    }
+
+    expected.each do |name_case, value|
+      assert_equal value, Petrovich(
+        lastname: 'Иванов',
+        firstname: 'Иван',
+        middlename: 'Иванович',
+        gender: :male
+      ).to(name_case).to_s
+    end
+  end
+
+  it 'inflects a female full name in every case' do
+    expected = {
+      nominative: 'Иванова Анна Ивановна',
+      genitive: 'Ивановой Анны Ивановны',
+      dative: 'Ивановой Анне Ивановне',
+      accusative: 'Иванову Анну Ивановну',
+      instrumental: 'Ивановой Анной Ивановной',
+      prepositional: 'Ивановой Анне Ивановне'
+    }
+
+    expected.each do |name_case, value|
+      assert_equal value, Petrovich(
+        lastname: 'Иванова',
+        firstname: 'Анна',
+        middlename: 'Ивановна',
+        gender: :female
+      ).to(name_case).to_s
+    end
+  end
+
+  it 'inflects a male hyphenated last name in every case' do
+    expected = {
+      nominative: 'Салтыков-Щедрин',
+      genitive: 'Салтыкова-Щедрина',
+      dative: 'Салтыкову-Щедрину',
+      accusative: 'Салтыкова-Щедрина',
+      instrumental: 'Салтыковым-Щедриным',
+      prepositional: 'Салтыкове-Щедрине'
+    }
+
+    expected.each do |name_case, value|
+      assert_equal value, Petrovich(
+        lastname: 'Салтыков-Щедрин',
+        gender: :male
+      ).to(name_case).lastname
+    end
+  end
+
+  it 'inflects a female hyphenated last name in every case' do
+    expected = {
+      nominative: 'Салтыкова-Щедрина',
+      genitive: 'Салтыковой-Щедриной',
+      dative: 'Салтыковой-Щедриной',
+      accusative: 'Салтыкову-Щедрину',
+      instrumental: 'Салтыковой-Щедриной',
+      prepositional: 'Салтыковой-Щедриной'
+    }
+
+    expected.each do |name_case, value|
+      assert_equal value, Petrovich(
+        lastname: 'Салтыкова-Щедрина',
+        gender: :female
+      ).to(name_case).lastname
+    end
+  end
+
+  it 'inflects full hyphenated names' do
+    assert_equal 'Салтыкову-Щедрину Михаилу Евграфовичу', Petrovich(
+      lastname: 'Салтыков-Щедрин',
+      firstname: 'Михаил',
+      middlename: 'Евграфович',
+      gender: :male
+    ).dative.to_s
+
+    assert_equal 'Салтыковым-Щедриным Михаилом Евграфовичем', Petrovich(
+      lastname: 'Салтыков-Щедрин',
+      firstname: 'Михаил',
+      middlename: 'Евграфович',
+      gender: :male
+    ).instrumental.to_s
+
+    assert_equal 'Салтыковой-Щедриной Анне Ивановне', Petrovich(
+      lastname: 'Салтыкова-Щедрина',
+      firstname: 'Анна',
+      middlename: 'Ивановна',
+      gender: :female
+    ).dative.to_s
+
+    assert_equal 'Салтыковой-Щедриной Анной Ивановной', Petrovich(
+      lastname: 'Салтыкова-Щедрина',
+      firstname: 'Анна',
+      middlename: 'Ивановна',
+      gender: :female
+    ).instrumental.to_s
+  end
+
+  it 'allows chaining after to()' do
+    name = Petrovich(
+      lastname: 'Салтыков-Щедрин',
+      firstname: 'Михаил',
+      middlename: 'Евграфович',
+      gender: :male
+    )
+
+    assert_equal 'Евграфовичем', name.to(:instrumental).middlename
+  end
+
+  it 'inflects partial names' do
+    assert_equal 'Иванова', Petrovich(lastname: 'Иванов', gender: :male).genitive.lastname
+    assert_equal 'Ивана', Petrovich(firstname: 'Иван', gender: :male).genitive.firstname
+    assert_equal 'Ивановича', Petrovich(middlename: 'Иванович', gender: :male).genitive.middlename
+  end
+
+  it 'returns the same result on repeated calls' do
+    name = Petrovich(lastname: 'Иванов', firstname: 'Иван', gender: :male)
+
+    assert_equal name.dative.to_s, name.dative.to_s
+    assert_equal 'Иванов Иван', name.to_s
+  end
+
+  it 'respects an explicit gender in inflection' do
+    assert_equal 'Воробью', Petrovich(lastname: 'Воробей', gender: :male).dative.lastname
+    assert_equal 'Воробей', Petrovich(lastname: 'Воробей', gender: :female).dative.lastname
+  end
+
+  it 'inflects a name with conflicting genders' do
+    skip 'known bug: conflicting genders fall back to androgynous rules'
+
+    assert_equal 'Склифасовской Александру', Petrovich(
+      firstname: 'Александр',
+      lastname: 'Склифасовская'
+    ).dative.to_s
+  end
+
   # Future stuff
   # Petrovich.scan do |p|
   #   name = [p.lastname, p.firstname, p.middlename].join(' ')
