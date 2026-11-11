@@ -1,9 +1,9 @@
 module Petrovich
   class Inflector
     def initialize(name, gender, name_case)
-      Petrovich.assert_name!(name)
-
       @name = Petrovich.normalize_name(name)
+      Petrovich.assert_name!(@name)
+
       @gender = gender
       @name_case = name_case
     end
