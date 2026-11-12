@@ -263,6 +263,24 @@ describe Petrovich do
     assert_equal 'Быхуном', lastname
   end
 
+  it 'inflects a male lastname ending in -яй' do
+    lastname = Petrovich(
+      lastname: 'Битяй',
+      gender: :male,
+    ).genitive.lastname
+
+    assert_equal 'Битяя', lastname
+  end
+
+  it 'inflects a male lastname ending in -юй' do
+    lastname = Petrovich(
+      lastname: 'Кюй',
+      gender: :male,
+    ).instrumental.lastname
+
+    assert_equal 'Кюем', lastname
+  end
+
   # Canonical declension tables
 
   it 'inflects a male full name in every case' do
