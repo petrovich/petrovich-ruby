@@ -18,7 +18,7 @@ describe 'petrovich.gemspec' do
   end
 
   it 'packages rules and metadata' do
-    %w[rules/rules.yml rules/gender.yml MIT-LICENSE Rakefile README.md].each do |file|
+    %w[rules/rules.yml rules/gender.yml MIT-LICENSE Rakefile README.md CHANGELOG.md].each do |file|
       assert_includes @spec.files, file
     end
   end
