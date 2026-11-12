@@ -79,6 +79,32 @@ Petrovich(
 | instrumental   | творительный | Кем?                   |
 | prepositional  | предложный   | О ком?                 |
 
+### Составные фамилии и имена
+
+Фамилия или имя может состоять из нескольких слов через дефис или пробел.
+Каждое слово склоняется по своим правилам, разделители сохраняются как есть.
+Служебные части (`фон`, `ван`, `де`, `душ`, `Бонч-`, `Тер-` и др.) не
+склоняются, если стоят не последними. В двойном имени склоняется только
+последняя часть. Списки служебных частей и устойчивых сочетаний задаются в
+правилах (`rules/rules.yml`).
+
+```ruby
+Petrovich(lastname: 'Римский-Корсаков', gender: :male).genitive.lastname
+# => Римского-Корсакова
+Petrovich(lastname: 'Бонч-Бруевич', gender: :male).genitive.lastname
+# => Бонч-Бруевича
+Petrovich(lastname: 'ван Гог', gender: :male).genitive.lastname
+# => ван Гога
+Petrovich(lastname: 'Лопес Обрадор', gender: :male).genitive.lastname
+# => Лопеса Обрадора
+Petrovich(lastname: 'Роналду душ Сантуш Авейру', gender: :male).genitive.lastname
+# => Роналду душ Сантуша Авейру
+Petrovich(lastname: 'Крус Санчес', gender: :female).genitive.lastname
+# => Крус Санчес
+Petrovich(firstname: 'Жан-Поль', gender: :male).genitive.firstname
+# => Жан-Поля
+```
+
 ### Определение пола
 
 Примеры:
@@ -104,8 +130,8 @@ Petrovich(
 
 Petrovich(
   firstname: 'Саша',
-  lastname: 'Андрейчук'
-  gender: :male,
+  lastname: 'Андрейчук',
+  gender: :male
 ).male? # => true
 ```
 
