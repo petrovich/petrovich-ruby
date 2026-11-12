@@ -15,11 +15,18 @@ module Petrovich
       @case_rules << rule
     end
 
-    # Every part of a hyphenated name except the last one gets the
-    # +first_word+ context tag, so that rules tagged with it (indeclinable
-    # particles like "Бонч" in "Бонч-Бруевич") apply only there.
+    # A name is split into words by hyphens and spaces. Every word except the
+    # last one gets the +first_word+ context tag, so that rules tagged with it
+    # (indeclinable particles like "Бонч" in "Бонч-Бруевич" or "душ" in
+    # "Роналду душ Сантуш Авейру") apply only there.
+    #
+    # A compound rule for the whole name, if any, wins over the word rules and
+    # is returned alone; Inflector then applies it to the whole name.
     def find_all_case_rules(name, gender, as, known_gender = false)
-      parts = name.split('-')
+      compound_rule = find_compound_case_rule(name, gender, as, known_gender)
+      return [compound_rule] if compound_rule
+
+      parts = name.split(Petrovich::WORD_SEPARATOR)
       parts.map.with_index do |part, index|
         last = index == parts.count - 1
         context_tags = last ? [] : ['first_word']
@@ -93,6 +100,14 @@ module Petrovich
     def find_case_rule(name, gender, as, known_gender = false, context_tags = [])
       found_rule = @case_rules.find { |rule| rule.match?(name, gender, as, known_gender, context_tags) }
       found_rule || @case_rules.find { |rule| rule.match?(name, :androgynous, as, false, context_tags) }
+    end
+
+    def find_compound_case_rule(name, gender, as, known_gender)
+      return unless name.match?(Petrovich::WORD_SEPARATOR)
+
+      compound_rules = @case_rules.select(&:compound?)
+      found_rule = compound_rules.find { |rule| rule.match?(name, gender, as, known_gender) }
+      found_rule || compound_rules.find { |rule| rule.match?(name, :androgynous, as) }
     end
 
     def find_gender_rule(name, as)

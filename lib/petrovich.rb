@@ -31,6 +31,13 @@ module Petrovich
     :female
   ]
 
+  # Separates the words of a compound name part: a run of hyphens and spaces
+  # ("Салтыков-Щедрин", "Гарсиа Маркес", "Иванов - Петров").
+  WORD_SEPARATOR = /[- ]+/
+
+  # The same separator in a capture group, so that String#split keeps it.
+  WORD_SEPARATOR_CAPTURE = /([- ]+)/
+
   # Raised when an unknown grammatical case is requested.
   class UnknownCaseError < ArgumentError; end
 

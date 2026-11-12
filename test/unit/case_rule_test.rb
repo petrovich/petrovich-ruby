@@ -140,6 +140,17 @@ describe Petrovich::Case::Rule do
     end
   end
 
+  # B-05: a compound rule matches a whole name of several words
+  # (docs/compound-surnames-plan.md, T-39).
+  it 'is compound when one of its tests contains a space or a hyphen' do
+    space_rule = build_rule(tests: [Petrovich::Case::Rule::Test.new('^родригес де сильва веласкес')])
+    hyphen_rule = build_rule(tests: [Petrovich::Case::Rule::Test.new('^сен-санс')])
+
+    assert_equal true, space_rule.compound?
+    assert_equal true, hyphen_rule.compound?
+    assert_equal false, build_rule.compound?
+  end
+
   # B-01: tags restrict a rule to matching context tags (docs/testing-plan.md, T-29).
   describe 'with tags' do
     def tagged_rule

@@ -113,4 +113,42 @@ describe Petrovich::Inflector do
 
     assert_empty rules
   end
+
+  # B-05: words separated by spaces (docs/compound-surnames-plan.md, T-39).
+  it 'inflects every word of a name separated by spaces' do
+    inflector = Petrovich::Inflector.new({ lastname: 'Лопес Обрадор' }, :male, :genitive)
+    modifier = Petrovich::Case::Rule::Modifier.new('а', 0)
+    rules = [
+      build_rule(modifier, :genitive, :lastname),
+      build_rule(modifier, :genitive, :lastname)
+    ]
+
+    assert_equal 'Лопеса Обрадора', inflector.inflect_lastname(rules)
+  end
+
+  it 'keeps the separators of a name as they are' do
+    modifier = Petrovich::Case::Rule::Modifier.new('а', 0)
+    rules = -> { [build_rule(modifier, :genitive, :lastname), build_rule(modifier, :genitive, :lastname)] }
+
+    assert_equal 'Иванова - Петрова',
+                 Petrovich::Inflector.new({ lastname: 'Иванов - Петров' }, :male, :genitive).inflect_lastname(rules.call)
+    assert_equal 'Бонча-',
+                 Petrovich::Inflector.new({ lastname: 'Бонч-' }, :male, :genitive).inflect_lastname(rules.call.take(1))
+  end
+
+  it 'applies a compound rule to the whole name' do
+    modifiers = Array.new(5)
+    modifiers[0] = Petrovich::Case::Rule::Modifier.new('а', 0)
+    compound_rule = Petrovich::Case::Rule.new(
+      gender: :androgynous,
+      as: :lastname,
+      section: :exceptions,
+      modifiers: modifiers,
+      tests: [Petrovich::Case::Rule::Test.new('^сен-санс')]
+    )
+    rules = [compound_rule]
+
+    assert_equal 'Сен-Санса', Petrovich::Inflector.new({ lastname: 'Сен-Санс' }, :male, :genitive).inflect_lastname(rules)
+    assert_empty rules
+  end
 end

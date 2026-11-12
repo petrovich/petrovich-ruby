@@ -13,6 +13,13 @@ module Petrovich
         @tags         = opts[:tags] || []
 
         @tests_regexp = Regexp.union(Array(@tests).map(&:suffix))
+        @compound     = Array(@tests).any? { |test| test.suffix.source.match?(Petrovich::WORD_SEPARATOR) }
+      end
+
+      # Does the rule match a whole name of several words, e.g. a stable
+      # combination "Родригес де Сильва Веласкес" that declines only its end?
+      def compound?
+        @compound
       end
 
       # +context_tags+ describe the position of the name part, e.g.

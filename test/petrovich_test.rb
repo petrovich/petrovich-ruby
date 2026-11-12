@@ -80,7 +80,9 @@ describe Petrovich do
       gender: 'female'
     ).dative.firstname
 
-    assert_equal 'Анне-Марии', firstname
+    # A double first name declines only its last part
+    # (docs/compound-surnames-plan.md, decision R-1).
+    assert_equal 'Анна-Марии', firstname
   end
 
   it 'inflects middlename 1' do
@@ -446,6 +448,65 @@ describe Petrovich do
   ].freeze
 
   b01_canonical_cases.each do |id, name, gender, name_case, expected|
+    it "#{id} inflects #{name.values.join(' ')} (#{gender || 'no gender'}, #{name_case})" do
+      options = gender ? name.merge(gender: gender) : name
+
+      assert_equal expected, Petrovich(options).to(name_case).to_s
+    end
+  end
+
+  # B-02/B-05: canonical values, docs/compound-surnames-plan.md section 5.2
+  # (one row = one test). Columns: ID, name, gender (nil = not given), case,
+  # expected inflected name.
+  compound_canonical_cases = [
+    ['M-01', { lastname: 'ван Гог' }, :male, :genitive, 'ван Гога'],
+    ['M-02', { lastname: 'фон дер Ляйен' }, :female, :genitive, 'фон дер Ляйен'],
+    ['M-03', { lastname: 'де Голль' }, :male, :genitive, 'де Голля'],
+    ['M-04', { lastname: 'Ле-Корбюзье' }, :male, :genitive, 'Ле-Корбюзье'],
+    ['M-05', { lastname: 'Гарсиа Маркес' }, :male, :genitive, 'Гарсиа Маркеса'],
+    ['M-06', { lastname: 'Мебарак Риполль' }, :female, :genitive, 'Мебарак Риполль'],
+    ['M-07', { lastname: 'Крус Санчес' }, :female, :genitive, 'Крус Санчес'],
+    ['M-08', { lastname: 'Гарсиа Маркес', firstname: 'Габриэль' }, nil, :genitive, 'Гарсиа Маркеса Габриэля'],
+    ['M-09', { lastname: 'Мебарак Риполль', firstname: 'Шакира' }, nil, :genitive, 'Мебарак Риполль Шакиры'],
+    ['M-10', { lastname: 'де Голль', firstname: 'Шарль' }, nil, :genitive, 'де Голля Шарля'],
+    ['M-11', { lastname: 'ван Гог', firstname: 'Винсент' }, nil, :genitive, 'ван Гога Винсента'],
+    ['M-12', { lastname: 'Ван дер Ваальс' }, :male, :genitive, 'Ван дер Ваальса'],
+    ['M-13', { lastname: 'фон дер Берг' }, :male, :genitive, 'фон дер Берга'],
+    ['M-14', { lastname: 'Родригес де Сильва Веласкес' }, :male, :genitive, 'Родригес де Сильва Веласкеса'],
+    ['M-15', { lastname: 'Родригес де Сильва Веласкес' }, :male, :dative, 'Родригес де Сильва Веласкесу'],
+    ['M-16', { lastname: 'Родригес де Сильва Веласкес', firstname: 'Диего' }, nil, :genitive, 'Родригес де Сильва Веласкеса Диего'],
+    ['M-17', { firstname: 'Жан Поль' }, :male, :genitive, 'Жан Поля'],
+    ['M-18', { lastname: 'Сент-Экзюпери' }, :male, :genitive, 'Сент-Экзюпери'],
+    ['M-19', { lastname: 'Да-Винчи' }, :male, :genitive, 'Да-Винчи'],
+    ['M-20', { lastname: 'Душ-Сантуш' }, :male, :genitive, 'Душ-Сантуша'],
+    ['M-21', { lastname: 'Крус Санчес', firstname: 'Пенелопа' }, nil, :genitive, 'Крус Санчес Пенелопы'],
+    ['M-22', { lastname: 'фон дер Ляйен', firstname: 'Урсула' }, nil, :genitive, 'фон дер Ляйен Урсулы'],
+    ['M-23', { lastname: 'Лопес Обрадор' }, :male, :genitive, 'Лопеса Обрадора'],
+    ['M-24', { lastname: 'Родригес Сапатеро' }, :male, :genitive, 'Родригеса Сапатеро'],
+    ['M-25', { lastname: 'Роналду душ Сантуш Авейру' }, :male, :genitive, 'Роналду душ Сантуша Авейру'],
+    ['M-26', { lastname: 'Роналду душ Сантуш Авейру', firstname: 'Криштиану' }, nil, :genitive, 'Роналду душ Сантуша Авейру Криштиану'],
+    ['M-27', { lastname: 'де Сент-Экзюпери' }, :male, :genitive, 'де Сент-Экзюпери'],
+    ['M-28', { lastname: 'де Сент-Экзюпери', firstname: 'Антуан' }, nil, :genitive, 'де Сент-Экзюпери Антуана'],
+    ['M-29', { lastname: 'Иванов - Петров' }, nil, :genitive, 'Иванова - Петрова'],
+    ['M-30', { lastname: 'Бонч-' }, nil, :genitive, 'Бонча-'],
+    ['M-31', { lastname: 'Фон-Дер-Ла-Тор' }, nil, :genitive, 'Фон-Дер-Ла-Тора'],
+    ['M-32', { lastname: 'Фон-Дер-Ла-Тор' }, :female, :genitive, 'Фон-Дер-Ла-Тор'],
+    ['M-33', { lastname: 'Заяц' }, :male, :genitive, 'Зайца'],
+    ['M-34', { lastname: 'Фон-дер-Берг' }, :male, :genitive, 'Фон-дер-Берга'],
+    ['M-35', { lastname: 'Де-ла-Рош' }, :male, :genitive, 'Де-ла-Роша'],
+    ['M-36', { lastname: 'Ван-дер-Ваальс' }, :male, :genitive, 'Ван-дер-Ваальса'],
+    ['M-37', { lastname: 'Грум-Гржимайло' }, :male, :genitive, 'Грум-Гржимайло'],
+    ['M-38', { lastname: 'Кара-Мурза' }, :male, :genitive, 'Кара-Мурзы'],
+    ['M-39', { firstname: 'Абдул-Азиз' }, :male, :genitive, 'Абдул-Азиза'],
+    ['M-40', { lastname: 'Дюма-отец' }, :male, :genitive, 'Дюма-отца'],
+    ['M-41', { firstname: 'Полад-заде' }, :male, :genitive, 'Полад-заде'],
+    ['M-42', { firstname: 'Жан-Поль' }, :male, :genitive, 'Жан-Поля'],
+    ['M-43', { firstname: 'Жан-Жак' }, :male, :genitive, 'Жан-Жака'],
+    ['M-44', { firstname: 'Пьер-Огюст' }, :male, :genitive, 'Пьер-Огюста'],
+    ['M-45', { firstname: 'Франц-Иосиф' }, :male, :genitive, 'Франц-Иосифа']
+  ].freeze
+
+  compound_canonical_cases.each do |id, name, gender, name_case, expected|
     it "#{id} inflects #{name.values.join(' ')} (#{gender || 'no gender'}, #{name_case})" do
       options = gender ? name.merge(gender: gender) : name
 
