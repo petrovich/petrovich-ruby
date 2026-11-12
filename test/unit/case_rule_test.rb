@@ -139,4 +139,44 @@ describe Petrovich::Case::Rule do
       build_rule.get_modifier(:bogus)
     end
   end
+
+  # B-01: tags restrict a rule to matching context tags (docs/testing-plan.md, T-29).
+  describe 'with tags' do
+    def tagged_rule
+      build_rule(gender: :androgynous, tags: ['first_word'])
+    end
+
+    it 'does not match a tagged rule without context tags' do
+      assert_equal false, tagged_rule.match?('Иванов', :male, :lastname, false, [])
+    end
+
+    it 'matches a tagged rule when the context has its tag' do
+      assert_equal true, tagged_rule.match?('Иванов', :male, :lastname, false, ['first_word'])
+    end
+
+    it 'does not match a tagged rule in another context' do
+      assert_equal false, tagged_rule.match?('Иванов', :male, :lastname, false, ['second_word'])
+    end
+
+    it 'matches a tagged rule when the context is a superset of its tags' do
+      assert_equal true, tagged_rule.match?('Иванов', :male, :lastname, false, %w[first_word other])
+    end
+
+    it 'matches an untagged rule in any context' do
+      rule = build_rule(gender: :androgynous)
+
+      [[], ['first_word'], ['other']].each do |context_tags|
+        assert_equal true, rule.match?('Иванов', :male, :lastname, false, context_tags)
+      end
+    end
+
+    it 'does not match a tagged rule called without the context argument' do
+      assert_equal false, tagged_rule.match?('Иванов', :male, :lastname, false)
+      assert_equal false, tagged_rule.match?('Иванов', :male, :lastname)
+    end
+
+    it 'does not match another suffix even in the matching context' do
+      assert_equal false, tagged_rule.match?('Иван', :male, :lastname, false, ['first_word'])
+    end
+  end
 end

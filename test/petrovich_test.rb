@@ -369,6 +369,90 @@ describe Petrovich do
     ).instrumental.to_s
   end
 
+  # B-01: canonical values, docs/testing-plan.md section 5.2 (one row = one test).
+  # Columns: ID, name, gender (nil = not given), case, expected inflected name.
+  b01_canonical_cases = [
+    ['C-01', { lastname: 'Иванов-Бонч' }, nil, :genitive, 'Иванова-Бонча'],
+    ['C-02', { lastname: 'Иванов-Бонч' }, nil, :dative, 'Иванову-Бончу'],
+    ['C-03', { lastname: 'Иванова-Бонч' }, :female, :genitive, 'Ивановой-Бонч'],
+    ['C-04', { lastname: 'Бонч' }, nil, :genitive, 'Бонча'],
+    ['C-05', { lastname: 'Бонч' }, :male, :genitive, 'Бонча'],
+    ['C-06', { lastname: 'Бонч' }, :female, :genitive, 'Бонч'],
+    ['C-07', { lastname: 'Бонч-Бруевич' }, nil, :genitive, 'Бонч-Бруевича'],
+    ['C-08', { lastname: 'Абдул-Хамид' }, nil, :genitive, 'Абдул-Хамида'],
+    ['C-09', { lastname: 'Ван-Гог' }, nil, :genitive, 'Ван-Гога'],
+    ['C-10', { lastname: 'Тер-Петросян' }, nil, :genitive, 'Тер-Петросяна'],
+    ['C-11', { lastname: 'Ван дер Ваальс' }, :male, :genitive, 'Ван дер Ваальса'],
+    ['C-12', { lastname: 'О\'Коннор' }, :male, :genitive, "О'Коннора"],
+    ['C-13', { lastname: 'Воробей' }, :male, :genitive, 'Воробья'],
+    ['C-14', { lastname: 'Черных' }, :male, :genitive, 'Черных'],
+    ['C-15', { lastname: 'Коваленко' }, :male, :genitive, 'Коваленко'],
+    ['C-16', { lastname: 'Дюма' }, :male, :genitive, 'Дюма'],
+    ['C-17', { lastname: 'Борух' }, :male, :genitive, 'Боруха'],
+    ['C-18', { lastname: 'Борух' }, :female, :genitive, 'Борух'],
+    ['C-19', { middlename: 'Борух' }, nil, :genitive, 'Борух'],
+    ['C-20', { middlename: 'Али кызы' }, :female, :genitive, 'Али кызы'],
+    ['C-21', { firstname: 'Любовь' }, :female, :genitive, 'Любови'],
+    ['C-22', { firstname: 'Никита' }, :male, :genitive, 'Никиты'],
+    ['C-23', { lastname: 'Бонч' }, nil, :instrumental, 'Бончем'],
+    ['C-24', { lastname: 'Бонч' }, :androgynous, :genitive, 'Бонча'],
+    ['C-25', { lastname: 'Абдул' }, nil, :genitive, 'Абдула'],
+    ['C-26', { lastname: 'Ван' }, nil, :genitive, 'Вана'],
+    ['C-27', { lastname: 'Тер' }, nil, :genitive, 'Тера'],
+    ['C-28', { lastname: 'Фон' }, nil, :genitive, 'Фона'],
+    ['C-29', { lastname: 'Бонч-Бонч' }, nil, :genitive, 'Бонч-Бонча'],
+    ['C-30', { lastname: 'Фон-Бонч' }, nil, :genitive, 'Фон-Бонча'],
+    ['C-31', { lastname: 'Абдулов-Ван' }, nil, :genitive, 'Абдулова-Вана'],
+    ['C-32', { lastname: 'Дюма-Бонч' }, nil, :genitive, 'Дюма-Бонча'],
+    ['C-33', { lastname: 'Иванов-Петров-Бонч' }, nil, :genitive, 'Иванова-Петрова-Бонча'],
+    ['C-34', { lastname: 'Иванов-Бонч', firstname: 'Пётр' }, nil, :genitive, 'Иванова-Бонча Петра'],
+    ['C-35', { lastname: 'Иванов-Бонч-Бруевич' }, nil, :genitive, 'Иванова-Бонч-Бруевича'],
+    ['C-36', { lastname: 'Петров-Ван-Бетховен' }, nil, :genitive, 'Петрова-Ван-Бетховена'],
+    ['C-37', { lastname: 'Бонч-Бруевич-Иванов' }, nil, :genitive, 'Бонч-Бруевича-Иванова'],
+    ['C-38', { lastname: 'Бонч-Бруевич' }, :female, :genitive, 'Бонч-Бруевич'],
+    ['C-39', { lastname: 'Бонч-Бруевич', firstname: 'Мария' }, nil, :genitive, 'Бонч-Бруевич Марии'],
+    ['C-40', { lastname: 'Бонч-Бруевич' }, nil, :instrumental, 'Бонч-Бруевичем'],
+    ['C-41', { lastname: 'Бонч-Бруевич' }, nil, :prepositional, 'Бонч-Бруевиче'],
+    ['C-42', { lastname: 'бонч-бруевич' }, nil, :genitive, 'бонч-бруевича'],
+    ['C-43', { lastname: 'Бончев' }, nil, :genitive, 'Бончева'],
+    ['C-44', { lastname: 'Бончев-Бруевич' }, nil, :genitive, 'Бончева-Бруевича'],
+    ['C-45', { lastname: 'Иванов-Бонч' }, :male, :genitive, 'Иванова-Бонча'],
+    ['C-46', { lastname: 'Иванов-Бонч' }, :female, :genitive, 'Иванов-Бонч'],
+    ['C-47', { lastname: 'Дюссар' }, :male, :genitive, 'Дюссара'],
+    ['C-48', { lastname: 'Абдул' }, :female, :genitive, 'Абдул'],
+    ['C-49', { lastname: 'Книппер-Чехова' }, :female, :genitive, 'Книппер-Чеховой'],
+    ['C-50', { lastname: 'Корвин-Круковский' }, :male, :genitive, 'Корвин-Круковского'],
+    ['C-51', { lastname: 'Мелик-Пашаева' }, :female, :instrumental, 'Мелик-Пашаевой'],
+    ['C-52', { firstname: 'Баба-Яга' }, :female, :genitive, 'Бабы-Яги'],
+    ['C-53', { middlename: 'Борух-Ааронович' }, :male, :genitive, 'Борух-Аароновича'],
+    ['C-54', { lastname: 'Бонч-Бруевич', firstname: 'Ван', middlename: 'Борух' }, :male, :genitive, 'Бонч-Бруевича Вана Борух'],
+    ['C-55', { lastname: 'Смирнов-Шевченко' }, :male, :genitive, 'Смирнова-Шевченко'],
+    ['C-56', { lastname: 'Петров-Черных' }, :male, :genitive, 'Петрова-Черных'],
+    ['C-57', { lastname: 'Иванова-де-Лонг' }, :female, :genitive, 'Ивановой-де-Лонг'],
+    ['C-58', { lastname: 'Соколова-Фон-Берг' }, :female, :genitive, 'Соколовой-Фон-Берг'],
+    ['C-59', { lastname: 'Мамин-Сибиряк' }, :male, :genitive, 'Мамина-Сибиряка'],
+    ['C-60', { lastname: 'Римский-Корсаков' }, :male, :genitive, 'Римского-Корсакова'],
+    ['C-61', { lastname: 'Соловьев-Седой' }, :male, :genitive, 'Соловьева-Седого'],
+    ['C-62', { lastname: 'Салтыкова-Щедрина' }, :female, :genitive, 'Салтыковой-Щедриной'],
+    ['C-63', { lastname: 'Римская-Корсакова' }, :female, :genitive, 'Римской-Корсаковой'],
+    ['C-64', { lastname: 'Иванов-Петров-Сидоров' }, :male, :genitive, 'Иванова-Петрова-Сидорова'],
+    ['C-65', { lastname: 'Голенищев-Кутузов-Смоленский' }, :male, :genitive, 'Голенищева-Кутузова-Смоленского'],
+    ['C-66', { middlename: 'Али-оглы' }, :male, :genitive, 'Али-оглы'],
+    ['C-67', { lastname: 'фон Бисмарк' }, :male, :genitive, 'фон Бисмарка'],
+    ['C-68', { lastname: 'де Лафайет' }, :male, :genitive, 'де Лафайета'],
+    ['C-69', { lastname: 'Шмидт-Иванова' }, :female, :genitive, 'Шмидт-Ивановой'],
+    ['C-70', { lastname: 'Шмидт-Иванов' }, :male, :genitive, 'Шмидта-Иванова'],
+    ['C-71', { lastname: 'Жан-Поль' }, :male, :genitive, 'Жана-Поля']
+  ].freeze
+
+  b01_canonical_cases.each do |id, name, gender, name_case, expected|
+    it "#{id} inflects #{name.values.join(' ')} (#{gender || 'no gender'}, #{name_case})" do
+      options = gender ? name.merge(gender: gender) : name
+
+      assert_equal expected, Petrovich(options).to(name_case).to_s
+    end
+  end
+
   it 'allows chaining after to()' do
     name = Petrovich(
       lastname: 'Салтыков-Щедрин',

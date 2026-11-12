@@ -15,9 +15,17 @@ module Petrovich
       @case_rules << rule
     end
 
+    # Every part of a hyphenated name except the last one gets the
+    # +first_word+ context tag, so that rules tagged with it (indeclinable
+    # particles like "Бонч" in "Бонч-Бруевич") apply only there.
     def find_all_case_rules(name, gender, as, known_gender = false)
       parts = name.split('-')
-      parts.map.with_index { |part, index| find_case_rule(part, gender, as, (index == parts.count-1) && known_gender) }
+      parts.map.with_index do |part, index|
+        last = index == parts.count - 1
+        context_tags = last ? [] : ['first_word']
+
+        find_case_rule(part, gender, as, last && known_gender, context_tags)
+      end
     end
 
     def find_all_gender_rules(name, as)
@@ -82,9 +90,9 @@ module Petrovich
       end
     end
 
-    def find_case_rule(name, gender, as, known_gender = false)
-      found_rule = @case_rules.find { |rule| rule.match?(name, gender, as, known_gender) }
-      found_rule || @case_rules.find { |rule| rule.match?(name, :androgynous, as) }
+    def find_case_rule(name, gender, as, known_gender = false, context_tags = [])
+      found_rule = @case_rules.find { |rule| rule.match?(name, gender, as, known_gender, context_tags) }
+      found_rule || @case_rules.find { |rule| rule.match?(name, :androgynous, as, false, context_tags) }
     end
 
     def find_gender_rule(name, as)

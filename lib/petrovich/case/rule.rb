@@ -15,7 +15,11 @@ module Petrovich
         @tests_regexp = Regexp.union(Array(@tests).map(&:suffix))
       end
 
-      def match?(name, match_gender, match_as, known_gender = false)
+      # +context_tags+ describe the position of the name part, e.g.
+      # +first_word+ for every part of a hyphenated name except the last one.
+      # A rule with tags matches only when all its tags are in the context.
+      def match?(name, match_gender, match_as, known_gender = false, context_tags = [])
+        return false unless (tags - context_tags).empty?
         return false unless match_as == as
 
         if known_gender

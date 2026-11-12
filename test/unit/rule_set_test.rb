@@ -2,7 +2,7 @@
 require_relative '../test_helper'
 
 describe Petrovich::RuleSet do
-  def build_case_rule(gender = :male, as = :firstname, suffixes = ['ан'])
+  def build_case_rule(gender = :male, as = :firstname, suffixes = ['ан'], tags = [])
     tests = suffixes.map { |suffix| Petrovich::Case::Rule::Test.new(suffix) }
 
     Petrovich::Case::Rule.new(
@@ -11,8 +11,31 @@ describe Petrovich::RuleSet do
       section: :suffixes,
       modifiers: [],
       tests: tests,
-      tags: []
+      tags: tags
     )
+  end
+
+  # A rule that records every match? call as [name, gender, context_tags]
+  # and answers with the given block.
+  def context_recording_rule(&matcher)
+    recording_rule = Class.new(Petrovich::Case::Rule) do
+      attr_reader :calls
+      attr_accessor :matcher
+
+      def initialize(opts)
+        super
+        @calls = []
+      end
+
+      def match?(name, match_gender, _match_as, _known_gender = false, context_tags = [])
+        @calls << [name, match_gender, context_tags]
+        matcher.call(match_gender)
+      end
+    end
+
+    rule = recording_rule.new(gender: :androgynous, as: :lastname, modifiers: [], tests: [])
+    rule.matcher = matcher || ->(_match_gender) { true }
+    rule
   end
 
   def case_rules(rule_set)
@@ -54,7 +77,7 @@ describe Petrovich::RuleSet do
 
   it 'finds a rule for every part of a hyphenated name' do
     recording_rule = Class.new(Petrovich::Case::Rule) do
-      def match?(_name, _match_gender, _match_as, _known_gender = false)
+      def match?(_name, _match_gender, _match_as, _known_gender = false, _context_tags = [])
         true
       end
     end
@@ -77,7 +100,7 @@ describe Petrovich::RuleSet do
         @known_gender_args = []
       end
 
-      def match?(_name, _match_gender, _match_as, known_gender = false)
+      def match?(_name, _match_gender, _match_as, known_gender = false, _context_tags = [])
         @known_gender_args << known_gender
         true
       end
@@ -89,6 +112,73 @@ describe Petrovich::RuleSet do
     rule_set.find_all_case_rules('Иванов-Петров', :male, :lastname, true)
 
     assert_equal [false, true], rule.known_gender_args
+  end
+
+  # B-01: the first_word context (docs/testing-plan.md, T-30).
+  it 'passes the first_word context to the first part of a two-part name only' do
+    rule = context_recording_rule
+    rule_set = Petrovich::RuleSet.new
+    rule_set.add_case_rule(rule)
+
+    rule_set.find_all_case_rules('Иванов-Петров', :male, :lastname)
+
+    assert_equal [['first_word'], []], rule.calls.map(&:last)
+  end
+
+  it 'passes the first_word context to every part but the last one' do
+    rule = context_recording_rule
+    rule_set = Petrovich::RuleSet.new
+    rule_set.add_case_rule(rule)
+
+    rule_set.find_all_case_rules('Иванов-Бонч-Бруевич', :male, :lastname)
+
+    assert_equal [['first_word'], ['first_word'], []], rule.calls.map(&:last)
+  end
+
+  it 'passes an empty context for a single-word name' do
+    rule = context_recording_rule
+    rule_set = Petrovich::RuleSet.new
+    rule_set.add_case_rule(rule)
+
+    rule_set.find_all_case_rules('Иванов', :male, :lastname)
+
+    assert_equal [[]], rule.calls.map(&:last)
+  end
+
+  it 'passes the same context to the androgynous fallback' do
+    rule = context_recording_rule { |match_gender| match_gender == :androgynous }
+    rule_set = Petrovich::RuleSet.new
+    rule_set.add_case_rule(rule)
+
+    found = rule_set.find_all_case_rules('Иванов-Петров', :female, :lastname)
+
+    assert_equal [rule, rule], found
+    assert_equal [
+      ['Иванов', :female, ['first_word']],
+      ['Иванов', :androgynous, ['first_word']],
+      ['Петров', :female, []],
+      ['Петров', :androgynous, []]
+    ], rule.calls
+  end
+
+  it 'finds a first_word rule for every part but the last one' do
+    tagged_rule = build_case_rule(:androgynous, :lastname, ['^бонч'], ['first_word'])
+    rule_set = Petrovich::RuleSet.new
+    rule_set.add_case_rule(tagged_rule)
+
+    assert_equal [tagged_rule, nil], rule_set.find_all_case_rules('Бонч-Бруевич', :male, :lastname)
+    assert_equal [nil, tagged_rule, nil], rule_set.find_all_case_rules('Иванов-Бонч-Бруевич', :male, :lastname)
+    assert_equal [nil, nil], rule_set.find_all_case_rules('Иванов-Бонч', :male, :lastname)
+    assert_equal [nil], rule_set.find_all_case_rules('Бонч', :male, :lastname)
+  end
+
+  it 'finds a first_word rule through the androgynous fallback' do
+    tagged_rule = build_case_rule(:androgynous, :lastname, ['^бонч'], ['first_word'])
+    rule_set = Petrovich::RuleSet.new
+    rule_set.add_case_rule(tagged_rule)
+
+    assert_equal [tagged_rule, nil], rule_set.find_all_case_rules('Бонч-Бруевич', :female, :lastname)
+    assert_equal [nil], rule_set.find_all_case_rules('Бонч', :female, :lastname)
   end
 
   it 'falls back to an androgynous rule when there is no rule for a known gender' do
@@ -202,4 +292,5 @@ describe Petrovich::RuleSet do
     refute_equal false, rule_set.load!
     assert_equal count, case_rules(rule_set).size
   end
+
 end
