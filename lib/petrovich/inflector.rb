@@ -26,12 +26,8 @@ module Petrovich
     # separators between words as they are. The words are the same as in
     # RuleSet#find_all_case_rules: splitting with a captured separator puts
     # words at even indices and separators at odd ones.
-    #
-    # A single compound rule (see RuleSet#find_all_case_rules) is applied to
-    # the whole name instead.
     def inflect(name, rules)
       return name if rules.size == 0
-      return apply(name, rules.shift) if rules.size == 1 && rules.first && rules.first.compound?
 
       tokens = name.split(Petrovich::WORD_SEPARATOR_CAPTURE)
       tokens.each_with_index.map do |token, index|

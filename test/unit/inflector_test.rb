@@ -135,20 +135,4 @@ describe Petrovich::Inflector do
     assert_equal 'Бонча-',
                  Petrovich::Inflector.new({ lastname: 'Бонч-' }, :male, :genitive).inflect_lastname(rules.call.take(1))
   end
-
-  it 'applies a compound rule to the whole name' do
-    modifiers = Array.new(5)
-    modifiers[0] = Petrovich::Case::Rule::Modifier.new('а', 0)
-    compound_rule = Petrovich::Case::Rule.new(
-      gender: :androgynous,
-      as: :lastname,
-      section: :exceptions,
-      modifiers: modifiers,
-      tests: [Petrovich::Case::Rule::Test.new('^сен-санс')]
-    )
-    rules = [compound_rule]
-
-    assert_equal 'Сен-Санса', Petrovich::Inflector.new({ lastname: 'Сен-Санс' }, :male, :genitive).inflect_lastname(rules)
-    assert_empty rules
-  end
 end

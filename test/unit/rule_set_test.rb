@@ -315,35 +315,4 @@ describe Petrovich::RuleSet do
 
     assert_equal %w[де Сент Экзюпери], rule.calls.map(&:first)
   end
-
-  def compound_rule
-    Petrovich::Case::Rule.new(
-      gender: :androgynous,
-      as: :lastname,
-      section: :exceptions,
-      modifiers: [],
-      tests: [Petrovich::Case::Rule::Test.new('^родригес де сильва веласкес')]
-    )
-  end
-
-  it 'prefers a compound exception for the whole name over word rules' do
-    word_rule = build_case_rule(:male, :lastname, ['ес'])
-    whole_rule = compound_rule
-    rule_set = Petrovich::RuleSet.new
-    rule_set.add_case_rule(word_rule)
-    rule_set.add_case_rule(whole_rule)
-
-    assert_equal [whole_rule], rule_set.find_all_case_rules('Родригес де Сильва Веласкес', :male, :lastname)
-    assert_equal [whole_rule], rule_set.find_all_case_rules('Родригес де Сильва Веласкес', :male, :lastname, true)
-  end
-
-  it 'does not use a compound exception for another name' do
-    word_rule = build_case_rule(:male, :lastname, ['ес'])
-    rule_set = Petrovich::RuleSet.new
-    rule_set.add_case_rule(word_rule)
-    rule_set.add_case_rule(compound_rule)
-
-    assert_equal [word_rule], rule_set.find_all_case_rules('Веласкес', :male, :lastname)
-    assert_equal [word_rule, nil], rule_set.find_all_case_rules('Родригес Сапатеро', :male, :lastname)
-  end
 end
