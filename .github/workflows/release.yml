@@ -10,6 +10,10 @@ jobs:
     permissions:
       contents: read
       packages: write
+      id-token: write # Required for Trusted Publishing (OIDC) on RubyGems.org.
+    # Must match the environment configured for the Trusted Publisher on
+    # RubyGems.org. An environment-less publisher also accepts this job.
+    environment: release
     steps:
       - uses: actions/checkout@v3
         with:
@@ -30,13 +34,9 @@ jobs:
         env:
           GEM_HOST_API_KEY: "Bearer ${{secrets.GITHUB_TOKEN}}"
           OWNER: ${{ github.repository_owner }}
+      - name: Configure RubyGems credentials
+        uses: rubygems/configure-rubygems-credentials@dc5a8d8553e6ee01fc26761a49e99e733d17954a # v2.1.0
       - name: Publish to RubyGems
         run: |
-          mkdir -p $HOME/.gem
-          touch $HOME/.gem/credentials
-          chmod 0600 $HOME/.gem/credentials
-          printf -- "---\n:rubygems_api_key: ${GEM_HOST_API_KEY}\n" > $HOME/.gem/credentials
           gem build petrovich.gemspec
           gem push petrovich-*.gem
-        env:
-          GEM_HOST_API_KEY: "${{secrets.RUBYGEMS_AUTH_TOKEN}}"
