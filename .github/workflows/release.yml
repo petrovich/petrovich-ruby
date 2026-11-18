@@ -3,6 +3,9 @@ name: Release
 on:
   release:
     types: [ published ]
+  # Lets you publish from the current state of a branch when a release run
+  # failed half-way and a re-run would only repeat the failure.
+  workflow_dispatch:
 
 jobs:
   release:
@@ -23,7 +26,11 @@ jobs:
         with:
           ruby-version: ruby
           bundler-cache: true
+      # GitHub Packages versions are immutable: once 1.2.0 is there, every
+      # later push of the same version fails. This must never block the
+      # RubyGems.org publish below.
       - name: Publish to GPR
+        continue-on-error: true
         run: |
           mkdir -p $HOME/.gem
           touch $HOME/.gem/credentials
