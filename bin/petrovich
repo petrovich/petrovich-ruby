@@ -1,45 +1,44 @@
 #!/usr/bin/env ruby
 
-require 'ostruct'
 require 'optparse'
 
-if File.exists? File.expand_path('../../.git', __FILE__)
+if File.exist? File.expand_path('../../.git', __FILE__)
   $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 end
 
 require 'petrovich'
 
-options = OpenStruct.new
+options = {}
 
 optparse = OptionParser.new do |opts|
   opts.banner = 'Usage: %s [options] command' % $PROGRAM_NAME
 
   opts.on '-l', '--lastname [LASTNAME]', 'Last name' do |lastname|
-    options.lastname = lastname
+    options[:lastname] = lastname
   end
 
   opts.on '-f', '--firstname [FIRSTNAME]', 'First name' do |firstname|
-    options.firstname = firstname
+    options[:firstname] = firstname
   end
 
   opts.on '-m', '--middlename [MIDDLENAME]', 'Middle name' do |middlename|
-    options.middlename = middlename
+    options[:middlename] = middlename
   end
 
   opts.on '-g', '--gender [GENDER]', Petrovich::GENDERS, 'Gender, if known' do |gender|
-    options.gender = gender
+    options[:gender] = gender
   end
 
   opts.on '-c', '--case CASE', Petrovich::CASES, 'Required case' do |rcase|
-    options.case = rcase
+    options[:case] = rcase
   end
 
   opts.on_tail '-n', '--name-gender', 'Print the name and the gender' do
-    options.name_and_gender = true
+    options[:name_and_gender] = true
   end
 
   opts.on_tail '-o', '--only-gender', 'Print the gender only' do
-    options.gender_only = true
+    options[:gender_only] = true
   end
 
   opts.on_tail '-h', '--help', 'Just display this help' do
@@ -56,19 +55,19 @@ end
 optparse.parse!
 
 petrovich = Petrovich(
-  lastname: options.lastname,
-  firstname: options.firstname,
-  middlename: options.middlename,
-  gender: options.gender
+  lastname: options[:lastname],
+  firstname: options[:firstname],
+  middlename: options[:middlename],
+  gender: options[:gender]
 )
 
-if options.gender_only
+if options[:gender_only]
   puts petrovich.gender
   exit
 end
 
-name = petrovich.to(options.case).to_s
-if options.name_and_gender
+name = petrovich.to(options[:case]).to_s
+if options[:name_and_gender]
   puts "%s\t%s" % [name, petrovich.gender]
 else
   puts name

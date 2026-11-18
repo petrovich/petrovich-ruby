@@ -65,7 +65,7 @@ Petrovich(
   lastname: 'Андрейчук',
   firstname: 'Саша',
   gender: :male
-).to(:instrumental).to_s # => Андрейчуку Саше
+).to(:dative).to_s # => Андрейчуку Саше
 ```
 
 Полный список поддерживаемых методов склонения приведён
@@ -78,6 +78,32 @@ Petrovich(
 | accusative     | винительный  | Кого?                  |
 | instrumental   | творительный | Кем?                   |
 | prepositional  | предложный   | О ком?                 |
+
+### Составные фамилии и имена
+
+Фамилия или имя может состоять из нескольких слов через дефис или пробел.
+Каждое слово склоняется по своим правилам, разделители сохраняются как есть.
+Служебные части (`фон`, `ван`, `де`, `душ`, `Бонч-`, `Тер-` и др.) не
+склоняются, если стоят не последними. В двойном имени склоняется только
+последняя часть. Список служебных частей задаётся в правилах
+(`rules/rules.yml`).
+
+```ruby
+Petrovich(lastname: 'Римский-Корсаков', gender: :male).genitive.lastname
+# => Римского-Корсакова
+Petrovich(lastname: 'Бонч-Бруевич', gender: :male).genitive.lastname
+# => Бонч-Бруевича
+Petrovich(lastname: 'ван Гог', gender: :male).genitive.lastname
+# => ван Гога
+Petrovich(lastname: 'Лопес Обрадор', gender: :male).genitive.lastname
+# => Лопеса Обрадора
+Petrovich(lastname: 'Роналду душ Сантуш Авейру', gender: :male).genitive.lastname
+# => Роналду душ Сантуша Авейру
+Petrovich(lastname: 'Крус Санчес', gender: :female).genitive.lastname
+# => Крус Санчес
+Petrovich(firstname: 'Жан-Поль', gender: :male).genitive.firstname
+# => Жан-Поля
+```
 
 ### Определение пола
 
@@ -104,8 +130,8 @@ Petrovich(
 
 Petrovich(
   firstname: 'Саша',
-  lastname: 'Андрейчук'
-  gender: :male,
+  lastname: 'Андрейчук',
+  gender: :male
 ).male? # => true
 ```
 
@@ -125,6 +151,15 @@ petrovich -l Иванов -f Иван -m Иванович -c accusative -o
 
 Для запуска тестов достаточно выполнить команду `rake`.
 Чтобы запустить тесты "аккуратности" по словарю фамилий, выполните команду `rake evaluate`, после выполнения вы увидите подробный отчёт.
+
+Для запуска тестов с отчётом о покрытии тестами выполните команду `rake coverage`.
+Отчёт сохранится в `coverage/coverage.json`.
+Минимальный порог покрытия по умолчанию - 95%, его можно изменить переменной
+`COVERAGE_MIN`:
+
+```bash
+COVERAGE_MIN=90 rake coverage
+```
 
 ## Разработчики
 

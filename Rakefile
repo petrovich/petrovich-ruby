@@ -10,6 +10,12 @@ end
 
 task default: :test
 
+desc 'Run the tests with line coverage'
+task :coverage do
+  ENV['COVERAGE'] = '1'
+  Rake::Task[:test].invoke
+end
+
 # We need this to avoid loading the library in tasks directly.
 task :petrovich do
   require 'petrovich'

@@ -2,7 +2,7 @@ module Petrovich
   # Methods of determining gender by the name
   module Gender
     def self.detect(name)
-      # Accept hash and convert it to ostruct object
+      # Accept hash or value object and normalize it
       name     = Petrovich.normalize_name(name)
       rule_set = Petrovich.rule_set
       genders  = {}
