@@ -61,6 +61,28 @@ describe Petrovich::RuleSet do
     end
   end
 
+  it 'loads the first_word section between exceptions and suffixes' do
+    entry = ->(test) { { 'gender' => 'androgynous', 'test' => [test], 'mods' => %w[. . . . .] } }
+    rules = {
+      'lastname' => {},
+      'firstname' => {
+        'suffixes' => [entry.call('ан')],
+        'first_word' => [entry.call('').merge('tags' => ['first_word'])],
+        'exceptions' => [entry.call('жан')]
+      },
+      'middlename' => {}
+    }
+
+    rule_set = Petrovich::RuleSet.new
+    rule_set.send(:load_case_rules!, rules)
+    loaded = case_rules(rule_set)
+
+    assert_equal [true, false, false], loaded.map(&:an_exception?)
+    assert_equal [[], ['first_word'], []], loaded.map(&:tags)
+    assert_equal true, loaded[1].match?('Пьер', :male, :firstname, false, ['first_word'])
+    assert_equal false, loaded[1].match?('Пьер', :male, :firstname, false, [])
+  end
+
   it 'clears all loaded rules' do
     rule_set = Petrovich::RuleSet.new
     rule_set.load!
