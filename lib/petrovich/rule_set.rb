@@ -56,9 +56,14 @@ module Petrovich
     private
 
     # Load rules for names
+    #
+    # +first_word+ holds rules that match any word (an empty suffix) and rely
+    # on the first_word context tag. They are kept out of +suffixes+, so that
+    # ports without tag support do not apply them to every name, and are
+    # checked after +exceptions+ and before +suffixes+.
     def load_case_rules!(rules)
       [:lastname, :firstname, :middlename].each do |name_part|
-        [:exceptions, :suffixes].each do |section|
+        [:exceptions, :first_word, :suffixes].each do |section|
           entries = rules[name_part.to_s][section.to_s]
           next if entries.nil?
 
